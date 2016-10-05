@@ -17,6 +17,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import ir.ugstudio.vampire.R;
@@ -31,7 +32,12 @@ import static android.graphics.Color.RED;
 
 public class MapsActivity
         extends FragmentActivity
-        implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, LocationListener, android.location.LocationListener {
+        implements
+            OnMapReadyCallback,
+            GoogleApiClient.ConnectionCallbacks,
+            LocationListener,
+            android.location.LocationListener,
+            GoogleMap.OnMarkerClickListener {
 
     private GoogleMap googleMap;
     private GoogleApiClient mGoogleApiClient = null;
@@ -74,6 +80,7 @@ public class MapsActivity
                 .strokeColor(RED)
         );
 
+
         call.enqueue(new Callback<MapResponse>() {
             @Override
             public void onResponse(Call<MapResponse> call, Response<MapResponse> response) {
@@ -82,7 +89,7 @@ public class MapsActivity
                         Log.d("TAG", "aaa " + user.getUsername() + " " + user.getGeo().get(0) + ", " + user.getGeo().get(1));
                         googleMap.addMarker(new MarkerOptions().position(
                                 new LatLng(user.getGeo().get(0), user.getGeo().get(1))
-                        ));
+                        ).title(user.getUsername()));
                     }
                 } else {
                     Log.d("TAG", "aaa notSuccess " + response.message());
@@ -151,6 +158,7 @@ public class MapsActivity
         Log.d("TAG", "onMapReady");
 
         googleMap = myMap;
+        googleMap.setOnMarkerClickListener(this);
 
 //        googleMap.getUiSettings().setZoomGesturesEnabled(false);
         googleMap.getUiSettings().setRotateGesturesEnabled(false);
@@ -182,5 +190,11 @@ public class MapsActivity
     @Override
     public void onStatusChanged(String s, int i, Bundle bundle) {
         Log.d("TAG", "xxxx onStatusChanged");
+    }
+
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+        Log.d("TAG", "onMarkerClick " + marker.getId() + " " + marker.getTitle());
+        return false;
     }
 }
