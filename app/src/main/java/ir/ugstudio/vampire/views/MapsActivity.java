@@ -1,4 +1,4 @@
-package ir.ugstudio.vampire;
+package ir.ugstudio.vampire.views;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.support.annotation.Nullable;
@@ -18,6 +18,14 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import ir.ugstudio.vampire.R;
+import ir.ugstudio.vampire.VampireApp;
+import ir.ugstudio.vampire.models.MapResponse;
+import ir.ugstudio.vampire.models.User;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import static android.graphics.Color.RED;
 
@@ -48,6 +56,47 @@ public class MapsActivity
         }
     }
 
+    private void requestForMap(final double lat, final double lng) {
+        Call<MapResponse> call = new VampireApp().createMapApi().getMap(
+                "de79d0e494db52ef52a8eee17bda5c9419de370b",
+                lat,
+                lng
+        );
+
+        googleMap.clear();
+        LatLng newPlace = new LatLng(lat, lng);
+        googleMap.addMarker(new MarkerOptions().position(newPlace));
+        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(newPlace, MAX_ZOOM));
+
+        googleMap.addCircle(new CircleOptions()
+                .center(newPlace)
+                .radius(RADIUS)
+                .strokeColor(RED)
+        );
+
+        call.enqueue(new Callback<MapResponse>() {
+            @Override
+            public void onResponse(Call<MapResponse> call, Response<MapResponse> response) {
+                if(response.isSuccessful()) {
+                    for(User user : response.body().getOpponents()) {
+                        Log.d("TAG", "aaa " + user.getUsername() + " " + user.getGeo().get(0) + ", " + user.getGeo().get(1));
+                        googleMap.addMarker(new MarkerOptions().position(
+                                new LatLng(user.getGeo().get(0), user.getGeo().get(1))
+                        ));
+                    }
+                } else {
+                    Log.d("TAG", "aaa notSuccess " + response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<MapResponse> call, Throwable t) {
+                Log.d("TAG", "aaa onFailure " + t.getMessage());
+
+            }
+        });
+    }
+
     @Override
     public void onConnected(@Nullable Bundle bundle) {
         Log.d("TAG", "onConnected");
@@ -57,7 +106,7 @@ public class MapsActivity
 
             LocationRequest mLocationRequest = LocationRequest.create();
             mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-            mLocationRequest.setInterval(1000);
+            mLocationRequest.setInterval(4000);
 
             LocationServices.FusedLocationApi.requestLocationUpdates(
                     mGoogleApiClient, mLocationRequest, this);
@@ -68,16 +117,18 @@ public class MapsActivity
     public void onLocationChanged(Location location) {
         Log.d("TAG", "changed");
 
-        googleMap.clear();
-        LatLng newPlace = new LatLng(location.getLatitude(), location.getLongitude());
-        googleMap.addMarker(new MarkerOptions().position(newPlace));
-        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(newPlace, MAX_ZOOM));
+//        googleMap.clear();
+        requestForMap(location.getLatitude(), location.getLongitude());
 
-        googleMap.addCircle(new CircleOptions()
-                .center(newPlace)
-                .radius(RADIUS)
-                .strokeColor(RED)
-        );
+//        LatLng newPlace = new LatLng(location.getLatitude(), location.getLongitude());
+//        googleMap.addMarker(new MarkerOptions().position(newPlace));
+//        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(newPlace, MAX_ZOOM));
+
+//        googleMap.addCircle(new CircleOptions()
+//                .center(newPlace)
+//                .radius(RADIUS)
+//                .strokeColor(RED)
+//        );
     }
 
     @Override
