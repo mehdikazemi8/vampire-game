@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
@@ -20,13 +21,17 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.io.IOException;
+
 import ir.ugstudio.vampire.R;
 import ir.ugstudio.vampire.VampireApp;
 import ir.ugstudio.vampire.models.MapResponse;
 import ir.ugstudio.vampire.models.User;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.http.HTTP;
 
 import static android.graphics.Color.RED;
 
@@ -44,6 +49,7 @@ public class MapsActivity
     private final int MIN_ZOOM = 16;
     private final int MAX_ZOOM = 17;
     private final int RADIUS = 100;
+    private Location lastLocation = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,7 +85,6 @@ public class MapsActivity
                 .radius(RADIUS)
                 .strokeColor(RED)
         );
-
 
         call.enqueue(new Callback<MapResponse>() {
             @Override
@@ -123,6 +128,8 @@ public class MapsActivity
     @Override
     public void onLocationChanged(Location location) {
         Log.d("TAG", "changed");
+
+        lastLocation = location;
 
 //        googleMap.clear();
         requestForMap(location.getLatitude(), location.getLongitude());
@@ -195,6 +202,36 @@ public class MapsActivity
     @Override
     public boolean onMarkerClick(Marker marker) {
         Log.d("TAG", "onMarkerClick " + marker.getId() + " " + marker.getTitle());
+
+        Call<ResponseBody> call = VampireApp.createMapApi().attack(
+                "de79d0e494db52ef52a8eee17bda5c9419de370b",
+                lastLocation.getLatitude(),
+                lastLocation.getLongitude(),
+                marker.getTitle()
+        );
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if(response.isSuccessful()) {
+                    Log.d("TAG", "xxx " + response.message());
+                    String result = "IOEXception";
+                    try {
+                        result = response.body().string();
+                        Log.d("TAG", "xxx " + result);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    Toast.makeText(MapsActivity.this, result, Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(MapsActivity.this, "NOT SUCCESSFUL", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.d("TAG", "xxx " + t.getMessage());
+            }
+        });
         return false;
     }
 }

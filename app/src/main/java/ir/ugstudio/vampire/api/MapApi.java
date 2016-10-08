@@ -1,6 +1,7 @@
 package ir.ugstudio.vampire.api;
 
 import ir.ugstudio.vampire.models.MapResponse;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -15,5 +16,14 @@ public interface MapApi {
             @Field("token") String token,
             @Field("lat") Double lat,
             @Field("lng") Double lng
+    );
+
+    @FormUrlEncoded
+    @POST("appattack")
+    Call<ResponseBody> attack(
+            @Field("token") String token,
+            @Field("lat") Double lat,
+            @Field("lng") Double lng,
+            @Field("username") String username
     );
 }
