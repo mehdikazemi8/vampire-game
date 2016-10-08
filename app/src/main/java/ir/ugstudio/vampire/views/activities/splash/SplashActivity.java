@@ -4,13 +4,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 
 import ir.ugstudio.vampire.R;
 import ir.ugstudio.vampire.VampireApp;
 import ir.ugstudio.vampire.managers.UserManager;
 import ir.ugstudio.vampire.models.User;
+import ir.ugstudio.vampire.utils.Consts;
+import ir.ugstudio.vampire.utils.MemoryCache;
 import ir.ugstudio.vampire.views.activities.main.MainActivity;
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -26,7 +28,14 @@ public class SplashActivity extends FragmentActivity {
 
         setContentView(R.layout.activity_splash);
 
+        getProfile();
+    }
+
+    private void getProfile() {
         String token = UserManager.readToken(SplashActivity.this);
+        // todo delete this
+//        token = "de79d0e494db52ef52a8eee17bda5c9419de370b";
+
         if(false && (token == null || token.isEmpty())) {
             startRegisterActivity();
         } else {
@@ -50,14 +59,17 @@ public class SplashActivity extends FragmentActivity {
     }
 
     private void startMainActivity(User user) {
-        UserManager.writeUser(SplashActivity.this, user);
         // get profile, save it and continue to maps activity
+        UserManager.writeUser(SplashActivity.this, user);
+
+        Log.d("TAG", "startMainActivity " + user.serialize());
+
         startActivity(new Intent(SplashActivity.this, MainActivity.class));
         finish();
     }
 
     private void startRegisterActivity() {
-        UserManager.clearUserFromClient(SplashActivity.this);
+        UserManager.clearUser(SplashActivity.this);
 //        start register activity
 //        startActivity(new Intent(SplashActivity.this, RegisterActivity.class));
 //        finish();

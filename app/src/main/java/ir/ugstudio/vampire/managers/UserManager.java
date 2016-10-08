@@ -23,7 +23,7 @@ public class UserManager {
         }
     }
 
-    public static void clearUserFromClient(Context context) {
+    public static void clearUser(Context context) {
         VampirePreferenceManager.writeString(context, Consts.USER_JSON, null);
     }
 
