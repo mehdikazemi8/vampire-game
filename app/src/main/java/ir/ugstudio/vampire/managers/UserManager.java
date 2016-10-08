@@ -22,4 +22,12 @@ public class UserManager {
             return null;
         }
     }
+
+    public static void clearUserFromClient(Context context) {
+        VampirePreferenceManager.writeString(context, Consts.USER_JSON, null);
+    }
+
+    public static void writeUser(Context context, User user) {
+        VampirePreferenceManager.writeString(context, Consts.USER_JSON, user.serialize());
+    }
 }

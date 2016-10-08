@@ -1,4 +1,4 @@
-package ir.ugstudio.vampire.views.activities.maps;
+package ir.ugstudio.vampire.views.activities.main;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.support.annotation.Nullable;
@@ -34,7 +34,7 @@ import retrofit2.Response;
 
 import static android.graphics.Color.RED;
 
-public class MapsActivity
+public class MainActivity
         extends FragmentActivity
         implements
             OnMapReadyCallback,
@@ -53,7 +53,7 @@ public class MapsActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_maps);
+        setContentView(R.layout.activity_main);
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -116,7 +116,7 @@ public class MapsActivity
     public void onConnected(@Nullable Bundle bundle) {
         Log.d("TAG", "onConnected");
 
-        if(ContextCompat.checkSelfPermission(MapsActivity.this,
+        if(ContextCompat.checkSelfPermission(MainActivity.this,
                 android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
 
             LocationRequest mLocationRequest = LocationRequest.create();
@@ -224,9 +224,9 @@ public class MapsActivity
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    Toast.makeText(MapsActivity.this, result, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, result, Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(MapsActivity.this, "NOT SUCCESSFUL", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "NOT SUCCESSFUL", Toast.LENGTH_SHORT).show();
                 }
             }
 
