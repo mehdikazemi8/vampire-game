@@ -1,11 +1,12 @@
 package ir.ugstudio.vampire.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.google.gson.Gson;
 
 import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class MapResponse {
+public class MapResponse extends BaseModel {
     private List<User> opponents;
     private List<User> allies;
 

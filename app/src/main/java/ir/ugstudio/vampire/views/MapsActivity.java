@@ -89,7 +89,11 @@ public class MapsActivity
         call.enqueue(new Callback<MapResponse>() {
             @Override
             public void onResponse(Call<MapResponse> call, Response<MapResponse> response) {
+
                 if(response.isSuccessful()) {
+
+                    Log.d("TAG", "hhh " + response.body().serialize());
+
                     for(User user : response.body().getOpponents()) {
                         Log.d("TAG", "aaa " + user.getUsername() + " " + user.getGeo().get(0) + ", " + user.getGeo().get(1));
                         googleMap.addMarker(new MarkerOptions().position(

@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class User {
+public class User extends BaseModel {
     private String username;
     private String role;
     private List<Double> geo;
