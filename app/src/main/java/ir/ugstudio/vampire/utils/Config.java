@@ -1,4 +1,4 @@
-package ir.ugstudio.vampire;
+package ir.ugstudio.vampire.utils;
 
 /**
  * Created by mehdiii on 10/5/16.

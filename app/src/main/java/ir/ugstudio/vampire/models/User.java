@@ -9,8 +9,17 @@ public class User extends BaseModel {
     private String username;
     private String role;
     private List<Double> geo;
+    private String token;
 
     public User() {
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 
     public String getUsername() {

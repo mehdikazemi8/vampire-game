@@ -1,4 +1,4 @@
-package ir.ugstudio.vampire.views;
+package ir.ugstudio.vampire.views.activities.maps;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.support.annotation.Nullable;
@@ -31,7 +31,6 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.http.HTTP;
 
 import static android.graphics.Color.RED;
 

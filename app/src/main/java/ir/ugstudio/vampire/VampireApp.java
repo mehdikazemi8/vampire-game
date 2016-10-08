@@ -3,6 +3,7 @@ package ir.ugstudio.vampire;
 import android.app.Application;
 
 import ir.ugstudio.vampire.api.MapApi;
+import ir.ugstudio.vampire.utils.Config;
 import retrofit2.Retrofit;
 import retrofit2.converter.jackson.JacksonConverterFactory;
 
