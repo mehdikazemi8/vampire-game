@@ -2,4 +2,13 @@
     <string name="app_name">Vampire</string>
     <string name="title_activity_maps">Map</string>
     <string name="title_activity_splash">Splash</string>
+    <string name="title_activity_register">Register</string>
+
+    <string name="btn_new_user">کاربر ‌جدید</string>
+    <string name="btn_registered_before">قبلا ثبت‌نام کرده‌ام</string>
+
+    <string name="username">نام کاربری</string>
+    <string name="password">رمز عبور</string>
+    <string name="login">ورود</string>
+
 </resources>

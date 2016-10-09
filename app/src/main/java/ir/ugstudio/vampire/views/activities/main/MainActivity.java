@@ -25,6 +25,7 @@ import java.io.IOException;
 
 import ir.ugstudio.vampire.R;
 import ir.ugstudio.vampire.VampireApp;
+import ir.ugstudio.vampire.managers.UserManager;
 import ir.ugstudio.vampire.models.MapResponse;
 import ir.ugstudio.vampire.models.User;
 import okhttp3.ResponseBody;
@@ -68,8 +69,8 @@ public class MainActivity
     }
 
     private void requestForMap(final double lat, final double lng) {
-        Call<MapResponse> call = new VampireApp().createMapApi().getMap(
-                "de79d0e494db52ef52a8eee17bda5c9419de370b",
+        Call<MapResponse> call = VampireApp.createMapApi().getMap(
+                UserManager.readToken(MainActivity.this),
                 lat,
                 lng
         );
@@ -207,7 +208,7 @@ public class MainActivity
         Log.d("TAG", "onMarkerClick " + marker.getId() + " " + marker.getTitle());
 
         Call<ResponseBody> call = VampireApp.createMapApi().attack(
-                "de79d0e494db52ef52a8eee17bda5c9419de370b",
+                UserManager.readToken(MainActivity.this),
                 lastLocation.getLatitude(),
                 lastLocation.getLongitude(),
                 marker.getTitle()

@@ -13,13 +13,10 @@ import ir.ugstudio.vampire.models.User;
 import ir.ugstudio.vampire.utils.Consts;
 import ir.ugstudio.vampire.utils.MemoryCache;
 import ir.ugstudio.vampire.views.activities.main.MainActivity;
+import ir.ugstudio.vampire.views.activities.register.RegisterActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-/**
- * Created by mehdiii on 10/8/16.
- */
 
 public class SplashActivity extends FragmentActivity {
     @Override
@@ -33,10 +30,8 @@ public class SplashActivity extends FragmentActivity {
 
     private void getProfile() {
         String token = UserManager.readToken(SplashActivity.this);
-        // todo delete this
-//        token = "de79d0e494db52ef52a8eee17bda5c9419de370b";
 
-        if(false && (token == null || token.isEmpty())) {
+        if(token == null || token.isEmpty()) {
             startRegisterActivity();
         } else {
             Call<User> call = VampireApp.createUserApi().getProfile(token);
@@ -71,7 +66,7 @@ public class SplashActivity extends FragmentActivity {
     private void startRegisterActivity() {
         UserManager.clearUser(SplashActivity.this);
 //        start register activity
-//        startActivity(new Intent(SplashActivity.this, RegisterActivity.class));
-//        finish();
+        startActivity(new Intent(SplashActivity.this, RegisterActivity.class));
+        finish();
     }
 }

@@ -43,6 +43,11 @@
             android:name=".views.activities.main.MainActivity"
             android:label="@string/title_activity_maps">
         </activity>
+
+        <activity
+            android:name=".views.activities.register.RegisterActivity"
+            android:label="@string/title_activity_register">
+        </activity>
     </application>
 
 </manifest>
