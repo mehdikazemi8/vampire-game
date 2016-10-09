@@ -6,9 +6,22 @@
 
     <string name="btn_new_user">کاربر ‌جدید</string>
     <string name="btn_registered_before">قبلا ثبت‌نام کرده‌ام</string>
+    <string name="btn_register">ثبت نام</string>
 
     <string name="username">نام کاربری</string>
     <string name="password">رمز عبور</string>
     <string name="login">ورود</string>
+
+    <string-array name="player_type_keys">
+        <item>نوع بازیگر</item>
+        <item>شکارچی</item>
+        <item>خون‌آشام</item>
+    </string-array>
+
+    <string-array name="player_type_values">
+        <item>player type</item>
+        <item>hunter</item>
+        <item>vampire</item>
+    </string-array>
 
 </resources>

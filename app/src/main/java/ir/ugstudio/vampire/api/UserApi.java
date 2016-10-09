@@ -1,5 +1,7 @@
 package ir.ugstudio.vampire.api;
 
+import com.fasterxml.jackson.annotation.JsonFilter;
+
 import ir.ugstudio.vampire.models.MapResponse;
 import ir.ugstudio.vampire.models.User;
 import retrofit2.Call;
@@ -18,5 +20,12 @@ public interface UserApi {
     @POST("loginuser")
     Call<User> login(
             @Field("username") String username, @Field("password") String password
+    );
+
+    @FormUrlEncoded
+    @POST("createuser")
+    Call<User> register(
+            @Field("username") String username, @Field("password") String password,
+            @Field("role") String playerType
     );
 }

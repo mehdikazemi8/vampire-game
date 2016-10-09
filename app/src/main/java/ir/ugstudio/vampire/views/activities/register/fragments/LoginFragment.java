@@ -1,5 +1,6 @@
 package ir.ugstudio.vampire.views.activities.register.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -12,7 +13,11 @@ import android.widget.EditText;
 
 import ir.ugstudio.vampire.R;
 import ir.ugstudio.vampire.VampireApp;
+import ir.ugstudio.vampire.managers.UserManager;
 import ir.ugstudio.vampire.models.User;
+import ir.ugstudio.vampire.views.activities.main.MainActivity;
+import ir.ugstudio.vampire.views.activities.register.RegisterActivity;
+import ir.ugstudio.vampire.views.activities.splash.SplashActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -61,16 +66,28 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
             public void onResponse(Call<User> call, Response<User> response) {
                 if(response.isSuccessful()) {
                     Log.d("TAG", "dddd " + response.body().serialize());
+                    startMainActivity(response.body());
                 } else {
+                    // todo say something to user
                     Log.d("TAG", "dddd " + response.message() + " " + response.code());
                 }
             }
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
+                // todo say something to user
 
             }
         });
+    }
+
+    private void startMainActivity(User user) {
+        // get profile, save it and continue to maps activity
+        UserManager.writeUser(getActivity(), user);
+
+        startActivity(new Intent(getActivity(), MainActivity.class));
+        // todo check this line
+        getActivity().finish();
     }
 
     @Override

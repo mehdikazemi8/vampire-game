@@ -8,6 +8,7 @@ import android.widget.Button;
 
 import ir.ugstudio.vampire.R;
 import ir.ugstudio.vampire.views.activities.register.fragments.LoginFragment;
+import ir.ugstudio.vampire.views.activities.register.fragments.RegisterFragment;
 
 public class RegisterActivity extends FragmentActivity implements View.OnClickListener {
 
@@ -26,16 +27,26 @@ public class RegisterActivity extends FragmentActivity implements View.OnClickLi
 
     private void find() {
         login = (Button) findViewById(R.id.registered_before);
+        register = (Button) findViewById(R.id.new_user);
     }
 
     private void configure() {
         login.setOnClickListener(this);
+        register.setOnClickListener(this);
     }
 
     private void loginFragment() {
         LoginFragment fragment = LoginFragment.getInstance();
         getSupportFragmentManager().beginTransaction()
-                .add(R.id.login_fragment_holder, fragment, null)
+                .add(R.id.fragment_holder, fragment, null)
+                .addToBackStack(null)
+                .commit();
+    }
+
+    private void registerFragment() {
+        RegisterFragment fragment = RegisterFragment.getInstance();
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.fragment_holder, fragment, null)
                 .addToBackStack(null)
                 .commit();
     }
@@ -45,6 +56,10 @@ public class RegisterActivity extends FragmentActivity implements View.OnClickLi
         switch (view.getId()) {
             case R.id.registered_before:
                 loginFragment();
+                break;
+
+            case R.id.new_user:
+                registerFragment();
                 break;
         }
     }

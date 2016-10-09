@@ -24,7 +24,7 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:id="@+id/login_fragment_holder"
+        android:id="@+id/fragment_holder"
         android:layout_height="match_parent"/>
 
 </RelativeLayout>
