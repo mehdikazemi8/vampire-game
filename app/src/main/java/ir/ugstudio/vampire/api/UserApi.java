@@ -13,4 +13,10 @@ public interface UserApi {
     Call<User> getProfile(
             @Field("token") String token
     );
+
+    @FormUrlEncoded
+    @POST("loginuser")
+    Call<User> login(
+            @Field("username") String username, @Field("password") String password
+    );
 }
