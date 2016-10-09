@@ -1,6 +1,10 @@
 package ir.ugstudio.vampire.api;
 
+import java.util.List;
+
 import ir.ugstudio.vampire.models.MapResponse;
+import ir.ugstudio.vampire.models.PlacesResponse;
+import ir.ugstudio.vampire.models.QuotesResponse;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -25,5 +29,18 @@ public interface MapApi {
             @Field("lat") Double lat,
             @Field("lng") Double lng,
             @Field("username") String username
+    );
+
+    @FormUrlEncoded
+    @POST("getquote")
+    Call<QuotesResponse> getQuotes(
+            @Field("token") String token
+    );
+
+    @FormUrlEncoded
+    @POST("getplace")
+    Call<PlacesResponse> getPlaces(
+            @Field("token") String token,
+            @Field("placeType") String placeType
     );
 }

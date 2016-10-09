@@ -1,6 +1,7 @@
 package ir.ugstudio.vampire.views.activities.splash;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
@@ -8,6 +9,8 @@ import android.util.Log;
 
 import ir.ugstudio.vampire.R;
 import ir.ugstudio.vampire.VampireApp;
+import ir.ugstudio.vampire.async.GetPlaces;
+import ir.ugstudio.vampire.async.GetQuotes;
 import ir.ugstudio.vampire.managers.UserManager;
 import ir.ugstudio.vampire.models.User;
 import ir.ugstudio.vampire.utils.Consts;
@@ -17,6 +20,7 @@ import ir.ugstudio.vampire.views.activities.register.RegisterActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.http.Field;
 
 public class SplashActivity extends FragmentActivity {
     @Override
@@ -54,6 +58,10 @@ public class SplashActivity extends FragmentActivity {
     }
 
     private void startMainActivity(User user) {
+
+        new GetQuotes(SplashActivity.this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        new GetPlaces(SplashActivity.this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+
         // get profile, save it and continue to maps activity
         UserManager.writeUser(SplashActivity.this, user);
 
