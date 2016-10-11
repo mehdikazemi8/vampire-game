@@ -28,7 +28,8 @@ public interface MapApi {
             @Field("token") String token,
             @Field("lat") Double lat,
             @Field("lng") Double lng,
-            @Field("username") String username
+            @Field("username") String username,
+            @Field("message") String message
     );
 
     @FormUrlEncoded

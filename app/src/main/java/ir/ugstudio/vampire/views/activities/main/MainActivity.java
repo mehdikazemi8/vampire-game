@@ -25,9 +25,11 @@ import java.io.IOException;
 
 import ir.ugstudio.vampire.R;
 import ir.ugstudio.vampire.VampireApp;
+import ir.ugstudio.vampire.managers.CacheManager;
 import ir.ugstudio.vampire.managers.UserManager;
 import ir.ugstudio.vampire.models.MapResponse;
 import ir.ugstudio.vampire.models.User;
+import ir.ugstudio.vampire.views.dialogs.AttackDialog;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -49,7 +51,6 @@ public class MainActivity
     private final int MIN_ZOOM = 16;
     private final int MAX_ZOOM = 17;
     private final int RADIUS = 100;
-    private Location lastLocation = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +80,9 @@ public class MainActivity
         LatLng newPlace = new LatLng(lat, lng);
         googleMap.addMarker(new MarkerOptions().position(newPlace));
         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(newPlace, MAX_ZOOM));
+
+        // todo: delete this
+        googleMap.addMarker(new MarkerOptions().position(new LatLng(35.640225, 52.246952)).title("یه جا دیگه"));
 
         googleMap.addCircle(new CircleOptions()
                 .center(newPlace)
@@ -131,9 +135,9 @@ public class MainActivity
 
     @Override
     public void onLocationChanged(Location location) {
-        Log.d("TAG", "changed");
+        Log.d("TAG", "changed " + location.getLatitude() + " " + location.getLongitude());
 
-        lastLocation = location;
+        CacheManager.setLastLocation(location);
 
 //        googleMap.clear();
         requestForMap(location.getLatitude(), location.getLongitude());
@@ -181,7 +185,7 @@ public class MainActivity
         LatLng myPlace = new LatLng(35.702945, 51.405907);
         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(myPlace, MAX_ZOOM));
 
-        googleMap.addMarker(new MarkerOptions().position(new LatLng(35.702945, 51.405907)).title("یه جا دیگه"));
+        googleMap.addMarker(new MarkerOptions().position(new LatLng(35.640225, 52.246952)).title("یه جا دیگه"));
         googleMap.addMarker(new MarkerOptions().position(new LatLng(35.702799, 51.405684)).title("یه جا دیگه"));
         googleMap.addMarker(new MarkerOptions().position(new LatLng(35.702801, 51.405518)).title("یه جا دیگه"));
         googleMap.addMarker(new MarkerOptions().position(new LatLng(35.702744, 51.405556)).title("یه جا دیگه"));
@@ -207,35 +211,10 @@ public class MainActivity
     public boolean onMarkerClick(Marker marker) {
         Log.d("TAG", "onMarkerClick " + marker.getId() + " " + marker.getTitle());
 
-        Call<ResponseBody> call = VampireApp.createMapApi().attack(
-                UserManager.readToken(MainActivity.this),
-                lastLocation.getLatitude(),
-                lastLocation.getLongitude(),
-                marker.getTitle()
-        );
-        call.enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                if(response.isSuccessful()) {
-                    Log.d("TAG", "xxx " + response.message());
-                    String result = "IOEXception";
-                    try {
-                        result = response.body().string();
-                        Log.d("TAG", "xxx " + result);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    Toast.makeText(MainActivity.this, result, Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(MainActivity.this, "NOT SUCCESSFUL", Toast.LENGTH_SHORT).show();
-                }
-            }
+//        AttackDialog dialog = new AttackDialog(MainActivity.this, marker.getTitle());
+        AttackDialog dialog = new AttackDialog(MainActivity.this, "user-17");
+        dialog.show();
 
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Log.d("TAG", "xxx " + t.getMessage());
-            }
-        });
         return false;
     }
 }

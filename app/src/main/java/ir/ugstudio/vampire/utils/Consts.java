@@ -6,4 +6,6 @@ public class Consts {
     public static String PLACE_HOSPITAL = "hospital";
 
     public static String CACHE_USER = "CACHE_USER";
+    public static String CACHE_LAST_LOCATION = "CACHE_LAST_LOCATION";
+    public static String CACHE_QUOTES = "CACHE_QUOTES";
 }

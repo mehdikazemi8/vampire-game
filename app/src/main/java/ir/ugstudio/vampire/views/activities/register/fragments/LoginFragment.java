@@ -1,6 +1,7 @@
 package ir.ugstudio.vampire.views.activities.register.fragments;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,6 +14,8 @@ import android.widget.EditText;
 
 import ir.ugstudio.vampire.R;
 import ir.ugstudio.vampire.VampireApp;
+import ir.ugstudio.vampire.async.GetPlaces;
+import ir.ugstudio.vampire.async.GetQuotes;
 import ir.ugstudio.vampire.managers.UserManager;
 import ir.ugstudio.vampire.models.User;
 import ir.ugstudio.vampire.views.activities.main.MainActivity;
@@ -84,6 +87,9 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     private void startMainActivity(User user) {
         // get profile, save it and continue to maps activity
         UserManager.writeUser(getActivity(), user);
+
+        new GetQuotes(getActivity()).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        new GetPlaces(getActivity()).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
         startActivity(new Intent(getActivity(), MainActivity.class));
         // todo check this line

@@ -7,8 +7,11 @@ import android.util.Log;
 import java.util.List;
 
 import ir.ugstudio.vampire.VampireApp;
+import ir.ugstudio.vampire.managers.CacheManager;
 import ir.ugstudio.vampire.managers.UserManager;
 import ir.ugstudio.vampire.models.QuotesResponse;
+import ir.ugstudio.vampire.utils.Consts;
+import ir.ugstudio.vampire.utils.MemoryCache;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -30,6 +33,7 @@ public class GetQuotes extends AsyncTask<Void, Void, Void> {
             @Override
             public void onResponse(Call<QuotesResponse> call, Response<QuotesResponse> response) {
                 if(response.isSuccessful()) {
+                    CacheManager.setQuotes(response.body());
                     Log.d("TAG", "ddd isSuccessful");
                     for(String str : response.body().getQuotes()) {
                         Log.d("TAG", "ddd " + str);

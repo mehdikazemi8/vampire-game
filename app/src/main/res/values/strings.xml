@@ -7,6 +7,7 @@
     <string name="btn_new_user">کاربر ‌جدید</string>
     <string name="btn_registered_before">قبلا ثبت‌نام کرده‌ام</string>
     <string name="btn_register">ثبت نام</string>
+    <string name="btn_attack">حمله</string>
 
     <string name="username">نام کاربری</string>
     <string name="password">رمز عبور</string>
