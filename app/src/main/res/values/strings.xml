@@ -25,4 +25,10 @@
         <item>vampire</item>
     </string-array>
 
+    <string name="icon.map">A</string>
+    <string name="icon.ranklist">B</string>
+    <string name="icon.notifications">C</string>
+    <string name="icon.shop">D</string>
+    <string name="icon.settings">E</string>
+
 </resources>
