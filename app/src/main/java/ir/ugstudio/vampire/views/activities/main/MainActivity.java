@@ -6,6 +6,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -13,12 +14,19 @@ import android.widget.TextView;
 import org.greenrobot.eventbus.EventBus;
 
 import ir.ugstudio.vampire.R;
+import ir.ugstudio.vampire.VampireApp;
+import ir.ugstudio.vampire.managers.UserManager;
+import ir.ugstudio.vampire.models.Ranklist;
+import ir.ugstudio.vampire.models.User;
 import ir.ugstudio.vampire.utils.FontHelper;
 import ir.ugstudio.vampire.views.activities.main.fragments.MapFragment;
 import ir.ugstudio.vampire.views.activities.main.fragments.NotificationsFragment;
 import ir.ugstudio.vampire.views.activities.main.fragments.RanklistFragment;
 import ir.ugstudio.vampire.views.activities.main.fragments.SettingsFragment;
 import ir.ugstudio.vampire.views.activities.main.fragments.ShopFragment;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends FragmentActivity {
 
@@ -39,6 +47,28 @@ public class MainActivity extends FragmentActivity {
         setFragments();
         find();
         configure();
+
+        testRanklist();
+    }
+
+    private void testRanklist() {
+        Call<Ranklist> call = VampireApp.createUserApi().getRanklist(UserManager.readToken(MainActivity.this));
+        call.enqueue(new Callback<Ranklist>() {
+            @Override
+            public void onResponse(Call<Ranklist> call, Response<Ranklist> response) {
+                Log.d("TAG", "ranklist " + response.message());
+                if(response.isSuccessful()) {
+                    for(User user : response.body().getTop()) {
+                        Log.d("TAG", "ranklist " + user.getUsername());
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Ranklist> call, Throwable t) {
+                Log.d("TAG", "ranklist " + t.getMessage());
+            }
+        });
     }
 
     private void setFragments() {

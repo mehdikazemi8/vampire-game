@@ -3,6 +3,7 @@ package ir.ugstudio.vampire.api;
 import com.fasterxml.jackson.annotation.JsonFilter;
 
 import ir.ugstudio.vampire.models.MapResponse;
+import ir.ugstudio.vampire.models.Ranklist;
 import ir.ugstudio.vampire.models.User;
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -27,5 +28,11 @@ public interface UserApi {
     Call<User> register(
             @Field("username") String username, @Field("password") String password,
             @Field("role") String playerType
+    );
+
+    @FormUrlEncoded
+    @POST("getranklist ")
+    Call<Ranklist> getRanklist(
+            @Field("token") String token
     );
 }
