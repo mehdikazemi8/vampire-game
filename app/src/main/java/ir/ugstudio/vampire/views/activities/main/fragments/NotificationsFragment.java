@@ -10,6 +10,10 @@ import android.view.ViewGroup;
 import ir.ugstudio.vampire.R;
 
 public class NotificationsFragment extends Fragment {
+    public static NotificationsFragment getInstance() {
+        return new NotificationsFragment();
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

@@ -11,6 +11,10 @@ import ir.ugstudio.vampire.R;
 
 public class SettingsFragment extends Fragment {
 
+    public static SettingsFragment getInstance() {
+        return new SettingsFragment();
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

@@ -10,6 +10,10 @@ import android.view.ViewGroup;
 import ir.ugstudio.vampire.R;
 
 public class MapFragment extends Fragment {
+    public static MapFragment getInstance() {
+        return new MapFragment();
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

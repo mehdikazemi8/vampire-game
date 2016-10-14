@@ -10,6 +10,11 @@ import android.view.ViewGroup;
 import ir.ugstudio.vampire.R;
 
 public class ShopFragment extends Fragment {
+
+    public static ShopFragment getInstance() {
+        return new ShopFragment();
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

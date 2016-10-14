@@ -10,6 +10,10 @@ import android.view.ViewGroup;
 import ir.ugstudio.vampire.R;
 
 public class RanklistFragment extends Fragment {
+    public static RanklistFragment getInstance() {
+        return new RanklistFragment();
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
