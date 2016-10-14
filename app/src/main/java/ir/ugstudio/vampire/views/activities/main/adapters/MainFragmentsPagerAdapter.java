@@ -1,10 +1,12 @@
-package ir.ugstudio.vampire.views.activities.main;
+package ir.ugstudio.vampire.views.activities.main.adapters;
 
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.util.Log;
+
+import ir.ugstudio.vampire.views.activities.main.MainActivity;
 
 public class MainFragmentsPagerAdapter extends FragmentPagerAdapter {
     // TODO must be filled by reading resources (e.g. icon.home, icon.settings)

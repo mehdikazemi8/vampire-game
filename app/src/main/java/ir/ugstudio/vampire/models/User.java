@@ -8,10 +8,28 @@ import java.util.List;
 public class User extends BaseModel {
     private String username;
     private String role;
+    private Integer rank;
+    private Integer score;
     private List<Double> geo;
     private String token;
 
     public User() {
+    }
+
+    public Integer getScore() {
+        return score;
+    }
+
+    public void setScore(Integer score) {
+        this.score = score;
+    }
+
+    public Integer getRank() {
+        return rank;
+    }
+
+    public void setRank(Integer rank) {
+        this.rank = rank;
     }
 
     public String getToken() {
