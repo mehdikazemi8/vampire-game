@@ -63,6 +63,9 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         String usernameStr = username.getText().toString();
         String passwordStr = password.getText().toString();
 
+        Log.d("TAG", "doLogin " + usernameStr);
+        Log.d("TAG", "doLogin " + passwordStr);
+
         Call<User> call = VampireApp.createUserApi().login(usernameStr, passwordStr);
         call.enqueue(new Callback<User>() {
             @Override

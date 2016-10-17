@@ -99,6 +99,7 @@ public class AttackDialog extends Dialog implements View.OnClickListener {
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                Log.d("TAG", "attack " + response.message());
                 if(response.isSuccessful()) {
                     Log.d("TAG", "xxx " + response.message());
                     String result = "IOEXception";

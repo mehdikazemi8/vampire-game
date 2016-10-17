@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import ir.ugstudio.vampire.R;
 import ir.ugstudio.vampire.VampireApp;
 import ir.ugstudio.vampire.managers.UserManager;
 import ir.ugstudio.vampire.models.Ranklist;
+import ir.ugstudio.vampire.models.User;
 import ir.ugstudio.vampire.views.activities.main.adapters.RankViewAdapter;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -55,6 +57,9 @@ public class RanklistFragment extends Fragment {
             @Override
             public void onResponse(Call<Ranklist> call, Response<Ranklist> response) {
                 if (response.isSuccessful()) {
+                    for(User user : response.body().getTop()) {
+                        Log.d("TAG", "rank " + user.getUsername());
+                    }
                     adapter = new RankViewAdapter(getContext(), response.body().getTop());
                     ranklist.setAdapter(adapter);
                 }
@@ -62,6 +67,7 @@ public class RanklistFragment extends Fragment {
 
             @Override
             public void onFailure(Call<Ranklist> call, Throwable t) {
+                Log.d("TAG", "onFailure " + t.getMessage());
             }
         });
     }

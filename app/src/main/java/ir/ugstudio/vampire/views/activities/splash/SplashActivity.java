@@ -7,10 +7,15 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
 import ir.ugstudio.vampire.R;
 import ir.ugstudio.vampire.VampireApp;
 import ir.ugstudio.vampire.async.GetPlaces;
+import ir.ugstudio.vampire.async.GetProfile;
 import ir.ugstudio.vampire.async.GetQuotes;
+import ir.ugstudio.vampire.events.LoginEvent;
 import ir.ugstudio.vampire.managers.UserManager;
 import ir.ugstudio.vampire.models.User;
 import ir.ugstudio.vampire.utils.Consts;
@@ -38,22 +43,7 @@ public class SplashActivity extends FragmentActivity {
         if(token == null || token.isEmpty()) {
             startRegisterActivity();
         } else {
-            Call<User> call = VampireApp.createUserApi().getProfile(token);
-            call.enqueue(new Callback<User>() {
-                @Override
-                public void onResponse(Call<User> call, Response<User> response) {
-                    if(response.isSuccessful()) {
-                        startMainActivity(response.body());
-                    } else {
-                        startRegisterActivity();
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<User> call, Throwable t) {
-                    startRegisterActivity();
-                }
-            });
+            GetProfile.run(SplashActivity.this);
         }
     }
 
@@ -76,5 +66,27 @@ public class SplashActivity extends FragmentActivity {
 //        start register activity
         startActivity(new Intent(SplashActivity.this, RegisterActivity.class));
         finish();
+    }
+
+    @Subscribe
+    public void onEvent(LoginEvent event) {
+        Log.d("TAG", "onEvent LoginEvent " + event.isSuccessfull());
+        if(event.isSuccessfull()) {
+            startMainActivity(event.getUser());
+        } else {
+            startRegisterActivity();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
     }
 }

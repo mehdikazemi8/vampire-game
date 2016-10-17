@@ -21,6 +21,8 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -118,8 +120,8 @@ public class MapFragment extends Fragment
     public boolean onMarkerClick(Marker marker) {
         Log.d("TAG", "onMarkerClick " + marker.getId() + " " + marker.getTitle());
 
-//        AttackDialog dialog = new AttackDialog(MainActivity.this, marker.getTitle());
-        AttackDialog dialog = new AttackDialog(getActivity(), "user-17");
+        AttackDialog dialog = new AttackDialog(getActivity(), marker.getTitle());
+//        AttackDialog dialog = new AttackDialog(getActivity(), "user-17");
         dialog.show();
 
         return false;
@@ -179,7 +181,9 @@ public class MapFragment extends Fragment
 
         googleMap.clear();
         LatLng newPlace = new LatLng(lat, lng);
-        googleMap.addMarker(new MarkerOptions().position(newPlace));
+        googleMap.addMarker(new MarkerOptions().position(newPlace)).setIcon(
+                BitmapDescriptorFactory.fromResource(R.drawable.hunter)
+        );
         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(newPlace, MAX_ZOOM));
 
         // todo: delete this
@@ -204,6 +208,15 @@ public class MapFragment extends Fragment
                         googleMap.addMarker(new MarkerOptions().position(
                                 new LatLng(user.getGeo().get(0), user.getGeo().get(1))
                         ).title(user.getUsername()));
+                    }
+
+                    for(User user : response.body().getAllies()) {
+                        Log.d("TAG", "aaa " + user.getUsername() + " " + user.getGeo().get(0) + ", " + user.getGeo().get(1));
+                        googleMap.addMarker(new MarkerOptions().position(
+                                new LatLng(user.getGeo().get(0), user.getGeo().get(1))
+                        ).title(user.getUsername())).setIcon(
+                                BitmapDescriptorFactory.fromResource(R.drawable.hunter1)
+                        );
                     }
                 } else {
                     Log.d("TAG", "aaa notSuccess " + response.message());
