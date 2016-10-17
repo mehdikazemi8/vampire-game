@@ -30,5 +30,7 @@
     <string name="icon.notifications">C</string>
     <string name="icon.shop">D</string>
     <string name="icon.settings">E</string>
+    <string name="icon.coin">F</string>
+    <string name="icon.person">G</string>
 
 </resources>

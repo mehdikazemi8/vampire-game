@@ -1,9 +1,9 @@
 package ir.ugstudio.vampire.managers;
 
 import android.location.Location;
-import android.util.Log;
 
 import ir.ugstudio.vampire.models.QuotesResponse;
+import ir.ugstudio.vampire.models.User;
 import ir.ugstudio.vampire.utils.Consts;
 import ir.ugstudio.vampire.utils.MemoryCache;
 
@@ -22,5 +22,13 @@ public class CacheManager {
 
     public static QuotesResponse getQuotes() {
         return MemoryCache.get(Consts.CACHE_QUOTES);
+    }
+
+    public static User getUser() {
+        return MemoryCache.get(Consts.CACHE_USER);
+    }
+
+    public static void setUser(User user) {
+        MemoryCache.set(Consts.CACHE_USER, user);
     }
 }

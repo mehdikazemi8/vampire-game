@@ -12,6 +12,7 @@ public class User extends BaseModel {
     private Integer score;
     private List<Double> geo;
     private String token;
+    private Integer coin;
 
     public User() {
     }
@@ -62,5 +63,13 @@ public class User extends BaseModel {
 
     public void setGeo(List<Double> geo) {
         this.geo = geo;
+    }
+
+    public Integer getCoin() {
+        return coin;
+    }
+
+    public void setCoin(Integer coin) {
+        this.coin = coin;
     }
 }

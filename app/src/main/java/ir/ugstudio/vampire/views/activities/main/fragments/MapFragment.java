@@ -1,6 +1,7 @@
 package ir.ugstudio.vampire.views.activities.main.fragments;
 
 import android.content.pm.PackageManager;
+import android.graphics.Typeface;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
@@ -28,12 +30,17 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
 import ir.ugstudio.vampire.R;
 import ir.ugstudio.vampire.VampireApp;
+import ir.ugstudio.vampire.events.LoginEvent;
 import ir.ugstudio.vampire.managers.CacheManager;
 import ir.ugstudio.vampire.managers.UserManager;
 import ir.ugstudio.vampire.models.MapResponse;
 import ir.ugstudio.vampire.models.User;
+import ir.ugstudio.vampire.utils.FontHelper;
 import ir.ugstudio.vampire.views.dialogs.AttackDialog;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -54,6 +61,14 @@ public class MapFragment extends Fragment
     }
 
     private MapView mapView;
+
+    private TextView coin;
+    private TextView score;
+    private TextView rank;
+
+    private TextView coinIcon;
+    private TextView scoreIcon;
+    private TextView rankIcon;
 
     @Nullable
     @Override
@@ -90,6 +105,33 @@ public class MapFragment extends Fragment
                     .addApi(LocationServices.API)
                     .build();
         }
+
+        find(view);
+        configure();
+    }
+
+    private void find(View view) {
+        coin = (TextView) view.findViewById(R.id.coin);
+        score = (TextView) view.findViewById(R.id.score);
+        rank = (TextView) view.findViewById(R.id.rank);
+
+        coinIcon = (TextView) view.findViewById(R.id.coin_icon);
+        scoreIcon = (TextView) view.findViewById(R.id.score_icon);
+        rankIcon = (TextView) view.findViewById(R.id.rank_icon);
+    }
+
+    private void updateView(User user) {
+        coin.setText(String.valueOf(user.getCoin()));
+        rank.setText(String.valueOf(user.getRank()));
+        score.setText(String.valueOf(user.getScore()));
+    }
+
+    private void configure() {
+        coinIcon.setTypeface(FontHelper.getIcons(getActivity()), Typeface.NORMAL);
+        scoreIcon.setTypeface(FontHelper.getIcons(getActivity()), Typeface.NORMAL);
+        rankIcon.setTypeface(FontHelper.getIcons(getActivity()), Typeface.NORMAL);
+
+        updateView(CacheManager.getUser());
     }
 
     @Override
@@ -248,11 +290,21 @@ public class MapFragment extends Fragment
         super.onResume();
         Log.d("TAG", "MapFragment onResume");
         mapView.onResume();
+        EventBus.getDefault().register(this);
     }
 
     @Override
     public void onPause() {
         super.onPause();
         mapView.onPause();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe
+    public void onEvent(LoginEvent event) {
+        Log.d("TAG", "onEvent LoginEvent " + event.isSuccessfull());
+        if (event.isSuccessfull()) {
+            updateView(event.getUser());
+        }
     }
 }

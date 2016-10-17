@@ -3,4 +3,8 @@
     <dimen name="padding.small">5dp</dimen>
     <dimen name="padding.medium">10dp</dimen>
     <dimen name="padding.large">15dp</dimen>
+
+    <dimen name="text.size.small">10sp</dimen>
+    <dimen name="text.size.medium">15sp</dimen>
+    <dimen name="text.size.large">20sp</dimen>
 </resources>

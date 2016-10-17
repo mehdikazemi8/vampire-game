@@ -20,6 +20,7 @@ import java.io.IOException;
 
 import ir.ugstudio.vampire.R;
 import ir.ugstudio.vampire.VampireApp;
+import ir.ugstudio.vampire.async.GetProfile;
 import ir.ugstudio.vampire.managers.CacheManager;
 import ir.ugstudio.vampire.managers.UserManager;
 import ir.ugstudio.vampire.models.QuotesResponse;
@@ -101,6 +102,8 @@ public class AttackDialog extends Dialog implements View.OnClickListener {
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 Log.d("TAG", "attack " + response.message());
                 if(response.isSuccessful()) {
+                    GetProfile.run(getContext());
+
                     Log.d("TAG", "xxx " + response.message());
                     String result = "IOEXception";
                     try {
