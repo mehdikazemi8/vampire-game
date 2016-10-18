@@ -1,7 +1,6 @@
 package ir.ugstudio.vampire.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.google.gson.Gson;
 
 import java.util.List;
 

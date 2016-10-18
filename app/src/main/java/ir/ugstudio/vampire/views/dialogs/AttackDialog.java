@@ -12,11 +12,13 @@ import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
+import java.util.Random;
 
 import ir.ugstudio.vampire.R;
 import ir.ugstudio.vampire.VampireApp;
@@ -40,6 +42,8 @@ public class AttackDialog extends Dialog implements View.OnClickListener {
     private Button attackButton;
     private Spinner quotesSpinner;
 
+    private ImageView avatar;
+
     public AttackDialog(Context context, String usernameStr) {
         super(context);
         this.usernameStr = usernameStr;
@@ -62,9 +66,21 @@ public class AttackDialog extends Dialog implements View.OnClickListener {
         attackButton = (Button) findViewById(R.id.attack_button);
         quotesSpinner = (Spinner) findViewById(R.id.quotes);
         username = (TextView) findViewById(R.id.username);
+        avatar = (ImageView) findViewById(R.id.avatar);
     }
 
     private void configure() {
+        int randNumber = new Random(System.nanoTime()).nextInt() % 3;
+        if(randNumber == 0) {
+            Log.d("TAG", "avatar female");
+            avatar.setBackgroundResource(R.drawable.female_avatar0);
+        } else if(randNumber == 1) {
+            Log.d("TAG", "avatar maleeee");
+            avatar.setBackgroundResource(R.drawable.male_avatar0);
+        } else {
+            avatar.setBackgroundResource(R.drawable.male_avatar1);
+        }
+
         attackButton.setOnClickListener(this);
         username.setText(usernameStr);
 

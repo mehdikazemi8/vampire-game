@@ -6,11 +6,13 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import ir.ugstudio.vampire.R;
+import ir.ugstudio.vampire.managers.CacheManager;
 import ir.ugstudio.vampire.utils.FontHelper;
 import ir.ugstudio.vampire.views.activities.main.adapters.MainFragmentsPagerAdapter;
 import ir.ugstudio.vampire.views.activities.main.fragments.MapFragment;

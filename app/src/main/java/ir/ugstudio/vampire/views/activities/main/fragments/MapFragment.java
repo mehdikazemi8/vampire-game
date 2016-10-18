@@ -53,7 +53,6 @@ public class MapFragment extends Fragment
     private GoogleApiClient mGoogleApiClient = null;
     private final int MIN_ZOOM = 16;
     private final int MAX_ZOOM = 17;
-    private final int RADIUS = 100;
 
     public static MapFragment getInstance() {
         return new MapFragment();
@@ -228,20 +227,20 @@ public class MapFragment extends Fragment
         LatLng newPlace = new LatLng(lat, lng);
         googleMap.addMarker(new MarkerOptions().position(newPlace).title(CacheManager.getUser().getUsername()))
                 .setIcon(
-                    BitmapDescriptorFactory.fromResource(R.drawable.vampire_red)
+                    BitmapDescriptorFactory.fromResource(R.drawable.dot)
                 );
         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(newPlace, MAX_ZOOM));
 
         googleMap.addCircle(new CircleOptions()
                 .center(newPlace)
-                .radius(RADIUS*2)
+                .radius(CacheManager.getUser().getSightRange())
                 .fillColor(Color.parseColor("#33AAAAAA"))
                 .strokeColor(Color.parseColor("#00FFFFFF"))
         );
 
         googleMap.addCircle(new CircleOptions()
                 .center(newPlace)
-                .radius(RADIUS)
+                .radius(CacheManager.getUser().getAttackRange())
                 .fillColor(Color.parseColor("#44AAAAAA"))
                 .strokeColor(Color.parseColor("#00FFFFFF"))
         );
@@ -252,18 +251,27 @@ public class MapFragment extends Fragment
 
                 if(response.isSuccessful()) {
 
+                    MarkerOptions marker = new MarkerOptions();
                     for(User user : response.body().getVampires()) {
-                        googleMap.addMarker(new MarkerOptions().position(
-                                new LatLng(user.getGeo().get(0), user.getGeo().get(1))
-                        ).title(user.getUsername()));
+                        marker.position(new LatLng(user.getGeo().get(0), user.getGeo().get(1)));
+                        marker.title(user.getUsername());
+                        if(user.getLifestat().equals("dead")) {
+                            marker.icon(BitmapDescriptorFactory.fromResource(R.drawable.vampire_black));
+                        } else {
+                            marker.icon(BitmapDescriptorFactory.fromResource(R.drawable.vampire_red));
+                        }
+                        googleMap.addMarker(marker);
                     }
 
                     for(User user : response.body().getHunters()) {
-                        googleMap.addMarker(new MarkerOptions().position(
-                                new LatLng(user.getGeo().get(0), user.getGeo().get(1))
-                        ).title(user.getUsername())).setIcon(
-                                BitmapDescriptorFactory.fromResource(R.drawable.vampire_red)
-                        );
+                        marker.position(new LatLng(user.getGeo().get(0), user.getGeo().get(1)));
+                        marker.title(user.getUsername());
+                        if(user.getLifestat().equals("dead")) {
+                            marker.icon(BitmapDescriptorFactory.fromResource(R.drawable.hunter_black));
+                        } else {
+                            marker.icon(BitmapDescriptorFactory.fromResource(R.drawable.hunter_red));
+                        }
+                        googleMap.addMarker(marker);
                     }
                 } else {
                     Log.d("TAG", "aaa notSuccess " + response.message());

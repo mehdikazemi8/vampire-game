@@ -7,14 +7,41 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class User extends BaseModel {
     private String username;
+    private String lifestat;
     private String role;
     private Integer rank;
     private Integer score;
     private List<Double> geo;
     private String token;
     private Integer coin;
+    private Integer attackRange;
+    private Integer sightRange;
 
     public User() {
+    }
+
+    public String getLifestat() {
+        return lifestat;
+    }
+
+    public void setLifestat(String lifestat) {
+        this.lifestat = lifestat;
+    }
+
+    public Integer getAttackRange() {
+        return attackRange;
+    }
+
+    public void setAttackRange(Integer attackRange) {
+        this.attackRange = attackRange;
+    }
+
+    public Integer getSightRange() {
+        return sightRange;
+    }
+
+    public void setSightRange(Integer sightRange) {
+        this.sightRange = sightRange;
     }
 
     public Integer getScore() {

@@ -13,6 +13,8 @@
     <string name="password">رمز عبور</string>
     <string name="login">ورود</string>
 
+    <string name="desc.avatar">avatar</string>
+
     <string-array name="player_type_keys">
         <item>نوع بازیگر</item>
         <item>شکارچی</item>
