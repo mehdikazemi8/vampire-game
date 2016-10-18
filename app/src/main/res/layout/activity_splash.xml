@@ -7,7 +7,7 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_centerInParent="true"
-        android:src="@drawable/vampire"
+        android:src="@drawable/vampire_red"
         android:layout_height="wrap_content" />
 
 </RelativeLayout>

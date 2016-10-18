@@ -1,6 +1,7 @@
 package ir.ugstudio.vampire.views.activities.main.fragments;
 
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.location.Location;
 import android.os.Bundle;
@@ -22,8 +23,6 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
@@ -162,11 +161,15 @@ public class MapFragment extends Fragment
     public boolean onMarkerClick(Marker marker) {
         Log.d("TAG", "onMarkerClick " + marker.getId() + " " + marker.getTitle());
 
+        if(marker.getTitle().equals(CacheManager.getUser().getUsername())) {
+            return true;
+        }
+
         AttackDialog dialog = new AttackDialog(getActivity(), marker.getTitle());
 //        AttackDialog dialog = new AttackDialog(getActivity(), "user-17");
         dialog.show();
 
-        return false;
+        return true;
     }
 
     @Override
@@ -223,18 +226,24 @@ public class MapFragment extends Fragment
 
         googleMap.clear();
         LatLng newPlace = new LatLng(lat, lng);
-        googleMap.addMarker(new MarkerOptions().position(newPlace)).setIcon(
-                BitmapDescriptorFactory.fromResource(R.drawable.hunter)
-        );
+        googleMap.addMarker(new MarkerOptions().position(newPlace).title(CacheManager.getUser().getUsername()))
+                .setIcon(
+                    BitmapDescriptorFactory.fromResource(R.drawable.vampire_red)
+                );
         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(newPlace, MAX_ZOOM));
 
-        // todo: delete this
-        googleMap.addMarker(new MarkerOptions().position(new LatLng(35.640225, 52.246952)).title("یه جا دیگه"));
+        googleMap.addCircle(new CircleOptions()
+                .center(newPlace)
+                .radius(RADIUS*2)
+                .fillColor(Color.parseColor("#33AAAAAA"))
+                .strokeColor(Color.parseColor("#00FFFFFF"))
+        );
 
         googleMap.addCircle(new CircleOptions()
                 .center(newPlace)
                 .radius(RADIUS)
-                .strokeColor(android.graphics.Color.RED)
+                .fillColor(Color.parseColor("#44AAAAAA"))
+                .strokeColor(Color.parseColor("#00FFFFFF"))
         );
 
         call.enqueue(new Callback<MapResponse>() {
@@ -243,21 +252,17 @@ public class MapFragment extends Fragment
 
                 if(response.isSuccessful()) {
 
-                    Log.d("TAG", "hhh " + response.body().serialize());
-
-                    for(User user : response.body().getOpponents()) {
-                        Log.d("TAG", "aaa " + user.getUsername() + " " + user.getGeo().get(0) + ", " + user.getGeo().get(1));
+                    for(User user : response.body().getVampires()) {
                         googleMap.addMarker(new MarkerOptions().position(
                                 new LatLng(user.getGeo().get(0), user.getGeo().get(1))
                         ).title(user.getUsername()));
                     }
 
-                    for(User user : response.body().getAllies()) {
-                        Log.d("TAG", "aaa " + user.getUsername() + " " + user.getGeo().get(0) + ", " + user.getGeo().get(1));
+                    for(User user : response.body().getHunters()) {
                         googleMap.addMarker(new MarkerOptions().position(
                                 new LatLng(user.getGeo().get(0), user.getGeo().get(1))
                         ).title(user.getUsername())).setIcon(
-                                BitmapDescriptorFactory.fromResource(R.drawable.hunter1)
+                                BitmapDescriptorFactory.fromResource(R.drawable.vampire_red)
                         );
                     }
                 } else {

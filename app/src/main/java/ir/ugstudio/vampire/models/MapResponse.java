@@ -7,25 +7,25 @@ import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class MapResponse extends BaseModel {
-    private List<User> opponents;
-    private List<User> allies;
+    private List<User> vampires;
+    private List<User> hunters;
 
     public MapResponse() {
     }
 
-    public List<User> getOpponents() {
-        return opponents;
+    public List<User> getVampires() {
+        return vampires;
     }
 
-    public void setOpponents(List<User> opponents) {
-        this.opponents = opponents;
+    public void setVampires(List<User> vampires) {
+        this.vampires = vampires;
     }
 
-    public List<User> getAllies() {
-        return allies;
+    public List<User> getHunters() {
+        return hunters;
     }
 
-    public void setAllies(List<User> allies) {
-        this.allies = allies;
+    public void setHunters(List<User> hunters) {
+        this.hunters = hunters;
     }
 }
