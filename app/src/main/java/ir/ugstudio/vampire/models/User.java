@@ -16,6 +16,7 @@ public class User extends BaseModel {
     private Integer coin;
     private Integer attackRange;
     private Integer sightRange;
+    private Integer avatar;
 
     public User() {
     }
@@ -98,5 +99,13 @@ public class User extends BaseModel {
 
     public void setCoin(Integer coin) {
         this.coin = coin;
+    }
+
+    public Integer getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(Integer avatar) {
+        this.avatar = avatar;
     }
 }

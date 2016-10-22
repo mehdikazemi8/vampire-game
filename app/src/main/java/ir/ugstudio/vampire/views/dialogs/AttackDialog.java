@@ -23,9 +23,11 @@ import java.util.Random;
 import ir.ugstudio.vampire.R;
 import ir.ugstudio.vampire.VampireApp;
 import ir.ugstudio.vampire.async.GetProfile;
+import ir.ugstudio.vampire.managers.AvatarManager;
 import ir.ugstudio.vampire.managers.CacheManager;
 import ir.ugstudio.vampire.managers.UserManager;
 import ir.ugstudio.vampire.models.QuotesResponse;
+import ir.ugstudio.vampire.models.User;
 import ir.ugstudio.vampire.utils.MemoryCache;
 import ir.ugstudio.vampire.views.activities.main.MainActivity;
 import okhttp3.ResponseBody;
@@ -35,7 +37,7 @@ import retrofit2.Response;
 
 public class AttackDialog extends Dialog implements View.OnClickListener {
 
-    private String usernameStr = null;
+    private User user = null;
     private String messageStr = null;
 
     private TextView username;
@@ -44,9 +46,9 @@ public class AttackDialog extends Dialog implements View.OnClickListener {
 
     private ImageView avatar;
 
-    public AttackDialog(Context context, String usernameStr) {
+    public AttackDialog(Context context, User user) {
         super(context);
-        this.usernameStr = usernameStr;
+        this.user = user;
     }
 
     @Override
@@ -70,19 +72,10 @@ public class AttackDialog extends Dialog implements View.OnClickListener {
     }
 
     private void configure() {
-        int randNumber = new Random(System.nanoTime()).nextInt() % 3;
-        if(randNumber == 0) {
-            Log.d("TAG", "avatar female");
-            avatar.setBackgroundResource(R.drawable.female_avatar0);
-        } else if(randNumber == 1) {
-            Log.d("TAG", "avatar maleeee");
-            avatar.setBackgroundResource(R.drawable.male_avatar0);
-        } else {
-            avatar.setBackgroundResource(R.drawable.male_avatar1);
-        }
+        avatar.setBackgroundResource(AvatarManager.getResourceId(getContext(), user.getAvatar()));
 
         attackButton.setOnClickListener(this);
-        username.setText(usernameStr);
+        username.setText(user.getUsername());
 
         // configure spinner
         final QuotesResponse quotes = CacheManager.getQuotes();
@@ -110,7 +103,7 @@ public class AttackDialog extends Dialog implements View.OnClickListener {
                 UserManager.readToken(getContext()),
                 lastLocation.getLatitude(),
                 lastLocation.getLongitude(),
-                usernameStr,
+                user.getUsername(),
                 messageStr
         );
         call.enqueue(new Callback<ResponseBody>() {

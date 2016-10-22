@@ -83,6 +83,7 @@ public class MapFragment extends Fragment
     private MarkerOptions sampleTower = new MarkerOptions();
     private Marker sampleTowerMarker = null;
     private List<Marker> markers = new ArrayList<>();
+    private MapResponse lastResponse = null;
 
     @Nullable
     @Override
@@ -185,7 +186,7 @@ public class MapFragment extends Fragment
             return true;
         }
 
-        AttackDialog dialog = new AttackDialog(getActivity(), marker.getTitle());
+        AttackDialog dialog = new AttackDialog(getActivity(), getUser(marker.getTitle()));
 //        AttackDialog dialog = new AttackDialog(getActivity(), "user-17");
         dialog.show();
 
@@ -249,12 +250,6 @@ public class MapFragment extends Fragment
             lastRequestTime = System.currentTimeMillis();
         }
 
-        Call<MapResponse> call = VampireApp.createMapApi().getMap(
-                UserManager.readToken(getActivity()),
-                lat,
-                lng
-        );
-
         googleMap.clear();
         sampleTowerMarker = null;
 
@@ -286,6 +281,11 @@ public class MapFragment extends Fragment
                 .strokeColor(Color.parseColor("#00FFFFFF"))
         );
 
+        Call<MapResponse> call = VampireApp.createMapApi().getMap(
+                UserManager.readToken(getActivity()),
+                lat,
+                lng
+        );
         call.enqueue(new Callback<MapResponse>() {
             @Override
             public void onResponse(Call<MapResponse> call, Response<MapResponse> response) {
@@ -306,6 +306,7 @@ public class MapFragment extends Fragment
     }
 
     private void refreshMap(MapResponse response) {
+        lastResponse = response;
         markers.clear();
 
         MarkerOptions marker = new MarkerOptions();
@@ -342,6 +343,21 @@ public class MapFragment extends Fragment
             }
             markers.add(googleMap.addMarker(marker));
         }
+    }
+
+    User getUser(String username) {
+        if(lastResponse == null) {
+            return null;
+        }
+        for(User user : lastResponse.getHunters()) {
+            if(user.getUsername().equals(username))
+                return user;
+        }
+        for(User user : lastResponse.getVampires()) {
+            if(user.getUsername().equals(username))
+                return user;
+        }
+        return null;
     }
 
     @Override

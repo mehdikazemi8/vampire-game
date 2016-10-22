@@ -35,4 +35,16 @@
     <string name="icon.coin">F</string>
     <string name="icon.person">G</string>
 
+    <string-array name="avatars">
+        <item>@drawable/v_avatar_00</item>
+        <item>@drawable/v_avatar_01</item>
+        <item>@drawable/v_avatar_02</item>
+        <item>@drawable/v_avatar_03</item>
+        <item>@drawable/v_avatar_04</item>
+        <item>@drawable/v_avatar_05</item>
+        <item>@drawable/v_avatar_06</item>
+        <item>@drawable/v_avatar_07</item>
+        <item>@drawable/v_avatar_08</item>
+    </string-array>
+
 </resources>
