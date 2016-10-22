@@ -1,0 +1,39 @@
+getplace
+	vaghti morde bood berim roo halate heal
+	getplace konim neshoon bedim
+	
+Heal
+	agar morde boodam faghat hospital'ha ro bebine, zoom in zoom out baz bashe,
+	baraye heal, lat & long khodam ro mikhad be hamrahe hospitalId
+
+BUY
+	HealByCoin -- ke hamoon BUY hastesh
+	stuffId - 23 -> heal
+
+3 ta icon
+	tower + eye
+	tower + plus
+	tower + golden coin
+
+button tower + plus
+	hamin halat ke darim
+
+Join Tower
+	click mikone rooye tower age join shodani bood join mishe,
+	age dozdi kardani bood midozde
+
+show list of my towers ( vaghti button ro zad ) (tower + eye)
+	ye button ke zad zoom out konam ta hameye borje'haash ro bebine ba'ad rooye yekish click kone
+	vaghti ke rooye yekish click kard TowerMapView ro call konim va zoom konim rooye oon ye tower
+
+Tower from attack
+	tooye hamin halat ke zoom kardim rooye ye borjesh mitoone bere too kare kill kardan az tarighe oon Tower
+
+Collect Tower Coin
+	ye button dige ezafe mishe ke bayad roosh bezane, vaghti zad zoom out mishe va tower'hayee ke coin daran
+	neshoon dade mishan, tep tep tep mizane rooshoon va coin'ha ro collect mikone miad gom mishe mire 
+
+Steal From Tower
+	like attack
+	vaghti ke rooye ye tower zad mifahme ke mitoone attack kone ya join kone
+	age mitoonest attack kone, attack mikone dige 
