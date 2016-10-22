@@ -35,10 +35,11 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import ir.ugstudio.vampire.R;
 import ir.ugstudio.vampire.VampireApp;
-import ir.ugstudio.vampire.async.GetProfile;
 import ir.ugstudio.vampire.events.LoginEvent;
 import ir.ugstudio.vampire.managers.CacheManager;
 import ir.ugstudio.vampire.managers.UserManager;
@@ -53,8 +54,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MapFragment extends Fragment
-    implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener,
-        GoogleApiClient.ConnectionCallbacks, LocationListener, View.OnClickListener, GoogleMap.OnMapClickListener {
+        implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener,
+        GoogleApiClient.ConnectionCallbacks, LocationListener, View.OnClickListener,
+        GoogleMap.OnCameraMoveListener {
 
     private GoogleMap googleMap;
     private GoogleApiClient mGoogleApiClient = null;
@@ -77,6 +79,10 @@ public class MapFragment extends Fragment
     private TextView coinIcon;
     private TextView scoreIcon;
     private TextView rankIcon;
+
+    private MarkerOptions sampleTower = new MarkerOptions();
+    private Marker sampleTowerMarker = null;
+    private List<Marker> markers = new ArrayList<>();
 
     @Nullable
     @Override
@@ -151,7 +157,7 @@ public class MapFragment extends Fragment
 
         googleMap = myMap;
         googleMap.setOnMarkerClickListener(this);
-        googleMap.setOnMapClickListener(this);
+        googleMap.setOnCameraMoveListener(this);
 
 //        googleMap.getUiSettings().setZoomGesturesEnabled(false);
         googleMap.getUiSettings().setRotateGesturesEnabled(false);
@@ -163,10 +169,6 @@ public class MapFragment extends Fragment
         LatLng myPlace = new LatLng(35.702945, 51.405907);
         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(myPlace, MAX_ZOOM));
 
-        googleMap.addMarker(new MarkerOptions().position(new LatLng(35.640225, 52.246952)).title("یه جا دیگه"));
-        googleMap.addMarker(new MarkerOptions().position(new LatLng(35.702799, 51.405684)).title("یه جا دیگه"));
-        googleMap.addMarker(new MarkerOptions().position(new LatLng(35.702801, 51.405518)).title("یه جا دیگه"));
-        googleMap.addMarker(new MarkerOptions().position(new LatLng(35.702744, 51.405556)).title("یه جا دیگه"));
         googleMap.addMarker(new MarkerOptions().position(new LatLng(35.702456, 51.406055)).title("یه جا دیگه"));
     }
 
@@ -174,7 +176,12 @@ public class MapFragment extends Fragment
     public boolean onMarkerClick(Marker marker) {
         Log.d("TAG", "onMarkerClick " + marker.getId() + " " + marker.getTitle());
 
-        if(marker.getTitle().equals(CacheManager.getUser().getUsername())) {
+        if (marker.getTitle().equals(CacheManager.getUser().getUsername())) {
+            return true;
+        }
+
+        if(marker.getTitle().equals("SampleTower")) {
+            addTowerNow(marker.getPosition());
             return true;
         }
 
@@ -194,7 +201,7 @@ public class MapFragment extends Fragment
     public void onConnected(@Nullable Bundle bundle) {
         Log.d("TAG", "onConnected");
 
-        if(ContextCompat.checkSelfPermission(getActivity(),
+        if (ContextCompat.checkSelfPermission(getActivity(),
                 android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
 
             LocationRequest mLocationRequest = LocationRequest.create();
@@ -228,16 +235,19 @@ public class MapFragment extends Fragment
     }
 
     private void requestForMap(final double lat, final double lng, boolean forceRequest) {
-        if(googleMap == null) {
+        if (googleMap == null) {
             return;
         }
 
-        if(System.currentTimeMillis() - lastRequestTime < 4000 && !forceRequest) {
+        if (addingTowerMode) {
+            return;
+        }
+
+        if (System.currentTimeMillis() - lastRequestTime < 4000 && !forceRequest) {
             return;
         } else {
             lastRequestTime = System.currentTimeMillis();
         }
-
 
         Call<MapResponse> call = VampireApp.createMapApi().getMap(
                 UserManager.readToken(getActivity()),
@@ -246,19 +256,21 @@ public class MapFragment extends Fragment
         );
 
         googleMap.clear();
+        sampleTowerMarker = null;
+
         LatLng newPlace = new LatLng(lat, lng);
         googleMap.addMarker(new MarkerOptions().position(newPlace).title(CacheManager.getUser().getUsername()))
                 .setIcon(
-                    BitmapDescriptorFactory.fromResource(R.drawable.dot)
+                        BitmapDescriptorFactory.fromResource(R.drawable.dot)
                 );
 
-        if(addingTowerMode) {
+        if (addingTowerMode) {
             googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(newPlace, MIN_ZOOM));
         } else {
             googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(newPlace, MAX_ZOOM));
         }
 
-        if(!addingTowerMode) {
+        if (!addingTowerMode) {
             googleMap.addCircle(new CircleOptions()
                     .center(newPlace)
                     .radius(CacheManager.getUser().getSightRange())
@@ -278,7 +290,7 @@ public class MapFragment extends Fragment
             @Override
             public void onResponse(Call<MapResponse> call, Response<MapResponse> response) {
 
-                if(response.isSuccessful()) {
+                if (response.isSuccessful()) {
                     refreshMap(response.body());
                 } else {
                     Log.d("TAG", "aaa notSuccess " + response.message());
@@ -294,48 +306,41 @@ public class MapFragment extends Fragment
     }
 
     private void refreshMap(MapResponse response) {
+        markers.clear();
+
         MarkerOptions marker = new MarkerOptions();
 
-        for(Tower tower : response.getTowers()) {
+        for (Tower tower : response.getTowers()) {
             marker.position(new LatLng(tower.getGeo().get(0), tower.getGeo().get(1)));
             marker.title("Tower");
             marker.icon(BitmapDescriptorFactory.fromResource(R.drawable.tower));
-            googleMap.addMarker(marker);
-
-            if(addingTowerMode) {
-                googleMap.addCircle(new CircleOptions()
-                        .center(new LatLng(tower.getGeo().get(0), tower.getGeo().get(1)))
-                        .radius(CacheManager.getUser().getAttackRange())
-                        .fillColor(Color.parseColor("#33AA5555"))
-                        .strokeColor(Color.parseColor("#00FFFFFF"))
-                );
-            }
+            markers.add(googleMap.addMarker(marker));
         }
 
-        if(addingTowerMode) {
+        if (addingTowerMode) {
             return;
         }
 
-        for(User user : response.getVampires()) {
+        for (User user : response.getVampires()) {
             marker.position(new LatLng(user.getGeo().get(0), user.getGeo().get(1)));
             marker.title(user.getUsername());
-            if(user.getLifestat().equals("dead")) {
+            if (user.getLifestat().equals("dead")) {
                 marker.icon(BitmapDescriptorFactory.fromResource(R.drawable.vampire_black));
             } else {
                 marker.icon(BitmapDescriptorFactory.fromResource(R.drawable.vampire_red));
             }
-            googleMap.addMarker(marker);
+            markers.add(googleMap.addMarker(marker));
         }
 
-        for(User user : response.getHunters()) {
+        for (User user : response.getHunters()) {
             marker.position(new LatLng(user.getGeo().get(0), user.getGeo().get(1)));
             marker.title(user.getUsername());
-            if(user.getLifestat().equals("dead")) {
+            if (user.getLifestat().equals("dead")) {
                 marker.icon(BitmapDescriptorFactory.fromResource(R.drawable.hunter_black));
             } else {
                 marker.icon(BitmapDescriptorFactory.fromResource(R.drawable.hunter_red));
             }
-            googleMap.addMarker(marker);
+            markers.add(googleMap.addMarker(marker));
         }
     }
 
@@ -375,8 +380,28 @@ public class MapFragment extends Fragment
     }
 
     private void handleAddTower() {
+        addTower.setVisibility(View.INVISIBLE);
+
+        Log.d("TAG", "" + googleMap.getCameraPosition().target);
+
+        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
+                new LatLng(CacheManager.getLastLocation().getLatitude(), CacheManager.getLastLocation().getLongitude()), MIN_ZOOM));
+
         addingTowerMode = true;
-        requestForMap(CacheManager.getLastLocation().getLatitude(), CacheManager.getLastLocation().getLongitude(), true);
+        for (Marker marker : markers) {
+            if (marker.getTitle().equals("Tower")) {
+                googleMap.addCircle(new CircleOptions()
+                        .center(new LatLng(marker.getPosition().latitude, marker.getPosition().longitude))
+                        .radius(CacheManager.getUser().getAttackRange())
+                        .fillColor(Color.parseColor("#33AA5555"))
+                        .strokeColor(Color.parseColor("#00FFFFFF"))
+                );
+            } else {
+                marker.remove();
+            }
+        }
+        markers.clear();
+//        requestForMap(CacheManager.getLastLocation().getLatitude(), CacheManager.getLastLocation().getLongitude(), true);
     }
 
     @Override
@@ -388,17 +413,18 @@ public class MapFragment extends Fragment
         }
     }
 
-    @Override
-    public void onMapClick(LatLng position) {
+    public void addTowerNow(LatLng position) {
         Log.d("TAG", "abcd " + position.latitude + " " + position.longitude);
-        if(addingTowerMode) {
+        if (addingTowerMode) {
             addingTowerMode = false;
 
             Call<ResponseBody> call = VampireApp.createMapApi().addTower(CacheManager.getUser().getToken(), position.latitude, position.longitude);
             call.enqueue(new Callback<ResponseBody>() {
                 @Override
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                    if(response.isSuccessful()) {
+                    addTower.setVisibility(View.VISIBLE);
+
+                    if (response.isSuccessful()) {
                         String result = "IOEXception";
                         try {
                             result = response.body().string();
@@ -413,9 +439,29 @@ public class MapFragment extends Fragment
 
                 @Override
                 public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    addTower.setVisibility(View.VISIBLE);
+
                     Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
         }
     }
+
+    private void showTargetOfCamera() {
+        if (addingTowerMode) {
+            if (sampleTowerMarker == null) {
+                sampleTower.position(googleMap.getCameraPosition().target);
+                sampleTower.title("SampleTower");
+                sampleTowerMarker = googleMap.addMarker(sampleTower);
+            } else {
+                sampleTowerMarker.setPosition(googleMap.getCameraPosition().target);
+            }
+        }
+    }
+
+    @Override
+    public void onCameraMove() {
+        showTargetOfCamera();
+    }
+
 }
