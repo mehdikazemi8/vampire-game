@@ -60,6 +60,7 @@ public class RanklistFragment extends Fragment {
                     for(User user : response.body().getTop()) {
                         Log.d("TAG", "rank " + user.getUsername());
                     }
+                    response.body().getTop().addAll(response.body().getNear());
                     adapter = new RankViewAdapter(getContext(), response.body().getTop());
                     ranklist.setAdapter(adapter);
                 }

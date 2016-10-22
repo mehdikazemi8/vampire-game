@@ -71,9 +71,23 @@
 
     </LinearLayout>
 
-    <com.google.android.gms.maps.MapView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/map"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent">
+
+        <com.google.android.gms.maps.MapView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/map"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/add_tower"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="@dimen/padding.large"
+            android:clickable="true"
+            android:src="@drawable/tower" />
+    </FrameLayout>
 
 </LinearLayout>
