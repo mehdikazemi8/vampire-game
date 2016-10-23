@@ -9,12 +9,20 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.io.IOException;
 
 import ir.ugstudio.vampire.R;
+import ir.ugstudio.vampire.VampireApp;
 import ir.ugstudio.vampire.managers.CacheManager;
 import ir.ugstudio.vampire.models.Tower;
 import ir.ugstudio.vampire.utils.Consts;
 import ir.ugstudio.vampire.utils.FontHelper;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class TowerDialog extends Dialog implements View.OnClickListener {
 
@@ -73,6 +81,36 @@ public class TowerDialog extends Dialog implements View.OnClickListener {
 
     private void joinTower() {
         Log.d("TAG", "TowerDialog joinTower");
+
+        // TODO, replace towerId by real id, and place with real lat lng
+        Call<ResponseBody> call = VampireApp.createMapApi().joinTower(
+                CacheManager.getUser().getToken(),
+                35.7051667019669,
+                51.40967220067977,
+                "580c93804aa20a0ba14482c1"
+        );
+
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    String result = "IOEXception";
+                    try {
+                        result = response.body().string();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    Toast.makeText(getContext(), result, Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getContext(), "NOT SUCCESSFUL", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void stealTower() {

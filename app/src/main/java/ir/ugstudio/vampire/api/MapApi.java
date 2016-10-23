@@ -48,4 +48,13 @@ public interface MapApi {
             @Field("lat") Double lat,
             @Field("lng") Double lng
     );
+
+    @FormUrlEncoded
+    @POST("jointower")
+    Call<ResponseBody> joinTower(
+            @Field("token") String token,
+            @Field("lat") Double lat,
+            @Field("lng") Double lng,
+            @Field("towerId") String towerId
+    );
 }
