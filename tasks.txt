@@ -18,14 +18,14 @@ BUY
 	button tower + plus
 		hamin halat ke darim
 
-Join Tower
-	click mikone rooye tower age join shodani bood join mishe,
-	age dozdi kardani bood midozde
+	Join Tower
+		click mikone rooye tower age join shodani bood join mishe,
+		age dozdi kardani bood midozde
 
-Steal From Tower
-	like attack
-	vaghti ke rooye ye tower zad mifahme ke mitoone attack kone ya join kone
-	age mitoonest attack kone, attack mikone dige 
+	Steal From Tower
+		like attack
+		vaghti ke rooye ye tower zad mifahme ke mitoone attack kone ya join kone
+		age mitoonest attack kone, attack mikone dige 
 
 show list of my towers ( vaghti button ro zad ) (tower + eye)
 	ye button ke zad zoom out konam ta hameye borje'haash ro bebine ba'ad rooye yekish click kone

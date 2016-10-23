@@ -36,7 +36,9 @@ import org.greenrobot.eventbus.Subscribe;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 import ir.ugstudio.vampire.R;
 import ir.ugstudio.vampire.VampireApp;
@@ -72,6 +74,8 @@ public class MapFragment extends Fragment
     private final int MIN_ZOOM_HEAL_MODE = 14;
     private final int MAX_ZOOM_HEAL_MODE = 17;
 
+    private Queue<Tower> towersToCollectCoin = new LinkedList<>();
+
     private static long lastRequestTime = 0;
 
     public static MapFragment getInstance() {
@@ -89,6 +93,7 @@ public class MapFragment extends Fragment
 
     boolean addingTowerMode = false;
     boolean healMode = false;
+    boolean collectCoinsMode = false;
 
     private TextView coinIcon;
     private TextView scoreIcon;
@@ -167,6 +172,8 @@ public class MapFragment extends Fragment
         updateView(CacheManager.getUser());
 
         addTower.setOnClickListener(this);
+        seeMyTowers.setOnClickListener(this);
+        collectCoinFromMyTowers.setOnClickListener(this);
     }
 
     @Override
@@ -217,8 +224,13 @@ public class MapFragment extends Fragment
         } else if(marker.getTag() instanceof Tower) {
             Tower tower = (Tower) marker.getTag();
             Log.d("TAG", "onMarkerClick TOWER " + tower.getRole() + " " + CacheManager.getUser().getRole());
-            TowerDialog dialog = new TowerDialog(getActivity(), (Tower) marker.getTag());
-            dialog.show();
+
+            if(collectCoinsMode) {
+                showNextTowerToCollect();
+            } else {
+                TowerDialog dialog = new TowerDialog(getActivity(), (Tower) marker.getTag());
+                dialog.show();
+            }
         }
 
         return true;
@@ -262,6 +274,10 @@ public class MapFragment extends Fragment
         }
 
         if(healMode) {
+            return;
+        }
+
+        if(collectCoinsMode) {
             return;
         }
 
@@ -447,11 +463,55 @@ public class MapFragment extends Fragment
 //        requestForMap(CacheManager.getLastLocation().getLatitude(), CacheManager.getLastLocation().getLongitude(), true);
     }
 
+    private void startCollectCoinsMode() {
+        collectCoinsMode = true;
+
+        googleMap.clear();
+
+        User user = CacheManager.getUser();
+        towersToCollectCoin.clear();
+        for(Tower tower : user.getTowers()) {
+            if(tower.getCoin() != 0) {
+                towersToCollectCoin.add(tower);
+            }
+        }
+
+        showNextTowerToCollect();
+    }
+
+    private void showNextTowerToCollect() {
+        if(towersToCollectCoin.isEmpty()) {
+            finishCollectCoinsMode();
+            return;
+        }
+
+        Tower nextTower = towersToCollectCoin.remove();
+        LatLng towerPlace = new LatLng(nextTower.getGeo().get(0), nextTower.getGeo().get(1));
+
+        MarkerOptions markerOptions = new MarkerOptions();
+        markerOptions.position(towerPlace);
+        markerOptions.title(String.valueOf(nextTower.getCoin()));
+        markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.tower));
+        Marker marker = googleMap.addMarker(markerOptions);
+        marker.setTag(nextTower);
+
+        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(towerPlace, MIN_ZOOM));
+    }
+
+    private void finishCollectCoinsMode() {
+        collectCoinsMode = false;
+        requestForMap(CacheManager.getLastLocation().getLatitude(), CacheManager.getLastLocation().getLongitude(), false);
+    }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.add_tower:
                 handleAddTower();
+                break;
+
+            case R.id.collect_coin_from_my_towers:
+                startCollectCoinsMode();
                 break;
         }
     }

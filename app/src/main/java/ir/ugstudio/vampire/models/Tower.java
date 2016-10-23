@@ -11,6 +11,7 @@ public class Tower {
     private List<String> wall;
     private String role;
     private List<Double> geo;
+    private String _id;
 
     public Tower() {
     }
@@ -53,5 +54,13 @@ public class Tower {
 
     public void setGeo(List<Double> geo) {
         this.geo = geo;
+    }
+
+    public String get_id() {
+        return _id;
+    }
+
+    public void set_id(String _id) {
+        this._id = _id;
     }
 }
