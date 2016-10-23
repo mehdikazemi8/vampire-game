@@ -8,6 +8,14 @@
     <string name="btn_registered_before">قبلا ثبت‌نام کرده‌ام</string>
     <string name="btn_register">ثبت نام</string>
     <string name="btn_attack">حمله</string>
+    <string name="btn_confirm">خب!</string>
+    <string name="btn_go_to_hospital">میرم نزدیک بیمارستان</string>
+    <string name="btn_buy_healer">یه درمان‌کننده می‌خرم</string>
+
+    <string name="heal_you_are_dead">به نظر وقتی نبودی یه نفر زده داغونت کرده :(</string>
+    <string name="heal_you_have_two_options">حالا ۲ راه داری</string>
+    <string name="heal_you_can_go_to_hospital">می‌تونی بری نزدیک یه بیمارستان توی شهر و خودت رو درمان کنی</string>
+    <string name="heal_you_can_buy_healer">می‌تونی یه درمان‌کننده بخری و درجا خوب شی</string>
 
     <string name="username">نام کاربری</string>
     <string name="password">رمز عبور</string>

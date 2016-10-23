@@ -1,6 +1,7 @@
 package ir.ugstudio.vampire.views.activities.main;
 
 import android.graphics.Typeface;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -12,7 +13,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import ir.ugstudio.vampire.R;
+import ir.ugstudio.vampire.async.GetQuotes;
 import ir.ugstudio.vampire.managers.CacheManager;
+import ir.ugstudio.vampire.utils.Consts;
 import ir.ugstudio.vampire.utils.FontHelper;
 import ir.ugstudio.vampire.views.activities.main.adapters.MainFragmentsPagerAdapter;
 import ir.ugstudio.vampire.views.activities.main.fragments.MapFragment;

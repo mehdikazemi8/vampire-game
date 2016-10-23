@@ -14,14 +14,11 @@ import android.widget.EditText;
 
 import ir.ugstudio.vampire.R;
 import ir.ugstudio.vampire.VampireApp;
-import ir.ugstudio.vampire.async.GetPlaces;
 import ir.ugstudio.vampire.async.GetQuotes;
 import ir.ugstudio.vampire.managers.CacheManager;
 import ir.ugstudio.vampire.managers.UserManager;
 import ir.ugstudio.vampire.models.User;
 import ir.ugstudio.vampire.views.activities.main.MainActivity;
-import ir.ugstudio.vampire.views.activities.register.RegisterActivity;
-import ir.ugstudio.vampire.views.activities.splash.SplashActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -71,7 +68,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         call.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
-                if(response.isSuccessful()) {
+                if (response.isSuccessful()) {
                     Log.d("TAG", "dddd " + response.body().serialize());
                     startMainActivity(response.body());
                 } else {
@@ -94,7 +91,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         CacheManager.setUser(user);
 
         new GetQuotes(getActivity()).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-        new GetPlaces(getActivity()).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+//        new GetPlaces(getActivity()).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
         startActivity(new Intent(getActivity(), MainActivity.class));
         // todo check this line

@@ -40,13 +40,18 @@ import java.util.List;
 
 import ir.ugstudio.vampire.R;
 import ir.ugstudio.vampire.VampireApp;
+import ir.ugstudio.vampire.async.GetPlaces;
 import ir.ugstudio.vampire.events.LoginEvent;
 import ir.ugstudio.vampire.managers.CacheManager;
 import ir.ugstudio.vampire.managers.UserManager;
 import ir.ugstudio.vampire.models.MapResponse;
+import ir.ugstudio.vampire.models.Place;
+import ir.ugstudio.vampire.models.PlacesResponse;
 import ir.ugstudio.vampire.models.Tower;
 import ir.ugstudio.vampire.models.User;
+import ir.ugstudio.vampire.utils.Consts;
 import ir.ugstudio.vampire.utils.FontHelper;
+import ir.ugstudio.vampire.views.dialogs.HealDialog;
 import ir.ugstudio.vampire.views.dialogs.AttackDialog;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -62,6 +67,10 @@ public class MapFragment extends Fragment
     private GoogleApiClient mGoogleApiClient = null;
     private final int MIN_ZOOM = 16;
     private final int MAX_ZOOM = 17;
+
+    private final int MIN_ZOOM_HEAL_MODE = 14;
+    private final int MAX_ZOOM_HEAL_MODE = 17;
+
     private static long lastRequestTime = 0;
 
     public static MapFragment getInstance() {
@@ -74,7 +83,9 @@ public class MapFragment extends Fragment
     private TextView score;
     private TextView rank;
     private FloatingActionButton addTower;
+
     boolean addingTowerMode = false;
+    boolean healMode = false;
 
     private TextView coinIcon;
     private TextView scoreIcon;
@@ -171,6 +182,10 @@ public class MapFragment extends Fragment
         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(myPlace, MAX_ZOOM));
 
         googleMap.addMarker(new MarkerOptions().position(new LatLng(35.702456, 51.406055)).title("یه جا دیگه"));
+
+        if (CacheManager.getUser().getLifestat().equals(Consts.LIFESTAT_DEAD)) {
+            GetPlaces.run(getActivity());
+        }
     }
 
     @Override
@@ -181,7 +196,7 @@ public class MapFragment extends Fragment
             return true;
         }
 
-        if(marker.getTitle().equals("SampleTower")) {
+        if (marker.getTitle().equals("SampleTower")) {
             addTowerNow(marker.getPosition());
             return true;
         }
@@ -244,6 +259,10 @@ public class MapFragment extends Fragment
             return;
         }
 
+        if(healMode) {
+            return;
+        }
+
         if (System.currentTimeMillis() - lastRequestTime < 4000 && !forceRequest) {
             return;
         } else {
@@ -253,17 +272,13 @@ public class MapFragment extends Fragment
         googleMap.clear();
         sampleTowerMarker = null;
 
-        LatLng newPlace = new LatLng(lat, lng);
-        googleMap.addMarker(new MarkerOptions().position(newPlace).title(CacheManager.getUser().getUsername()))
-                .setIcon(
-                        BitmapDescriptorFactory.fromResource(R.drawable.dot)
-                );
-
         if (addingTowerMode) {
-            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(newPlace, MIN_ZOOM));
+            addMeToMap(lat, lng, MIN_ZOOM, true);
         } else {
-            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(newPlace, MAX_ZOOM));
+            addMeToMap(lat, lng, MAX_ZOOM, true);
         }
+
+        LatLng newPlace = new LatLng(lat, lng);
 
         if (!addingTowerMode) {
             googleMap.addCircle(new CircleOptions()
@@ -291,7 +306,9 @@ public class MapFragment extends Fragment
             public void onResponse(Call<MapResponse> call, Response<MapResponse> response) {
 
                 if (response.isSuccessful()) {
-                    refreshMap(response.body());
+                    if(!healMode) {
+                        refreshMap(response.body());
+                    }
                 } else {
                     Log.d("TAG", "aaa notSuccess " + response.message());
                 }
@@ -346,15 +363,15 @@ public class MapFragment extends Fragment
     }
 
     User getUser(String username) {
-        if(lastResponse == null) {
+        if (lastResponse == null) {
             return null;
         }
-        for(User user : lastResponse.getHunters()) {
-            if(user.getUsername().equals(username))
+        for (User user : lastResponse.getHunters()) {
+            if (user.getUsername().equals(username))
                 return user;
         }
-        for(User user : lastResponse.getVampires()) {
-            if(user.getUsername().equals(username))
+        for (User user : lastResponse.getVampires()) {
+            if (user.getUsername().equals(username))
                 return user;
         }
         return null;
@@ -480,4 +497,61 @@ public class MapFragment extends Fragment
         showTargetOfCamera();
     }
 
+    @Subscribe
+    public void onEvent(PlacesResponse response) {
+        Log.d("TAG", "onEvent PlacesResponse " + response.getPlaces().size());
+        startHealMode(response.getPlaces());
+    }
+
+    private void startHealMode(List<Place> places) {
+        Log.d("TAG", "startHealMode");
+        healMode = true;
+
+        googleMap.setMinZoomPreference(MIN_ZOOM_HEAL_MODE);
+        googleMap.setMaxZoomPreference(MAX_ZOOM_HEAL_MODE);
+
+        googleMap.clear();
+        markers.clear();
+
+        MarkerOptions markerOptions = new MarkerOptions();
+        markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.hospital));
+        for(Place place : places) {
+            LatLng newPlace = new LatLng(place.getGeo().get(0), place.getGeo().get(1));
+            markerOptions.position(newPlace);
+            markerOptions.title(place.getPlaceId());
+            markers.add( googleMap.addMarker(markerOptions) );
+        }
+
+        addMeToMap(CacheManager.getLastLocation().getLatitude(), CacheManager.getLastLocation().getLongitude(), MIN_ZOOM_HEAL_MODE, false);
+    }
+
+    private void addMeToMap(double lat, double lng, float zoomLevel, final boolean putDot) {
+        LatLng newPlace = new LatLng(lat, lng);
+        MarkerOptions markerOptions = new MarkerOptions();
+        markerOptions.position(newPlace).title(CacheManager.getUser().getUsername());
+
+        if(putDot) {
+            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.dot));
+        }
+
+        googleMap.addMarker(markerOptions);
+
+        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(newPlace, zoomLevel), new GoogleMap.CancelableCallback() {
+            @Override
+            public void onFinish() {
+                if(!putDot) {
+                    startHealDialog();
+                }
+            }
+
+            @Override
+            public void onCancel() {
+
+            }
+        });
+    }
+
+    private void startHealDialog() {
+        new HealDialog(getActivity()).show();
+    }
 }

@@ -11,21 +11,13 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import ir.ugstudio.vampire.R;
-import ir.ugstudio.vampire.VampireApp;
-import ir.ugstudio.vampire.async.GetPlaces;
 import ir.ugstudio.vampire.async.GetProfile;
 import ir.ugstudio.vampire.async.GetQuotes;
 import ir.ugstudio.vampire.events.LoginEvent;
 import ir.ugstudio.vampire.managers.UserManager;
 import ir.ugstudio.vampire.models.User;
-import ir.ugstudio.vampire.utils.Consts;
-import ir.ugstudio.vampire.utils.MemoryCache;
 import ir.ugstudio.vampire.views.activities.main.MainActivity;
 import ir.ugstudio.vampire.views.activities.register.RegisterActivity;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.http.Field;
 
 public class SplashActivity extends FragmentActivity {
     @Override
@@ -40,7 +32,7 @@ public class SplashActivity extends FragmentActivity {
     private void getProfile() {
         String token = UserManager.readToken(SplashActivity.this);
 
-        if(token == null || token.isEmpty()) {
+        if (token == null || token.isEmpty()) {
             startRegisterActivity();
         } else {
             GetProfile.run(SplashActivity.this);
@@ -50,7 +42,7 @@ public class SplashActivity extends FragmentActivity {
     private void startMainActivity(User user) {
 
         new GetQuotes(SplashActivity.this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-        new GetPlaces(SplashActivity.this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+//        new GetPlaces(SplashActivity.this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
         // get profile, save it and continue to maps activity
         UserManager.writeUser(SplashActivity.this, user);
@@ -71,7 +63,7 @@ public class SplashActivity extends FragmentActivity {
     @Subscribe
     public void onEvent(LoginEvent event) {
         Log.d("TAG", "onEvent LoginEvent " + event.isSuccessfull());
-        if(event.isSuccessfull()) {
+        if (event.isSuccessfull()) {
             startMainActivity(event.getUser());
         } else {
             startRegisterActivity();

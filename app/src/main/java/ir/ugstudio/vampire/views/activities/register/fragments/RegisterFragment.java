@@ -16,7 +16,6 @@ import android.widget.Spinner;
 
 import ir.ugstudio.vampire.R;
 import ir.ugstudio.vampire.VampireApp;
-import ir.ugstudio.vampire.async.GetPlaces;
 import ir.ugstudio.vampire.async.GetQuotes;
 import ir.ugstudio.vampire.managers.CacheManager;
 import ir.ugstudio.vampire.managers.UserManager;
@@ -68,6 +67,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
                 playerTypeSelected = true;
                 playerTypeStr = getActivity().getResources().getStringArray(R.array.player_type_values)[i];
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
             }
@@ -82,7 +82,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
         call.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
-                if(response.isSuccessful()) {
+                if (response.isSuccessful()) {
                     startMainActivity(response.body());
                 } else {
                     // todo
@@ -111,7 +111,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
         CacheManager.setUser(user);
 
         new GetQuotes(getActivity()).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-        new GetPlaces(getActivity()).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+//        new GetPlaces(getActivity()).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
         Log.d("TAG", "ffff " + user.serialize());
 
