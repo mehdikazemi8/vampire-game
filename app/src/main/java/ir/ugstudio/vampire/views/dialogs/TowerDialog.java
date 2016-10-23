@@ -115,6 +115,34 @@ public class TowerDialog extends Dialog implements View.OnClickListener {
 
     private void stealTower() {
         Log.d("TAG", "TowerDialog stealTower");
+
+        // TODO, replace towerId by real id, and place with real lat lng
+        Call<ResponseBody> call = VampireApp.createMapApi().stealFromTower(
+                CacheManager.getUser().getToken(),
+                "580c91d94aa20a0ba14482be"
+        );
+
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    String result = "IOEXception";
+                    try {
+                        result = response.body().string();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    Toast.makeText(getContext(), result, Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getContext(), "NOT SUCCESSFUL", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override

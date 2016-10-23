@@ -57,4 +57,13 @@ public interface MapApi {
             @Field("lng") Double lng,
             @Field("towerId") String towerId
     );
+
+    @FormUrlEncoded
+    @POST("stealtower")
+    Call<ResponseBody> stealFromTower(
+            @Field("token") String token,
+            @Field("towerId") String towerId
+    );
+
+
 }
