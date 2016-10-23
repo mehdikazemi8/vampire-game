@@ -1,21 +1,21 @@
 You don't want it really hard, you just kinda want it...
 
-getplace
-	vaghti morde bood berim roo halate heal
-	getplace konim neshoon bedim
-	
-Heal
-	agar morde boodam faghat hospital'ha ro bebine, zoom in zoom out baz bashe,
-	baraye heal, lat & long khodam ro mikhad be hamrahe hospitalId
+	getplace
+		vaghti morde bood berim roo halate heal
+		getplace konim neshoon bedim
+		
+	Heal
+		agar morde boodam faghat hospital'ha ro bebine, zoom in zoom out baz bashe,
+		baraye heal, lat & long khodam ro mikhad be hamrahe hospitalId
 
 BUY
 	HealByCoin -- ke hamoon BUY hastesh
 	stuffId - 23 -> heal
 
 3 ta icon
-	tower + eye
-	tower + plus
-	tower + golden coin
+	tower + eye 		(didane tower'haye khodam)
+	tower + plus		(ezafe kardane tower)
+	tower + golden coin	(collect kardane coin'ha)
 
 button tower + plus
 	hamin halat ke darim
@@ -39,3 +39,8 @@ Steal From Tower
 	like attack
 	vaghti ke rooye ye tower zad mifahme ke mitoone attack kone ya join kone
 	age mitoonest attack kone, attack mikone dige 
+
+
+
+TODO
+	login empty works

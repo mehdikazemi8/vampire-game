@@ -83,6 +83,8 @@ public class MapFragment extends Fragment
     private TextView score;
     private TextView rank;
     private FloatingActionButton addTower;
+    private FloatingActionButton seeMyTowers;
+    private FloatingActionButton collectCoinFromMyTowers;
 
     boolean addingTowerMode = false;
     boolean healMode = false;
@@ -140,7 +142,10 @@ public class MapFragment extends Fragment
         coin = (TextView) view.findViewById(R.id.coin);
         score = (TextView) view.findViewById(R.id.score);
         rank = (TextView) view.findViewById(R.id.rank);
+
         addTower = (FloatingActionButton) view.findViewById(R.id.add_tower);
+        collectCoinFromMyTowers = (FloatingActionButton) view.findViewById(R.id.collect_coin_from_my_towers);
+        seeMyTowers = (FloatingActionButton) view.findViewById(R.id.see_my_towers);
 
         coinIcon = (TextView) view.findViewById(R.id.coin_icon);
         scoreIcon = (TextView) view.findViewById(R.id.score_icon);
@@ -181,7 +186,7 @@ public class MapFragment extends Fragment
         LatLng myPlace = new LatLng(35.702945, 51.405907);
         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(myPlace, MAX_ZOOM));
 
-        googleMap.addMarker(new MarkerOptions().position(new LatLng(35.702456, 51.406055)).title("یه جا دیگه"));
+        googleMap.addMarker(new MarkerOptions().position(new LatLng(35.702456, 51.406055)).title("مرکز فرماندهی"));
 
         if (CacheManager.getUser().getLifestat().equals(Consts.LIFESTAT_DEAD)) {
             GetPlaces.run(getActivity());
@@ -234,22 +239,8 @@ public class MapFragment extends Fragment
     @Override
     public void onLocationChanged(Location location) {
         Log.d("TAG", "changed " + location.getLatitude() + " " + location.getLongitude());
-
         CacheManager.setLastLocation(location);
-
-//        googleMap.clear();
-
         requestForMap(location.getLatitude(), location.getLongitude(), false);
-
-//        LatLng newPlace = new LatLng(location.getLatitude(), location.getLongitude());
-//        googleMap.addMarker(new MarkerOptions().position(newPlace));
-//        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(newPlace, MAX_ZOOM));
-
-//        googleMap.addCircle(new CircleOptions()
-//                .center(newPlace)
-//                .radius(RADIUS)
-//                .strokeColor(RED)
-//        );
     }
 
     private void requestForMap(final double lat, final double lng, boolean forceRequest) {
@@ -328,13 +319,15 @@ public class MapFragment extends Fragment
         lastResponse = response;
         markers.clear();
 
-        MarkerOptions marker = new MarkerOptions();
-
+        MarkerOptions markerOptions = new MarkerOptions();
         for (Tower tower : response.getTowers()) {
-            marker.position(new LatLng(tower.getGeo().get(0), tower.getGeo().get(1)));
-            marker.title("Tower");
-            marker.icon(BitmapDescriptorFactory.fromResource(R.drawable.tower));
-            markers.add(googleMap.addMarker(marker));
+            markerOptions.position(new LatLng(tower.getGeo().get(0), tower.getGeo().get(1)));
+            markerOptions.title("Tower");
+            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.tower));
+
+            Marker marker = googleMap.addMarker(markerOptions);
+            marker.setTag(tower);
+            markers.add(marker);
         }
 
         if (addingTowerMode) {
@@ -342,25 +335,25 @@ public class MapFragment extends Fragment
         }
 
         for (User user : response.getVampires()) {
-            marker.position(new LatLng(user.getGeo().get(0), user.getGeo().get(1)));
-            marker.title(user.getUsername());
+            markerOptions.position(new LatLng(user.getGeo().get(0), user.getGeo().get(1)));
+            markerOptions.title(user.getUsername());
             if (user.getLifestat().equals("dead")) {
-                marker.icon(BitmapDescriptorFactory.fromResource(R.drawable.vampire_black));
+                markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.vampire_black));
             } else {
-                marker.icon(BitmapDescriptorFactory.fromResource(R.drawable.vampire_red));
+                markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.vampire_red));
             }
-            markers.add(googleMap.addMarker(marker));
+            markers.add(googleMap.addMarker(markerOptions));
         }
 
         for (User user : response.getHunters()) {
-            marker.position(new LatLng(user.getGeo().get(0), user.getGeo().get(1)));
-            marker.title(user.getUsername());
+            markerOptions.position(new LatLng(user.getGeo().get(0), user.getGeo().get(1)));
+            markerOptions.title(user.getUsername());
             if (user.getLifestat().equals("dead")) {
-                marker.icon(BitmapDescriptorFactory.fromResource(R.drawable.hunter_black));
+                markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.hunter_black));
             } else {
-                marker.icon(BitmapDescriptorFactory.fromResource(R.drawable.hunter_red));
+                markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.hunter_red));
             }
-            markers.add(googleMap.addMarker(marker));
+            markers.add(googleMap.addMarker(markerOptions));
         }
     }
 

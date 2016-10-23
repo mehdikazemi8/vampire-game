@@ -71,7 +71,7 @@
 
     </LinearLayout>
 
-    <FrameLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -84,10 +84,34 @@
             android:id="@+id/add_tower"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_margin="@dimen/padding.large"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="@dimen/padding.large"
+            android:layout_marginRight="@dimen/padding.small"
+            android:layout_marginTop="@dimen/padding.small"
             android:clickable="true"
             android:src="@drawable/tower" />
-    </FrameLayout>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/see_my_towers"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/add_tower"
+            android:layout_alignParentRight="true"
+            android:layout_margin="@dimen/padding.small"
+            android:clickable="true"
+            android:src="@drawable/tower_eye" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/collect_coin_from_my_towers"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/see_my_towers"
+            android:layout_alignParentRight="true"
+            android:layout_margin="@dimen/padding.small"
+            android:clickable="true"
+            android:src="@drawable/tower_coin" />
+
+    </RelativeLayout>
 
 </LinearLayout>
