@@ -53,6 +53,7 @@ import ir.ugstudio.vampire.utils.Consts;
 import ir.ugstudio.vampire.utils.FontHelper;
 import ir.ugstudio.vampire.views.dialogs.HealDialog;
 import ir.ugstudio.vampire.views.dialogs.AttackDialog;
+import ir.ugstudio.vampire.views.dialogs.TowerDialog;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -206,12 +207,20 @@ public class MapFragment extends Fragment
             return true;
         }
 
-        if(marker.getTag() == null) {
+        if(marker.getTag() instanceof User) {
+            Log.d("TAG", "onMarkerClick USER");
             AttackDialog dialog = new AttackDialog(getActivity(), getUser(marker.getTitle()));
             dialog.show();
-        } else {
+        } else if(marker.getTag() instanceof Place) {
+            Log.d("TAG", "onMarkerClick Place");
             handleHealNow((Place) marker.getTag());
+        } else if(marker.getTag() instanceof Tower) {
+            Tower tower = (Tower) marker.getTag();
+            Log.d("TAG", "onMarkerClick TOWER " + tower.getRole() + " " + CacheManager.getUser().getRole());
+            TowerDialog dialog = new TowerDialog(getActivity(), (Tower) marker.getTag());
+            dialog.show();
         }
+
         return true;
     }
 
@@ -320,12 +329,13 @@ public class MapFragment extends Fragment
         markers.clear();
 
         MarkerOptions markerOptions = new MarkerOptions();
+        Marker marker = null;
         for (Tower tower : response.getTowers()) {
             markerOptions.position(new LatLng(tower.getGeo().get(0), tower.getGeo().get(1)));
             markerOptions.title("Tower");
             markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.tower));
 
-            Marker marker = googleMap.addMarker(markerOptions);
+            marker = googleMap.addMarker(markerOptions);
             marker.setTag(tower);
             markers.add(marker);
         }
@@ -342,7 +352,10 @@ public class MapFragment extends Fragment
             } else {
                 markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.vampire_red));
             }
-            markers.add(googleMap.addMarker(markerOptions));
+
+            marker = googleMap.addMarker(markerOptions);
+            marker.setTag(user);
+            markers.add(marker);
         }
 
         for (User user : response.getHunters()) {
@@ -353,7 +366,9 @@ public class MapFragment extends Fragment
             } else {
                 markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.hunter_red));
             }
-            markers.add(googleMap.addMarker(markerOptions));
+            marker = googleMap.addMarker(markerOptions);
+            marker.setTag(user);
+            markers.add(marker);
         }
     }
 
@@ -540,7 +555,8 @@ public class MapFragment extends Fragment
             markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.dot));
         }
 
-        googleMap.addMarker(markerOptions);
+        Marker marker = googleMap.addMarker(markerOptions);
+        marker.setTag(CacheManager.getUser());
 
         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(newPlace, zoomLevel), new GoogleMap.CancelableCallback() {
             @Override

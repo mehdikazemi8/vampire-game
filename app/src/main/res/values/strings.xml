@@ -8,9 +8,14 @@
     <string name="btn_registered_before">قبلا ثبت‌نام کرده‌ام</string>
     <string name="btn_register">ثبت نام</string>
     <string name="btn_attack">حمله</string>
+    <string name="btn_steal_coins">غارت سکه‌ها</string>
+    <string name="btn_join_tower_owners">اضافه شدن به اعضای برج</string>
     <string name="btn_confirm">خب!</string>
     <string name="btn_go_to_hospital">میرم نزدیک بیمارستان</string>
     <string name="btn_buy_healer">یه درمان‌کننده می‌خرم</string>
+
+    <string name="caption_vampires_tower">برج خون‌آشام‌ها</string>
+    <string name="caption_hunters_tower">برج‌ شکارچی‌ها</string>
 
     <string name="heal_you_are_dead">به نظر وقتی نبودی یه نفر زده داغونت کرده :(</string>
     <string name="heal_you_have_two_options">حالا ۲ راه داری</string>

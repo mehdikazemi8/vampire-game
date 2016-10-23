@@ -10,4 +10,7 @@ public class Consts {
     public static String CACHE_QUOTES = "CACHE_QUOTES";
 
     public static String LIFESTAT_DEAD = "dead";
+
+    public static String ROLE_VAMPIRE = "vampire";
+    public static String ROLE_HUNTER = "hunter";
 }
