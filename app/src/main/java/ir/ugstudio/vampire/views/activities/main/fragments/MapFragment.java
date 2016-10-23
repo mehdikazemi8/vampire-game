@@ -41,7 +41,7 @@ import java.util.List;
 import ir.ugstudio.vampire.R;
 import ir.ugstudio.vampire.VampireApp;
 import ir.ugstudio.vampire.async.GetPlaces;
-import ir.ugstudio.vampire.events.LoginEvent;
+import ir.ugstudio.vampire.events.GetProfileEvent;
 import ir.ugstudio.vampire.managers.CacheManager;
 import ir.ugstudio.vampire.managers.UserManager;
 import ir.ugstudio.vampire.models.MapResponse;
@@ -201,10 +201,12 @@ public class MapFragment extends Fragment
             return true;
         }
 
-        AttackDialog dialog = new AttackDialog(getActivity(), getUser(marker.getTitle()));
-//        AttackDialog dialog = new AttackDialog(getActivity(), "user-17");
-        dialog.show();
-
+        if(marker.getTag() == null) {
+            AttackDialog dialog = new AttackDialog(getActivity(), getUser(marker.getTitle()));
+            dialog.show();
+        } else {
+            handleHealNow((Place) marker.getTag());
+        }
         return true;
     }
 
@@ -405,8 +407,8 @@ public class MapFragment extends Fragment
     }
 
     @Subscribe
-    public void onEvent(LoginEvent event) {
-        Log.d("TAG", "onEvent LoginEvent " + event.isSuccessfull());
+    public void onEvent(GetProfileEvent event) {
+        Log.d("TAG", "onEvent GetProfileEvent " + event.isSuccessfull());
         if (event.isSuccessfull()) {
             updateView(event.getUser());
         }
@@ -503,6 +505,14 @@ public class MapFragment extends Fragment
         startHealMode(response.getPlaces());
     }
 
+    private void finishHealMode() {
+        healMode = false;
+        googleMap.setMinZoomPreference(MIN_ZOOM);
+        googleMap.setMaxZoomPreference(MAX_ZOOM);
+
+        requestForMap(CacheManager.getLastLocation().getLatitude(), CacheManager.getLastLocation().getLongitude(), false);
+    }
+
     private void startHealMode(List<Place> places) {
         Log.d("TAG", "startHealMode");
         healMode = true;
@@ -519,7 +529,10 @@ public class MapFragment extends Fragment
             LatLng newPlace = new LatLng(place.getGeo().get(0), place.getGeo().get(1));
             markerOptions.position(newPlace);
             markerOptions.title(place.getPlaceId());
-            markers.add( googleMap.addMarker(markerOptions) );
+
+            Marker marker = googleMap.addMarker(markerOptions);
+            marker.setTag(place);
+            markers.add( marker );
         }
 
         addMeToMap(CacheManager.getLastLocation().getLatitude(), CacheManager.getLastLocation().getLongitude(), MIN_ZOOM_HEAL_MODE, false);
@@ -553,5 +566,37 @@ public class MapFragment extends Fragment
 
     private void startHealDialog() {
         new HealDialog(getActivity()).show();
+    }
+
+    private void handleHealNow(Place place) {
+        // TODO, replace my place instead of one of the hospitals
+        Call<ResponseBody> call = VampireApp.createUserApi().healMe(
+                CacheManager.getUser().getToken(),
+                place.getGeo().get(0),
+                place.getGeo().get(1),
+                place.getPlaceId());
+
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    finishHealMode();
+                    String result = "IOEXception";
+                    try {
+                        result = response.body().string();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    Toast.makeText(getContext(), result, Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getContext(), "NOT SUCCESSFUL", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

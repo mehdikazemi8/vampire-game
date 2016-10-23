@@ -1,10 +1,8 @@
 package ir.ugstudio.vampire.api;
 
-import com.fasterxml.jackson.annotation.JsonFilter;
-
-import ir.ugstudio.vampire.models.MapResponse;
 import ir.ugstudio.vampire.models.Ranklist;
 import ir.ugstudio.vampire.models.User;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -31,8 +29,17 @@ public interface UserApi {
     );
 
     @FormUrlEncoded
-    @POST("getranklist ")
+    @POST("getranklist")
     Call<Ranklist> getRanklist(
             @Field("token") String token
+    );
+
+    @FormUrlEncoded
+    @POST("heal")
+    Call<ResponseBody> healMe(
+            @Field("token") String token,
+            @Field("lat") Double lat,
+            @Field("lng") Double lng,
+            @Field("hospitalId") String hospitalId
     );
 }

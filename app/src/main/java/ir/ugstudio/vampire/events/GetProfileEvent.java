@@ -2,11 +2,11 @@ package ir.ugstudio.vampire.events;
 
 import ir.ugstudio.vampire.models.User;
 
-public class LoginEvent {
+public class GetProfileEvent {
     User user;
     boolean successfull;
 
-    public LoginEvent(User user, boolean successfull) {
+    public GetProfileEvent(User user, boolean successfull) {
         this.user = user;
         this.successfull = successfull;
     }

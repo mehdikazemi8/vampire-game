@@ -6,7 +6,7 @@ import android.util.Log;
 import org.greenrobot.eventbus.EventBus;
 
 import ir.ugstudio.vampire.VampireApp;
-import ir.ugstudio.vampire.events.LoginEvent;
+import ir.ugstudio.vampire.events.GetProfileEvent;
 import ir.ugstudio.vampire.managers.CacheManager;
 import ir.ugstudio.vampire.managers.UserManager;
 import ir.ugstudio.vampire.models.User;
@@ -27,15 +27,15 @@ public class GetProfile {
                     CacheManager.setUser(response.body());
                     UserManager.writeUser(context, response.body());
 
-                    EventBus.getDefault().post(new LoginEvent(response.body(), true));
+                    EventBus.getDefault().post(new GetProfileEvent(response.body(), true));
                 } else {
-                    EventBus.getDefault().post(new LoginEvent(response.body(), false));
+                    EventBus.getDefault().post(new GetProfileEvent(response.body(), false));
                 }
             }
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
-                EventBus.getDefault().post(new LoginEvent(null, false));
+                EventBus.getDefault().post(new GetProfileEvent(null, false));
             }
         });
     }

@@ -13,7 +13,7 @@ import org.greenrobot.eventbus.Subscribe;
 import ir.ugstudio.vampire.R;
 import ir.ugstudio.vampire.async.GetProfile;
 import ir.ugstudio.vampire.async.GetQuotes;
-import ir.ugstudio.vampire.events.LoginEvent;
+import ir.ugstudio.vampire.events.GetProfileEvent;
 import ir.ugstudio.vampire.managers.UserManager;
 import ir.ugstudio.vampire.models.User;
 import ir.ugstudio.vampire.views.activities.main.MainActivity;
@@ -61,8 +61,8 @@ public class SplashActivity extends FragmentActivity {
     }
 
     @Subscribe
-    public void onEvent(LoginEvent event) {
-        Log.d("TAG", "onEvent LoginEvent " + event.isSuccessfull());
+    public void onEvent(GetProfileEvent event) {
+        Log.d("TAG", "onEvent GetProfileEvent " + event.isSuccessfull());
         if (event.isSuccessfull()) {
             startMainActivity(event.getUser());
         } else {
