@@ -93,7 +93,7 @@
             android:src="@drawable/tower" />
 
         <android.support.design.widget.FloatingActionButton
-            android:id="@+id/see_my_towers"
+            android:id="@+id/watch_my_towers"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_above="@id/add_tower"
@@ -106,7 +106,7 @@
             android:id="@+id/collect_coin_from_my_towers"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@id/see_my_towers"
+            android:layout_above="@id/watch_my_towers"
             android:layout_alignParentRight="true"
             android:layout_margin="@dimen/padding.small"
             android:clickable="true"

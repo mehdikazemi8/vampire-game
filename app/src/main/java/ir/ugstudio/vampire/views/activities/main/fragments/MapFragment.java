@@ -76,6 +76,7 @@ public class MapFragment extends Fragment
     private final int MAX_ZOOM_HEAL_MODE = 17;
 
     private Queue<Tower> towersToCollectCoin = new LinkedList<>();
+    private Queue<Tower> towersToWatch = new LinkedList<>();
 
     private static long lastRequestTime = 0;
 
@@ -89,12 +90,13 @@ public class MapFragment extends Fragment
     private TextView score;
     private TextView rank;
     private FloatingActionButton addTower;
-    private FloatingActionButton seeMyTowers;
+    private FloatingActionButton watchMyTowers;
     private FloatingActionButton collectCoinFromMyTowers;
 
     boolean addingTowerMode = false;
     boolean healMode = false;
     boolean collectCoinsMode = false;
+    boolean watchMyTowersMode = false;
 
     private TextView coinIcon;
     private TextView scoreIcon;
@@ -152,7 +154,7 @@ public class MapFragment extends Fragment
 
         addTower = (FloatingActionButton) view.findViewById(R.id.add_tower);
         collectCoinFromMyTowers = (FloatingActionButton) view.findViewById(R.id.collect_coin_from_my_towers);
-        seeMyTowers = (FloatingActionButton) view.findViewById(R.id.see_my_towers);
+        watchMyTowers = (FloatingActionButton) view.findViewById(R.id.watch_my_towers);
 
         coinIcon = (TextView) view.findViewById(R.id.coin_icon);
         scoreIcon = (TextView) view.findViewById(R.id.score_icon);
@@ -173,7 +175,7 @@ public class MapFragment extends Fragment
         updateView(CacheManager.getUser());
 
         addTower.setOnClickListener(this);
-        seeMyTowers.setOnClickListener(this);
+        watchMyTowers.setOnClickListener(this);
         collectCoinFromMyTowers.setOnClickListener(this);
     }
 
@@ -202,6 +204,31 @@ public class MapFragment extends Fragment
         }
     }
 
+    private void collectCoinsOfThisTower(Tower tower) {
+        Call<ResponseBody> call = VampireApp.createMapApi().collectTowerCoins(CacheManager.getUser().getToken(), tower.get_id());
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if(response.isSuccessful()) {
+                    String message = "خطا در ارتباط با سرور";
+                    try {
+                        message = response.body().string();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    GetProfile.run(getActivity());
+                    Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
+                    showNextTowerToCollect();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+            }
+        });
+    }
+
     @Override
     public boolean onMarkerClick(Marker marker) {
         Log.d("TAG", "onMarkerClick " + marker.getId() + " " + marker.getTitle());
@@ -227,28 +254,9 @@ public class MapFragment extends Fragment
             Log.d("TAG", "onMarkerClick TOWER " + tower.getRole() + " " + CacheManager.getUser().getRole());
 
             if(collectCoinsMode) {
-                Call<ResponseBody> call = VampireApp.createMapApi().collectTowerCoins(CacheManager.getUser().getToken(), tower.get_id());
-                call.enqueue(new Callback<ResponseBody>() {
-                    @Override
-                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                        if(response.isSuccessful()) {
-                            String message = "خطا در ارتباط با سرور";
-                            try {
-                                message = response.body().string();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                            GetProfile.run(getActivity());
-                            Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
-                            showNextTowerToCollect();
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<ResponseBody> call, Throwable t) {
-
-                    }
-                });
+                collectCoinsOfThisTower(tower);
+            } else if(watchMyTowersMode) {
+                helpMeWatchThisTower(tower);
             } else {
                 TowerDialog dialog = new TowerDialog(getActivity(), (Tower) marker.getTag());
                 dialog.show();
@@ -256,6 +264,10 @@ public class MapFragment extends Fragment
         }
 
         return true;
+    }
+
+    private void helpMeWatchThisTower(Tower tower) {
+        showNextTowerToWatch();
     }
 
     @Override
@@ -303,6 +315,10 @@ public class MapFragment extends Fragment
             return;
         }
 
+        if(watchMyTowersMode) {
+            return;
+        }
+
         if (System.currentTimeMillis() - lastRequestTime < 4000 && !forceRequest) {
             return;
         } else {
@@ -346,7 +362,7 @@ public class MapFragment extends Fragment
             public void onResponse(Call<MapResponse> call, Response<MapResponse> response) {
 
                 if (response.isSuccessful()) {
-                    if(!healMode) {
+                    if(!healMode && !watchMyTowersMode && !collectCoinsMode) {
                         refreshMap(response.body());
                     }
                 } else {
@@ -539,7 +555,52 @@ public class MapFragment extends Fragment
             case R.id.collect_coin_from_my_towers:
                 startCollectCoinsMode();
                 break;
+
+            case R.id.watch_my_towers:
+                startWatchMyTowersMode();
+                break;
         }
+    }
+
+    private void startWatchMyTowersMode() {
+        towersToWatch.clear();
+        User user = CacheManager.getUser();
+        for(Tower tower : user.getTowersList()) {
+            towersToWatch.add(tower);
+        }
+
+        if(towersToWatch.isEmpty()) {
+            Toast.makeText(getActivity(), "اول باید برج بسازی بعد می تونی مدیریت کنیشون", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        googleMap.clear();
+        watchMyTowersMode = true;
+        showNextTowerToWatch();
+    }
+
+    private void finishWatchMyTowersMode() {
+        watchMyTowersMode = false;
+        requestForMap(CacheManager.getLastLocation().getLatitude(), CacheManager.getLastLocation().getLongitude(), false);
+    }
+
+    private void showNextTowerToWatch() {
+        if(towersToWatch.isEmpty()) {
+            finishWatchMyTowersMode();
+            return;
+        }
+
+        Tower nextTower = towersToWatch.remove();
+        LatLng towerPlace = new LatLng(nextTower.getGeo().get(0), nextTower.getGeo().get(1));
+
+        MarkerOptions markerOptions = new MarkerOptions();
+        markerOptions.position(towerPlace);
+        markerOptions.title(String.valueOf(nextTower.getCoin()));
+        markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.tower));
+        Marker marker = googleMap.addMarker(markerOptions);
+        marker.setTag(nextTower);
+
+        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(towerPlace, MIN_ZOOM));
     }
 
     public void addTowerNow(LatLng position) {
