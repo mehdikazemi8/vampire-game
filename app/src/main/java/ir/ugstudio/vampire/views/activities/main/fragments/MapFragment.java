@@ -488,7 +488,7 @@ public class MapFragment extends Fragment
     private void startCollectCoinsMode() {
         User user = CacheManager.getUser();
         towersToCollectCoin.clear();
-        for(Tower tower : user.getTowers()) {
+        for(Tower tower : user.getTowersList()) {
             if(tower.getCoin() != 0) {
                 towersToCollectCoin.add(tower);
             }

@@ -12,7 +12,8 @@ public class User extends BaseModel {
     private Integer rank;
     private Integer score;
     private List<Double> geo;
-    private List<Tower> towers;
+    private List<String> towers;
+    private List<Tower> towersList;
     private String token;
     private Integer coin;
     private Integer attackRange;
@@ -110,11 +111,19 @@ public class User extends BaseModel {
         this.avatar = avatar;
     }
 
-    public List<Tower> getTowers() {
+    public List<String> getTowers() {
         return towers;
     }
 
-    public void setTowers(List<Tower> towers) {
+    public void setTowers(List<String> towers) {
         this.towers = towers;
+    }
+
+    public List<Tower> getTowersList() {
+        return towersList;
+    }
+
+    public void setTowersList(List<Tower> towersList) {
+        this.towersList = towersList;
     }
 }

@@ -34,9 +34,9 @@ show list of my towers ( vaghti button ro zad ) (tower + eye)
 Attack from Tower
 	tooye hamin halat ke zoom kardim rooye ye borjesh mitoone bere too kare kill kardan az tarighe oon Tower
 
-Collect Tower Coin
-	ye button dige ezafe mishe ke bayad roosh bezane, vaghti zad zoom out mishe va tower'hayee ke coin daran
-	neshoon dade mishan, tep tep tep mizane rooshoon va coin'ha ro collect mikone miad gom mishe mire 
+	Collect Tower Coin
+		ye button dige ezafe mishe ke bayad roosh bezane, vaghti zad zoom out mishe va tower'hayee ke coin daran
+		neshoon dade mishan, tep tep tep mizane rooshoon va coin'ha ro collect mikone miad gom mishe mire 
 
 
 
