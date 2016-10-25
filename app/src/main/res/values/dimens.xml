@@ -7,4 +7,5 @@
     <dimen name="text.size.small">10sp</dimen>
     <dimen name="text.size.medium">15sp</dimen>
     <dimen name="text.size.large">20sp</dimen>
+
 </resources>

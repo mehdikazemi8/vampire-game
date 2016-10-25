@@ -43,6 +43,7 @@ import java.util.Queue;
 import ir.ugstudio.vampire.R;
 import ir.ugstudio.vampire.VampireApp;
 import ir.ugstudio.vampire.async.GetPlaces;
+import ir.ugstudio.vampire.async.GetProfile;
 import ir.ugstudio.vampire.events.GetProfileEvent;
 import ir.ugstudio.vampire.managers.CacheManager;
 import ir.ugstudio.vampire.managers.UserManager;
@@ -226,7 +227,28 @@ public class MapFragment extends Fragment
             Log.d("TAG", "onMarkerClick TOWER " + tower.getRole() + " " + CacheManager.getUser().getRole());
 
             if(collectCoinsMode) {
-                showNextTowerToCollect();
+                Call<ResponseBody> call = VampireApp.createMapApi().collectTowerCoins(CacheManager.getUser().getToken(), tower.get_id());
+                call.enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        if(response.isSuccessful()) {
+                            String message = "خطا در ارتباط با سرور";
+                            try {
+                                message = response.body().string();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            GetProfile.run(getActivity());
+                            Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
+                            showNextTowerToCollect();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                    }
+                });
             } else {
                 TowerDialog dialog = new TowerDialog(getActivity(), (Tower) marker.getTag());
                 dialog.show();
@@ -464,10 +486,6 @@ public class MapFragment extends Fragment
     }
 
     private void startCollectCoinsMode() {
-        collectCoinsMode = true;
-
-        googleMap.clear();
-
         User user = CacheManager.getUser();
         towersToCollectCoin.clear();
         for(Tower tower : user.getTowers()) {
@@ -476,7 +494,13 @@ public class MapFragment extends Fragment
             }
         }
 
-        showNextTowerToCollect();
+        if(towersToCollectCoin.size() > 0) {
+            collectCoinsMode = true;
+            googleMap.clear();
+            showNextTowerToCollect();
+        } else {
+            Toast.makeText(getActivity(), "همه چی رو به راهه، یه ساعت دیگه بیا", Toast.LENGTH_LONG).show();
+        }
     }
 
     private void showNextTowerToCollect() {
@@ -496,6 +520,8 @@ public class MapFragment extends Fragment
         marker.setTag(nextTower);
 
         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(towerPlace, MIN_ZOOM));
+
+        Toast.makeText(getActivity(), String.valueOf(nextTower.getCoin()), Toast.LENGTH_LONG).show();
     }
 
     private void finishCollectCoinsMode() {

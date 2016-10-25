@@ -65,5 +65,12 @@ public interface MapApi {
             @Field("towerId") String towerId
     );
 
+    @FormUrlEncoded
+    @POST("collecttowercoin")
+    Call<ResponseBody> collectTowerCoins(
+            @Field("token") String token,
+            @Field("towerId") String towerId
+    );
+
 
 }

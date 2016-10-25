@@ -80,7 +80,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onFailure(Call<User> call, Throwable t) {
                 // todo say something to user
-
+                Log.d("TAG", "dddd fail " + t.getMessage());
             }
         });
     }
