@@ -42,4 +42,11 @@ public interface UserApi {
             @Field("lng") Double lng,
             @Field("hospitalId") String hospitalId
     );
+
+    @FormUrlEncoded
+    @POST("setfcmid")
+    Call<ResponseBody> sendFCMIdToServer(
+            @Field("token") String token,
+            @Field("fcmId") String fcmId
+    );
 }
