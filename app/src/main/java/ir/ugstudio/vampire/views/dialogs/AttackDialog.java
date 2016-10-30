@@ -27,6 +27,7 @@ import ir.ugstudio.vampire.managers.AvatarManager;
 import ir.ugstudio.vampire.managers.CacheManager;
 import ir.ugstudio.vampire.managers.UserManager;
 import ir.ugstudio.vampire.models.QuotesResponse;
+import ir.ugstudio.vampire.models.Tower;
 import ir.ugstudio.vampire.models.User;
 import ir.ugstudio.vampire.utils.MemoryCache;
 import ir.ugstudio.vampire.views.activities.main.MainActivity;
@@ -43,12 +44,21 @@ public class AttackDialog extends Dialog implements View.OnClickListener {
     private TextView username;
     private Button attackButton;
     private Spinner quotesSpinner;
+    private boolean doIattackFromTower = false;
+    private Tower tower;
 
     private ImageView avatar;
 
     public AttackDialog(Context context, User user) {
         super(context);
         this.user = user;
+    }
+
+    public AttackDialog(Context context, User user, Tower tower) {
+        super(context);
+        this.user = user;
+        this.tower = tower;
+        this.doIattackFromTower = true;
     }
 
     @Override
@@ -136,11 +146,56 @@ public class AttackDialog extends Dialog implements View.OnClickListener {
         dismiss();
     }
 
+    private void attackFromTower() {
+        Call<ResponseBody> call = VampireApp.createMapApi().attackFromTower(
+                UserManager.readToken(getContext()),
+                tower.get_id(),
+                user.getUsername()
+        );
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                Log.d("TAG", "attack " + response.message());
+                if(response.isSuccessful()) {
+//                     TODO, do I have to update user
+                    GetProfile.run(getContext());
+
+                    Log.d("TAG", "xxx " + response.message());
+                    String result = "IOEXception";
+                    try {
+                        result = response.body().string();
+                        Log.d("TAG", "xxx " + result);
+                    } catch (IOException e) {
+                        e.printStackTrace();]
+                    }
+                    Toast.makeText(getContext(), result, Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getContext(), "NOT SUCCESSFUL", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.d("TAG", "xxx " + t.getMessage());
+            }
+        });
+
+        dismiss();
+    }
+
+    private void handleAttack() {
+        if(doIattackFromTower) {
+            attackFromTower();
+        } else {
+            attack();
+        }
+    }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.attack_button:
-                attack();
+                handleAttack();
                 break;
         }
     }

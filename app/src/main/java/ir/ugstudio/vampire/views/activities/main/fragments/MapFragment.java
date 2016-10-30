@@ -77,6 +77,7 @@ public class MapFragment extends Fragment
 
     private Queue<Tower> towersToCollectCoin = new LinkedList<>();
     private Queue<Tower> towersToWatch = new LinkedList<>();
+    private Tower nowOnThisTower = null;
 
     private static long lastRequestTime = 0;
 
@@ -231,7 +232,7 @@ public class MapFragment extends Fragment
 
     @Override
     public boolean onMarkerClick(Marker marker) {
-        Log.d("TAG", "onMarkerClick " + marker.getId() + " " + marker.getTitle());
+        Log.d("TAG", "onMarkerClick " + marker.getId() + " " + marker.getTitle() + " " + watchMyTowersMode);
 
         if (marker.getTitle().equals(CacheManager.getUser().getUsername())) {
             return true;
@@ -244,8 +245,14 @@ public class MapFragment extends Fragment
 
         if(marker.getTag() instanceof User) {
             Log.d("TAG", "onMarkerClick USER");
-            AttackDialog dialog = new AttackDialog(getActivity(), getUser(marker.getTitle()));
-            dialog.show();
+            if(watchMyTowersMode) {
+                AttackDialog dialog = new AttackDialog(getActivity(), (User) marker.getTag(), nowOnThisTower);
+                dialog.show();
+            } else {
+                AttackDialog dialog = new AttackDialog(getActivity(), getUser(marker.getTitle()));
+                dialog.show();
+            }
+
         } else if(marker.getTag() instanceof Place) {
             Log.d("TAG", "onMarkerClick Place");
             handleHealNow((Place) marker.getTag());
@@ -580,6 +587,7 @@ public class MapFragment extends Fragment
     }
 
     private void finishWatchMyTowersMode() {
+        nowOnThisTower = null;
         watchMyTowersMode = false;
         requestForMap(CacheManager.getLastLocation().getLatitude(), CacheManager.getLastLocation().getLongitude(), false);
     }
@@ -591,6 +599,7 @@ public class MapFragment extends Fragment
         }
 
         Tower nextTower = towersToWatch.remove();
+        nowOnThisTower = nextTower;
         LatLng towerPlace = new LatLng(nextTower.getGeo().get(0), nextTower.getGeo().get(1));
 
         MarkerOptions markerOptions = new MarkerOptions();
@@ -610,17 +619,7 @@ public class MapFragment extends Fragment
                 UserManager.readToken(getActivity()),
                 tower.get_id()
         );
-        call.enqueue(new Callback<MapResponse>() {
-            @Override
-            public void onResponse(Call<MapResponse> call, Response<MapResponse> response) {
-                
-            }
 
-            @Override
-            public void onFailure(Call<MapResponse> call, Throwable t) {
-
-            }
-        });
         call.enqueue(new Callback<MapResponse>() {
             @Override
             public void onResponse(Call<MapResponse> call, Response<MapResponse> response) {
