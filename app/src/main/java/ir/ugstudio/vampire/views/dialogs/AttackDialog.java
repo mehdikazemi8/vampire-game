@@ -166,7 +166,7 @@ public class AttackDialog extends Dialog implements View.OnClickListener {
                         result = response.body().string();
                         Log.d("TAG", "xxx " + result);
                     } catch (IOException e) {
-                        e.printStackTrace();]
+                        e.printStackTrace();
                     }
                     Toast.makeText(getContext(), result, Toast.LENGTH_SHORT).show();
                 } else {
