@@ -601,6 +601,42 @@ public class MapFragment extends Fragment
         marker.setTag(nextTower);
 
         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(towerPlace, MIN_ZOOM));
+
+        showMapAroundTheTower(nextTower);
+    }
+
+    private void showMapAroundTheTower(Tower tower) {
+        Call<MapResponse> call = VampireApp.createMapApi().getMapAroundTower(
+                UserManager.readToken(getActivity()),
+                tower.get_id()
+        );
+        call.enqueue(new Callback<MapResponse>() {
+            @Override
+            public void onResponse(Call<MapResponse> call, Response<MapResponse> response) {
+                
+            }
+
+            @Override
+            public void onFailure(Call<MapResponse> call, Throwable t) {
+
+            }
+        });
+        call.enqueue(new Callback<MapResponse>() {
+            @Override
+            public void onResponse(Call<MapResponse> call, Response<MapResponse> response) {
+                if (response.isSuccessful()) {
+                    refreshMap(response.body());
+                } else {
+                    Log.d("TAG", "aaa notSuccess " + response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<MapResponse> call, Throwable t) {
+                Log.d("TAG", "aaa onFailure " + t.getMessage());
+
+            }
+        });
     }
 
     public void addTowerNow(LatLng position) {

@@ -72,5 +72,10 @@ public interface MapApi {
             @Field("towerId") String towerId
     );
 
-
+    @FormUrlEncoded
+    @POST("towermapview")
+    Call<MapResponse> getMapAroundTower(
+            @Field("token") String token,
+            @Field("towerId") String towerId
+    );
 }

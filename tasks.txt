@@ -27,9 +27,9 @@ BUY
 		vaghti ke rooye ye tower zad mifahme ke mitoone attack kone ya join kone
 		age mitoonest attack kone, attack mikone dige 
 
-show list of my towers ( vaghti button ro zad ) (tower + eye)
-	ye button ke zad zoom out konam ta hameye borje'haash ro bebine ba'ad rooye yekish click kone
-	vaghti ke rooye yekish click kard TowerMapView ro call konim va zoom konim rooye oon ye tower
+	show list of my towers ( vaghti button ro zad ) (tower + eye)
+		ye button ke zad zoom out konam ta hameye borje'haash ro bebine ba'ad rooye yekish click kone
+		vaghti ke rooye yekish click kard TowerMapView ro call konim va zoom konim rooye oon ye tower
 
 Attack from Tower
 	tooye hamin halat ke zoom kardim rooye ye borjesh mitoone bere too kare kill kardan az tarighe oon Tower
