@@ -1,6 +1,7 @@
 package ir.ugstudio.vampire.views.activities.main.fragments;
 
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.location.Location;
@@ -28,6 +29,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -54,8 +56,8 @@ import ir.ugstudio.vampire.models.Tower;
 import ir.ugstudio.vampire.models.User;
 import ir.ugstudio.vampire.utils.Consts;
 import ir.ugstudio.vampire.utils.FontHelper;
-import ir.ugstudio.vampire.views.dialogs.HealDialog;
 import ir.ugstudio.vampire.views.dialogs.AttackDialog;
+import ir.ugstudio.vampire.views.dialogs.HealDialog;
 import ir.ugstudio.vampire.views.dialogs.TowerDialog;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -188,6 +190,21 @@ public class MapFragment extends Fragment
         googleMap.setOnMarkerClickListener(this);
         googleMap.setOnCameraMoveListener(this);
 
+        try {
+            // Customise the styling of the base map using a JSON object defined
+            // in a raw resource file.
+            boolean success = googleMap.setMapStyle(
+                    MapStyleOptions.loadRawResourceStyle(
+                            getActivity(), R.raw.style_json));
+
+            if (!success) {
+                Log.e("MapsActivityRaw", "Style parsing failed.");
+            }
+        } catch (Resources.NotFoundException e) {
+            Log.e("MapsActivityRaw", "Can't find style.", e);
+        }
+
+
 //        googleMap.getUiSettings().setZoomGesturesEnabled(false);
         googleMap.getUiSettings().setRotateGesturesEnabled(false);
         googleMap.getUiSettings().setMapToolbarEnabled(false);
@@ -210,7 +227,7 @@ public class MapFragment extends Fragment
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                if(response.isSuccessful()) {
+                if (response.isSuccessful()) {
                     String message = "خطا در ارتباط با سرور";
                     try {
                         message = response.body().string();
@@ -243,9 +260,9 @@ public class MapFragment extends Fragment
             return true;
         }
 
-        if(marker.getTag() instanceof User) {
+        if (marker.getTag() instanceof User) {
             Log.d("TAG", "onMarkerClick USER");
-            if(watchMyTowersMode) {
+            if (watchMyTowersMode) {
                 AttackDialog dialog = new AttackDialog(getActivity(), (User) marker.getTag(), nowOnThisTower);
                 dialog.show();
             } else {
@@ -253,16 +270,16 @@ public class MapFragment extends Fragment
                 dialog.show();
             }
 
-        } else if(marker.getTag() instanceof Place) {
+        } else if (marker.getTag() instanceof Place) {
             Log.d("TAG", "onMarkerClick Place");
             handleHealNow((Place) marker.getTag());
-        } else if(marker.getTag() instanceof Tower) {
+        } else if (marker.getTag() instanceof Tower) {
             Tower tower = (Tower) marker.getTag();
             Log.d("TAG", "onMarkerClick TOWER " + tower.getRole() + " " + CacheManager.getUser().getRole());
 
-            if(collectCoinsMode) {
+            if (collectCoinsMode) {
                 collectCoinsOfThisTower(tower);
-            } else if(watchMyTowersMode) {
+            } else if (watchMyTowersMode) {
                 helpMeWatchThisTower(tower);
             } else {
                 TowerDialog dialog = new TowerDialog(getActivity(), (Tower) marker.getTag());
@@ -314,15 +331,15 @@ public class MapFragment extends Fragment
             return;
         }
 
-        if(healMode) {
+        if (healMode) {
             return;
         }
 
-        if(collectCoinsMode) {
+        if (collectCoinsMode) {
             return;
         }
 
-        if(watchMyTowersMode) {
+        if (watchMyTowersMode) {
             return;
         }
 
@@ -369,7 +386,7 @@ public class MapFragment extends Fragment
             public void onResponse(Call<MapResponse> call, Response<MapResponse> response) {
 
                 if (response.isSuccessful()) {
-                    if(!healMode && !watchMyTowersMode && !collectCoinsMode) {
+                    if (!healMode && !watchMyTowersMode && !collectCoinsMode) {
                         refreshMap(response.body());
                     }
                 } else {
@@ -511,13 +528,13 @@ public class MapFragment extends Fragment
     private void startCollectCoinsMode() {
         User user = CacheManager.getUser();
         towersToCollectCoin.clear();
-        for(Tower tower : user.getTowersList()) {
-            if(tower.getCoin() != 0) {
+        for (Tower tower : user.getTowersList()) {
+            if (tower.getCoin() != 0) {
                 towersToCollectCoin.add(tower);
             }
         }
 
-        if(towersToCollectCoin.size() > 0) {
+        if (towersToCollectCoin.size() > 0) {
             collectCoinsMode = true;
             googleMap.clear();
             showNextTowerToCollect();
@@ -527,7 +544,7 @@ public class MapFragment extends Fragment
     }
 
     private void showNextTowerToCollect() {
-        if(towersToCollectCoin.isEmpty()) {
+        if (towersToCollectCoin.isEmpty()) {
             finishCollectCoinsMode();
             return;
         }
@@ -572,11 +589,11 @@ public class MapFragment extends Fragment
     private void startWatchMyTowersMode() {
         towersToWatch.clear();
         User user = CacheManager.getUser();
-        for(Tower tower : user.getTowersList()) {
+        for (Tower tower : user.getTowersList()) {
             towersToWatch.add(tower);
         }
 
-        if(towersToWatch.isEmpty()) {
+        if (towersToWatch.isEmpty()) {
             Toast.makeText(getActivity(), "اول باید برج بسازی بعد می تونی مدیریت کنیشون", Toast.LENGTH_LONG).show();
             return;
         }
@@ -593,7 +610,7 @@ public class MapFragment extends Fragment
     }
 
     private void showNextTowerToWatch() {
-        if(towersToWatch.isEmpty()) {
+        if (towersToWatch.isEmpty()) {
             finishWatchMyTowersMode();
             return;
         }
@@ -715,14 +732,14 @@ public class MapFragment extends Fragment
 
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.hospital));
-        for(Place place : places) {
+        for (Place place : places) {
             LatLng newPlace = new LatLng(place.getGeo().get(0), place.getGeo().get(1));
             markerOptions.position(newPlace);
             markerOptions.title(place.getPlaceId());
 
             Marker marker = googleMap.addMarker(markerOptions);
             marker.setTag(place);
-            markers.add( marker );
+            markers.add(marker);
         }
 
         addMeToMap(CacheManager.getLastLocation().getLatitude(), CacheManager.getLastLocation().getLongitude(), MIN_ZOOM_HEAL_MODE, false);
@@ -733,7 +750,7 @@ public class MapFragment extends Fragment
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(newPlace).title(CacheManager.getUser().getUsername());
 
-        if(putDot) {
+        if (putDot) {
             markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.dot));
         }
 
@@ -743,7 +760,7 @@ public class MapFragment extends Fragment
         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(newPlace, zoomLevel), new GoogleMap.CancelableCallback() {
             @Override
             public void onFinish() {
-                if(!putDot) {
+                if (!putDot) {
                     startHealDialog();
                 }
             }
