@@ -8,7 +8,7 @@ import java.util.List;
 public class Tower {
     private Integer coin;
     private Integer level;
-    private List<String> wall;
+    private List<TowerMessage> wall;
     private String role;
     private List<Double> geo;
     private String _id;
@@ -32,11 +32,11 @@ public class Tower {
         this.level = level;
     }
 
-    public List<String> getWall() {
+    public List<TowerMessage> getWall() {
         return wall;
     }
 
-    public void setWall(List<String> wall) {
+    public void setWall(List<TowerMessage> wall) {
         this.wall = wall;
     }
 

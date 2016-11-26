@@ -20,6 +20,7 @@ import ir.ugstudio.vampire.async.GetProfile;
 import ir.ugstudio.vampire.managers.CacheManager;
 import ir.ugstudio.vampire.managers.UserManager;
 import ir.ugstudio.vampire.models.Tower;
+import ir.ugstudio.vampire.models.TowerMessage;
 import ir.ugstudio.vampire.utils.Consts;
 import ir.ugstudio.vampire.utils.FontHelper;
 import okhttp3.ResponseBody;
@@ -96,8 +97,8 @@ public class TowerDialog extends Dialog implements View.OnClickListener {
             title.setText(getContext().getString(R.string.caption_vampires_tower));
         }
 
-        for (String message : tower.getWall()) {
-            Log.d("TAG", "message " + message);
+        for (TowerMessage message : tower.getWall()) {
+            Log.d("TAG", "message " + message.getMessage());
         }
 
         coinIcon.setTypeface(FontHelper.getIcons(getContext()));
