@@ -31,4 +31,8 @@ public class CacheManager {
     public static void setUser(User user) {
         MemoryCache.set(Consts.CACHE_USER, user);
     }
+
+    public static boolean amIOwnerOfThisTower(String towerId) {
+        return getUser().getTowers().contains(towerId);
+    }
 }

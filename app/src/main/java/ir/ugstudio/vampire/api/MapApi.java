@@ -86,4 +86,12 @@ public interface MapApi {
             @Field("towerId") String towerId,
             @Field("username") String username
     );
+
+    @FormUrlEncoded
+    @POST("towermessage")
+    Call<ResponseBody> sendMessageToTower(
+            @Field("token") String token,
+            @Field("towerId") String towerId,
+            @Field("message") String message
+    );
 }

@@ -1,13 +1,11 @@
 package ir.ugstudio.vampire.views.activities.main;
 
 import android.graphics.Typeface;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -15,12 +13,7 @@ import android.widget.TextView;
 import com.google.firebase.iid.FirebaseInstanceId;
 
 import ir.ugstudio.vampire.R;
-import ir.ugstudio.vampire.VampireApp;
-import ir.ugstudio.vampire.async.GetQuotes;
 import ir.ugstudio.vampire.async.SendFCMIdToServer;
-import ir.ugstudio.vampire.managers.CacheManager;
-import ir.ugstudio.vampire.services.MyFirebaseInstanceIDService;
-import ir.ugstudio.vampire.utils.Consts;
 import ir.ugstudio.vampire.utils.FontHelper;
 import ir.ugstudio.vampire.views.activities.main.adapters.MainFragmentsPagerAdapter;
 import ir.ugstudio.vampire.views.activities.main.fragments.MapFragment;
@@ -28,10 +21,6 @@ import ir.ugstudio.vampire.views.activities.main.fragments.NotificationsFragment
 import ir.ugstudio.vampire.views.activities.main.fragments.RanklistFragment;
 import ir.ugstudio.vampire.views.activities.main.fragments.SettingsFragment;
 import ir.ugstudio.vampire.views.activities.main.fragments.ShopFragment;
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class MainActivity extends FragmentActivity {
 

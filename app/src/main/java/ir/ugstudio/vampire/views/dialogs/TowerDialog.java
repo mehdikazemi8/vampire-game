@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,7 +16,9 @@ import java.io.IOException;
 
 import ir.ugstudio.vampire.R;
 import ir.ugstudio.vampire.VampireApp;
+import ir.ugstudio.vampire.async.GetProfile;
 import ir.ugstudio.vampire.managers.CacheManager;
+import ir.ugstudio.vampire.managers.UserManager;
 import ir.ugstudio.vampire.models.Tower;
 import ir.ugstudio.vampire.utils.Consts;
 import ir.ugstudio.vampire.utils.FontHelper;
@@ -32,6 +35,8 @@ public class TowerDialog extends Dialog implements View.OnClickListener {
     private TextView coinIcon;
     private Button joinTowerOwners;
     private Button stealFromTower;
+    private Button submitMessage;
+    private EditText message;
 
     public TowerDialog(Context context, Tower tower) {
         super(context);
@@ -46,7 +51,7 @@ public class TowerDialog extends Dialog implements View.OnClickListener {
         setContentView(R.layout.dialog_tower);
 
         DisplayMetrics metrics = getContext().getResources().getDisplayMetrics();
-        getWindow().setLayout((int) (metrics.widthPixels * 0.9), -2);
+        getWindow().setLayout((int) (metrics.widthPixels * 0.9), (int) (metrics.heightPixels * 0.9));
         findControls();
         configure();
     }
@@ -57,37 +62,60 @@ public class TowerDialog extends Dialog implements View.OnClickListener {
         coinCount = (TextView) findViewById(R.id.coin_count);
         coinIcon = (TextView) findViewById(R.id.coin_icon);
         title = (TextView) findViewById(R.id.title);
+        message = (EditText) findViewById(R.id.message);
+        submitMessage = (Button) findViewById(R.id.submit_message);
     }
 
     private void configure() {
         joinTowerOwners.setOnClickListener(this);
         stealFromTower.setOnClickListener(this);
+        submitMessage.setOnClickListener(this);
 
-        if(CacheManager.getUser().getRole().equals(tower.getRole())) {
+        if (CacheManager.getUser().getRole().equals(tower.getRole())) {
             stealFromTower.setVisibility(View.GONE);
+            /**
+             * We are the same group
+             * two situations:
+             *  1. Am I an owner
+             *  2. I'm not an owner
+             */
+
+            Log.d("TAG", "owner?? " + tower.get_id() + " " + CacheManager.amIOwnerOfThisTower(tower.get_id()));
+            if (CacheManager.amIOwnerOfThisTower(tower.get_id())) {
+                joinTowerOwners.setVisibility(View.GONE);
+            } else {
+
+            }
         } else {
             joinTowerOwners.setVisibility(View.GONE);
         }
 
-        if(tower.getRole().equals(Consts.ROLE_HUNTER)) {
+        if (tower.getRole().equals(Consts.ROLE_HUNTER)) {
             title.setText(getContext().getString(R.string.caption_hunters_tower));
         } else {
             title.setText(getContext().getString(R.string.caption_vampires_tower));
         }
 
-        coinIcon.setTypeface( FontHelper.getIcons(getContext()) );
+        for (String message : tower.getWall()) {
+            Log.d("TAG", "message " + message);
+        }
+
+        coinIcon.setTypeface(FontHelper.getIcons(getContext()));
         coinCount.setText(String.valueOf(tower.getCoin()));
     }
 
     private void joinTower() {
         Log.d("TAG", "TowerDialog joinTower");
 
-        // TODO, replace towerId by real id, and place with real lat lng
+        Log.d("TAG", "joinTower " + CacheManager.getUser().getGeo().get(0));
+        Log.d("TAG", "joinTower " + CacheManager.getUser().getGeo().get(1));
+        Log.d("TAG", "joinTower " + tower.get_id());
+
         Call<ResponseBody> call = VampireApp.createMapApi().joinTower(
                 CacheManager.getUser().getToken(),
-                35.7051667019669,
-                51.40967220067977,
-                "580c93804aa20a0ba14482c1"
+                CacheManager.getUser().getGeo().get(0),
+                CacheManager.getUser().getGeo().get(1),
+                tower.get_id()
         );
 
         call.enqueue(new Callback<ResponseBody>() {
@@ -155,6 +183,53 @@ public class TowerDialog extends Dialog implements View.OnClickListener {
             case R.id.steal_from_tower_button:
                 stealTower();
                 break;
+
+            case R.id.submit_message:
+                submitMessage();
+                break;
         }
+    }
+
+    private boolean hasEnteredMessage() {
+        if (message.getText().toString().trim().length() == 0) {
+            Toast.makeText(getContext(), getContext().getString(R.string.toast_enter_message), Toast.LENGTH_LONG).show();
+            return false;
+        }
+        return true;
+    }
+
+    private void submitMessage() {
+        if (!hasEnteredMessage()) {
+            return;
+        }
+
+        Call<ResponseBody> call = VampireApp.createMapApi().sendMessageToTower(
+                UserManager.readToken(getContext()),
+                tower.get_id(),
+                message.getText().toString().trim()
+        );
+
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    String result = "IOEXception";
+                    try {
+                        result = response.body().string();
+                        Log.d("TAG", "xxx " + result);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    Toast.makeText(getContext(), result, Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getContext(), "NOT SUCCESSFUL", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.d("TAG", "yyy " + t.getMessage());
+            }
+        });
     }
 }
