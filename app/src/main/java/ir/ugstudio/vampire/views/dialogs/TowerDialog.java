@@ -3,12 +3,15 @@ package ir.ugstudio.vampire.views.dialogs;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,13 +19,13 @@ import java.io.IOException;
 
 import ir.ugstudio.vampire.R;
 import ir.ugstudio.vampire.VampireApp;
-import ir.ugstudio.vampire.async.GetProfile;
 import ir.ugstudio.vampire.managers.CacheManager;
 import ir.ugstudio.vampire.managers.UserManager;
 import ir.ugstudio.vampire.models.Tower;
 import ir.ugstudio.vampire.models.TowerMessage;
 import ir.ugstudio.vampire.utils.Consts;
 import ir.ugstudio.vampire.utils.FontHelper;
+import ir.ugstudio.vampire.views.activities.main.adapters.MessageViewAdapter;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -38,6 +41,8 @@ public class TowerDialog extends Dialog implements View.OnClickListener {
     private Button stealFromTower;
     private Button submitMessage;
     private EditText message;
+    private LinearLayout sendMessageSection;
+    private RecyclerView messagesList;
 
     public TowerDialog(Context context, Tower tower) {
         super(context);
@@ -65,6 +70,8 @@ public class TowerDialog extends Dialog implements View.OnClickListener {
         title = (TextView) findViewById(R.id.title);
         message = (EditText) findViewById(R.id.message);
         submitMessage = (Button) findViewById(R.id.submit_message);
+        sendMessageSection = (LinearLayout) findViewById(R.id.send_message_section);
+        messagesList = (RecyclerView) findViewById(R.id.messages);
     }
 
     private void configure() {
@@ -84,11 +91,16 @@ public class TowerDialog extends Dialog implements View.OnClickListener {
             Log.d("TAG", "owner?? " + tower.get_id() + " " + CacheManager.amIOwnerOfThisTower(tower.get_id()));
             if (CacheManager.amIOwnerOfThisTower(tower.get_id())) {
                 joinTowerOwners.setVisibility(View.GONE);
+                MessageViewAdapter adapter = new MessageViewAdapter(tower.getWall());
+                messagesList.setLayoutManager(new LinearLayoutManager(getContext()));
+                messagesList.setAdapter(adapter);
             } else {
+                sendMessageSection.setVisibility(View.GONE);
 
             }
         } else {
             joinTowerOwners.setVisibility(View.GONE);
+            sendMessageSection.setVisibility(View.GONE);
         }
 
         if (tower.getRole().equals(Consts.ROLE_HUNTER)) {
@@ -222,6 +234,7 @@ public class TowerDialog extends Dialog implements View.OnClickListener {
                         e.printStackTrace();
                     }
                     Toast.makeText(getContext(), result, Toast.LENGTH_SHORT).show();
+                    message.setText("");
                 } else {
                     Toast.makeText(getContext(), "NOT SUCCESSFUL", Toast.LENGTH_SHORT).show();
                 }
