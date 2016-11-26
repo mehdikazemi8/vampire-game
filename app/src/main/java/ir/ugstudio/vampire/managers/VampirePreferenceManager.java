@@ -84,4 +84,7 @@ public class VampirePreferenceManager {
         return preferences != null && preferences.contains(key);
     }
 
+    public static void clearAll(Context context) {
+        context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE).edit().clear().apply();
+    }
 }

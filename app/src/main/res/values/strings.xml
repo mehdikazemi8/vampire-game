@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Vampire</string>
+    <string name="btn_logout">خروج از حساب کاربری</string>
     <string name="title_activity_maps">Vampire</string>
     <string name="title_activity_splash">Vampire</string>
     <string name="title_activity_register">Vampire</string>
