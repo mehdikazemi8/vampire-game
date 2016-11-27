@@ -8,6 +8,12 @@ public class TowerMessage extends BaseModel {
     public TowerMessage() {
     }
 
+    public TowerMessage(String username, String message, Integer avatar) {
+        this.username = username;
+        this.message = message;
+        this.avatar = avatar;
+    }
+
     public String getUsername() {
         return username;
     }

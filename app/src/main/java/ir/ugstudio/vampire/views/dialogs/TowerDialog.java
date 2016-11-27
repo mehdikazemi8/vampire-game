@@ -110,7 +110,7 @@ public class TowerDialog extends Dialog implements View.OnClickListener {
         }
 
         for (TowerMessage message : tower.getWall()) {
-            Log.d("TAG", "message " + message.getMessage());
+            Log.d("TAG", "message ttt " + message.getMessage());
         }
 
         coinIcon.setTypeface(FontHelper.getIcons(getContext()));
@@ -216,10 +216,12 @@ public class TowerDialog extends Dialog implements View.OnClickListener {
             return;
         }
 
+        final String messageStr = message.getText().toString().trim();
+
         Call<ResponseBody> call = VampireApp.createMapApi().sendMessageToTower(
                 UserManager.readToken(getContext()),
                 tower.get_id(),
-                message.getText().toString().trim()
+                messageStr
         );
 
         call.enqueue(new Callback<ResponseBody>() {
@@ -235,6 +237,8 @@ public class TowerDialog extends Dialog implements View.OnClickListener {
                     }
                     Toast.makeText(getContext(), result, Toast.LENGTH_SHORT).show();
                     message.setText("");
+                    tower.getWall().add(new TowerMessage(CacheManager.getUser().getUsername(), messageStr, CacheManager.getUser().getAvatar()));
+                    
                 } else {
                     Toast.makeText(getContext(), "NOT SUCCESSFUL", Toast.LENGTH_SHORT).show();
                 }

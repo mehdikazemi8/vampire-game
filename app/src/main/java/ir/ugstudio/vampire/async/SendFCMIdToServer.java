@@ -11,7 +11,7 @@ import retrofit2.Response;
 
 public class SendFCMIdToServer {
     public static void run(String FCMId) {
-        if(FCMId == null) {
+        if(FCMId == null || CacheManager.getUser() == null) {
             return;
         }
 
