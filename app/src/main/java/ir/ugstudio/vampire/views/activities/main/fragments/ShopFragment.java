@@ -6,10 +6,17 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+
+import org.greenrobot.eventbus.EventBus;
 
 import ir.ugstudio.vampire.R;
+import ir.ugstudio.vampire.events.ConsumePurchase;
+import ir.ugstudio.vampire.events.StartPurchase;
 
-public class ShopFragment extends Fragment {
+public class ShopFragment extends Fragment implements View.OnClickListener {
+
+    private Button startPurchase;
 
     public static ShopFragment getInstance() {
         return new ShopFragment();
@@ -24,5 +31,25 @@ public class ShopFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        find(view);
+        configure();
+    }
+
+    private void find(View view) {
+        startPurchase = (Button) view.findViewById(R.id.start_purchase);
+    }
+
+    private void configure() {
+        startPurchase.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.start_purchase:
+                EventBus.getDefault().post(new StartPurchase());
+                break;
+        }
     }
 }
