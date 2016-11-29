@@ -32,7 +32,7 @@ import ir.ugstudio.vampire.views.activities.main.fragments.MapFragment;
 import ir.ugstudio.vampire.views.activities.main.fragments.NotificationsFragment;
 import ir.ugstudio.vampire.views.activities.main.fragments.RanklistFragment;
 import ir.ugstudio.vampire.views.activities.main.fragments.SettingsFragment;
-import ir.ugstudio.vampire.views.activities.main.fragments.ShopFragment;
+import ir.ugstudio.vampire.views.activities.main.fragments.StoreFragment;
 
 public class MainActivity extends FragmentActivity {
 
@@ -114,7 +114,7 @@ public class MainActivity extends FragmentActivity {
 
     private void setFragments() {
         fragments[0] = SettingsFragment.getInstance();
-        fragments[1] = ShopFragment.getInstance();
+        fragments[1] = StoreFragment.getInstance();
         fragments[2] = NotificationsFragment.getInstance();
         fragments[3] = RanklistFragment.getInstance();
         fragments[4] = MapFragment.getInstance();
