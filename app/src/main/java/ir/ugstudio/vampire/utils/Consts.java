@@ -13,4 +13,6 @@ public class Consts {
 
     public static String ROLE_VAMPIRE = "vampire";
     public static String ROLE_HUNTER = "hunter";
+
+    public static String SP_STORE_ITEMS = "SP_STORE_ITEMS";
 }

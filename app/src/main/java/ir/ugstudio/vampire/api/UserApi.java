@@ -1,6 +1,7 @@
 package ir.ugstudio.vampire.api;
 
 import ir.ugstudio.vampire.models.Ranklist;
+import ir.ugstudio.vampire.models.StoreItems;
 import ir.ugstudio.vampire.models.User;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -48,5 +49,11 @@ public interface UserApi {
     Call<ResponseBody> sendFCMIdToServer(
             @Field("token") String token,
             @Field("fcmId") String fcmId
+    );
+
+    @FormUrlEncoded
+    @POST("getstoreitems")
+    Call<StoreItems> getStoreItems(
+            @Field("token") String token
     );
 }

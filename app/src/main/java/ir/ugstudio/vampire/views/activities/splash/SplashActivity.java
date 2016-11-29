@@ -13,6 +13,7 @@ import org.greenrobot.eventbus.Subscribe;
 import ir.ugstudio.vampire.R;
 import ir.ugstudio.vampire.async.GetProfile;
 import ir.ugstudio.vampire.async.GetQuotes;
+import ir.ugstudio.vampire.async.GetStoreItems;
 import ir.ugstudio.vampire.events.GetProfileEvent;
 import ir.ugstudio.vampire.managers.UserManager;
 import ir.ugstudio.vampire.models.User;
@@ -36,6 +37,7 @@ public class SplashActivity extends FragmentActivity {
             startRegisterActivity();
         } else {
             GetProfile.run(SplashActivity.this);
+            GetStoreItems.run(SplashActivity.this);
         }
     }
 
