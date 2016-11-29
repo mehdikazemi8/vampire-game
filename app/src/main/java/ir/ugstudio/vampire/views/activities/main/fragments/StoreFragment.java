@@ -3,6 +3,9 @@ package ir.ugstudio.vampire.views.activities.main.fragments;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,12 +13,22 @@ import android.widget.Button;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.util.List;
+
 import ir.ugstudio.vampire.R;
 import ir.ugstudio.vampire.events.StartPurchase;
+import ir.ugstudio.vampire.managers.SharedPrefManager;
+import ir.ugstudio.vampire.models.StoreItemReal;
+import ir.ugstudio.vampire.models.StoreItems;
+import ir.ugstudio.vampire.views.activities.main.adapters.StoreItemAdapterReal;
 
 public class StoreFragment extends Fragment implements View.OnClickListener {
 
     private Button startPurchase;
+    private RecyclerView virtualItems;
+    private RecyclerView realItems;
+    private StoreItemAdapterReal realItemsAdapter;
+    private List<StoreItemReal> realItemsList;
 
     public static StoreFragment getInstance() {
         return new StoreFragment();
@@ -37,10 +50,26 @@ public class StoreFragment extends Fragment implements View.OnClickListener {
 
     private void find(View view) {
         startPurchase = (Button) view.findViewById(R.id.start_purchase);
+        realItems = (RecyclerView) view.findViewById(R.id.real_items);
+        virtualItems = (RecyclerView) view.findViewById(R.id.virtual_items);
     }
 
     private void configure() {
         startPurchase.setOnClickListener(this);
+        realItems.setLayoutManager(new LinearLayoutManager(getActivity()));
+        virtualItems.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        configureRealItems();
+    }
+
+    private void configureRealItems() {
+        StoreItems storeItems = SharedPrefManager.readStoreItems(getActivity());
+        if (storeItems != null) {
+            Log.d("TAG", "configureRealItems " + storeItems.getReals().size());
+            realItemsList = storeItems.getReals();
+            realItemsAdapter = new StoreItemAdapterReal(realItemsList);
+            realItems.setAdapter(realItemsAdapter);
+        }
     }
 
     @Override
