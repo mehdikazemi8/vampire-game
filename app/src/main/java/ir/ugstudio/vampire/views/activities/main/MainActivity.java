@@ -18,14 +18,19 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.io.IOException;
+
 import ir.ugstudio.vampire.R;
+import ir.ugstudio.vampire.VampireApp;
+import ir.ugstudio.vampire.async.GetProfile;
 import ir.ugstudio.vampire.async.SendFCMIdToServer;
 import ir.ugstudio.vampire.cafeutil.IabHelper;
 import ir.ugstudio.vampire.cafeutil.IabResult;
 import ir.ugstudio.vampire.cafeutil.Inventory;
 import ir.ugstudio.vampire.cafeutil.Purchase;
-import ir.ugstudio.vampire.events.ConsumePurchase;
 import ir.ugstudio.vampire.events.StartRealPurchase;
+import ir.ugstudio.vampire.managers.UserManager;
+import ir.ugstudio.vampire.models.StoreItemReal;
 import ir.ugstudio.vampire.utils.FontHelper;
 import ir.ugstudio.vampire.views.activities.main.adapters.MainFragmentsPagerAdapter;
 import ir.ugstudio.vampire.views.activities.main.fragments.MapFragment;
@@ -33,6 +38,10 @@ import ir.ugstudio.vampire.views.activities.main.fragments.NotificationsFragment
 import ir.ugstudio.vampire.views.activities.main.fragments.RanklistFragment;
 import ir.ugstudio.vampire.views.activities.main.fragments.SettingsFragment;
 import ir.ugstudio.vampire.views.activities.main.fragments.StoreFragment;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends FragmentActivity {
 
@@ -76,6 +85,7 @@ public class MainActivity extends FragmentActivity {
         public void onConsumeFinished(Purchase purchase, IabResult result) {
             Log.d("TAG", "now consume: " + result.getMessage());
             Toast.makeText(MainActivity.this, "consume " + purchase.getSku(), Toast.LENGTH_SHORT).show();
+            finalizeRealPurchase(purchase);
         }
     };
     IabHelper.OnIabPurchaseFinishedListener mPurchaseFinishedListener = new IabHelper.OnIabPurchaseFinishedListener() {
@@ -85,7 +95,9 @@ public class MainActivity extends FragmentActivity {
                 Log.d(TAG, "Error purchasing: " + result);
                 return;
             } else if (purchase.getSku().equals(SKU_PREMIUM)) {
-                mHelper.consumeAsync(purchase, onConsumeFinishedListener);
+
+                confirmRealPurchase(purchase);
+
                 // give user access to premium content and update the UI
             }
         }
@@ -206,21 +218,82 @@ public class MainActivity extends FragmentActivity {
     @Subscribe
     public void onEvent(StartRealPurchase event) {
         if (mHelper != null) {
-            SKU_PREMIUM = event.getItem().getItemSku();
-            mHelper.launchPurchaseFlow(this, SKU_PREMIUM, RC_REQUEST, mPurchaseFinishedListener, "payload-string11");
+            startRealPurchase(event.getItem());
         } else {
             Toast.makeText(this, "null", Toast.LENGTH_SHORT).show();
         }
     }
 
-    @Subscribe
-    public void onEvent(ConsumePurchase event) {
-        Toast.makeText(this, "consume purchase start", Toast.LENGTH_SHORT).show();
+    private void startRealPurchase(StoreItemReal item) {
+        SKU_PREMIUM = item.getItemSku();
 
-        if (mHelper != null) {
-//            mHelper.consumeAsync();
-        } else {
-            Toast.makeText(this, "consume purchase null", Toast.LENGTH_SHORT).show();
+        String token = UserManager.readToken(this);
+        Call<ResponseBody> call = VampireApp.createUserApi().startRealPurchase(token, item.getItemSku());
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    continueRealPurchase(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void continueRealPurchase(ResponseBody response) {
+        String developerPayload = "IOEXception";
+        try {
+            developerPayload = response.string();
+            mHelper.launchPurchaseFlow(this, SKU_PREMIUM, RC_REQUEST, mPurchaseFinishedListener, developerPayload);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+    }
+
+    private void confirmRealPurchase(final Purchase purchase) {
+        String token = UserManager.readToken(this);
+        Call<ResponseBody> call = VampireApp.createUserApi().confirmRealPurchase(
+                token, purchase.getOrderId(), purchase.getDeveloperPayload()
+        );
+
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    mHelper.consumeAsync(purchase, onConsumeFinishedListener);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void finalizeRealPurchase(final Purchase purchase) {
+        String token = UserManager.readToken(this);
+        Call<ResponseBody> call = VampireApp.createUserApi().finalizeRealPurchase(
+                token, purchase.getDeveloperPayload()
+        );
+
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    GetProfile.run(MainActivity.this);
+                    Toast.makeText(MainActivity.this, "finalize " + purchase.getSku(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+            }
+        });
     }
 }

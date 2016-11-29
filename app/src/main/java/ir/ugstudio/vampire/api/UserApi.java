@@ -56,4 +56,26 @@ public interface UserApi {
     Call<StoreItems> getStoreItems(
             @Field("token") String token
     );
+
+    @FormUrlEncoded
+    @POST("startrealpurchase")
+    Call<ResponseBody> startRealPurchase(
+            @Field("token") String token,
+            @Field("itemSku") String itemSku
+    );
+
+    @FormUrlEncoded
+    @POST("confirmrealpurchase")
+    Call<ResponseBody> confirmRealPurchase(
+            @Field("token") String token,
+            @Field("orderID") String orderID,
+            @Field("developerPayload") String developerPayload
+    );
+
+    @FormUrlEncoded
+    @POST("finalizerealpurchase")
+    Call<ResponseBody> finalizeRealPurchase(
+            @Field("token") String token,
+            @Field("developerPayload") String developerPayload
+    );
 }
