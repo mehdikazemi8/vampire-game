@@ -17,7 +17,7 @@ import org.greenrobot.eventbus.EventBus;
 import java.util.List;
 
 import ir.ugstudio.vampire.R;
-import ir.ugstudio.vampire.events.StartPurchase;
+import ir.ugstudio.vampire.events.StartRealPurchase;
 import ir.ugstudio.vampire.managers.SharedPrefManager;
 import ir.ugstudio.vampire.models.StoreItemReal;
 import ir.ugstudio.vampire.models.StoreItems;
@@ -73,6 +73,7 @@ public class StoreFragment extends Fragment implements View.OnClickListener {
                 @Override
                 public void onItemClick(StoreItemReal item) {
                     Toast.makeText(getActivity(), item.getItemSku(), Toast.LENGTH_SHORT).show();
+                    EventBus.getDefault().post(new StartRealPurchase(item));
                 }
             });
             realItems.setAdapter(realItemsAdapter);
@@ -83,7 +84,7 @@ public class StoreFragment extends Fragment implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.start_purchase:
-                EventBus.getDefault().post(new StartPurchase());
+//                EventBus.getDefault().post(new StartRealPurchase());
                 break;
         }
     }

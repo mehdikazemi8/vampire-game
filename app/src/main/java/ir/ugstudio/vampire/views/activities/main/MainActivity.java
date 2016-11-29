@@ -25,7 +25,7 @@ import ir.ugstudio.vampire.cafeutil.IabResult;
 import ir.ugstudio.vampire.cafeutil.Inventory;
 import ir.ugstudio.vampire.cafeutil.Purchase;
 import ir.ugstudio.vampire.events.ConsumePurchase;
-import ir.ugstudio.vampire.events.StartPurchase;
+import ir.ugstudio.vampire.events.StartRealPurchase;
 import ir.ugstudio.vampire.utils.FontHelper;
 import ir.ugstudio.vampire.views.activities.main.adapters.MainFragmentsPagerAdapter;
 import ir.ugstudio.vampire.views.activities.main.fragments.MapFragment;
@@ -39,10 +39,10 @@ public class MainActivity extends FragmentActivity {
     public static final int NUMBER_OF_FRAGMENTS = 5;
     // Debug tag, for logging
     static final String TAG = "";
-    // SKUs for our products: the premium upgrade (non-consumable)
-    static final String SKU_PREMIUM = "coin-500";
     // (arbitrary) request code for the purchase flow
     static final int RC_REQUEST = 1367;
+    // SKUs for our products: the premium upgrade (non-consumable)
+    static String SKU_PREMIUM = "coin-500";
     private static Fragment[] fragments = new Fragment[NUMBER_OF_FRAGMENTS];
     // Does the user have the premium upgrade?
     boolean mIsPremium = false;
@@ -71,6 +71,13 @@ public class MainActivity extends FragmentActivity {
             Log.d(TAG, "Initial inventory query finished; enabling main UI.");
         }
     };
+    IabHelper.OnConsumeFinishedListener onConsumeFinishedListener = new IabHelper.OnConsumeFinishedListener() {
+        @Override
+        public void onConsumeFinished(Purchase purchase, IabResult result) {
+            Log.d("TAG", "now consume: " + result.getMessage());
+            Toast.makeText(MainActivity.this, "consume " + purchase.getSku(), Toast.LENGTH_SHORT).show();
+        }
+    };
     IabHelper.OnIabPurchaseFinishedListener mPurchaseFinishedListener = new IabHelper.OnIabPurchaseFinishedListener() {
         public void onIabPurchaseFinished(IabResult result, Purchase purchase) {
 
@@ -83,14 +90,6 @@ public class MainActivity extends FragmentActivity {
             }
         }
     };
-
-    IabHelper.OnConsumeFinishedListener onConsumeFinishedListener = new IabHelper.OnConsumeFinishedListener() {
-        @Override
-        public void onConsumeFinished(Purchase purchase, IabResult result) {
-            Log.d("TAG", "now consume: " + result.getMessage());
-        }
-    };
-
     private ViewPager viewPager;
     private TabLayout tabLayout;
 
@@ -205,11 +204,13 @@ public class MainActivity extends FragmentActivity {
     }
 
     @Subscribe
-    public void onEvent(StartPurchase event) {
-        if (mHelper != null)
+    public void onEvent(StartRealPurchase event) {
+        if (mHelper != null) {
+            SKU_PREMIUM = event.getItem().getItemSku();
             mHelper.launchPurchaseFlow(this, SKU_PREMIUM, RC_REQUEST, mPurchaseFinishedListener, "payload-string11");
-        else
+        } else {
             Toast.makeText(this, "null", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Subscribe
