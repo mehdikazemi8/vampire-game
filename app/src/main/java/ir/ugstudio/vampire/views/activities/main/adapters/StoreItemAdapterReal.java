@@ -11,25 +11,29 @@ import java.util.List;
 import ir.ugstudio.vampire.R;
 import ir.ugstudio.vampire.models.StoreItemReal;
 
-public class StoreItemAdapterReal extends RecyclerView.Adapter<StoreItemViewHolder> {
+public class StoreItemAdapterReal extends RecyclerView.Adapter<StoreItemViewHolderReal> {
 
+    private final OnRealStoreItemClickListener listener;
     private List<StoreItemReal> items;
 
-    public StoreItemAdapterReal(List<StoreItemReal> items) {
+    public StoreItemAdapterReal(List<StoreItemReal> items, OnRealStoreItemClickListener listener) {
+        this.listener = listener;
         this.items = items;
     }
 
     @Override
-    public StoreItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public StoreItemViewHolderReal onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(
                 R.layout.template_store_item, parent, false
         );
-        return new StoreItemViewHolder(view);
+        return new StoreItemViewHolderReal(view);
     }
 
     @Override
-    public void onBindViewHolder(StoreItemViewHolder holder, int position) {
+    public void onBindViewHolder(StoreItemViewHolderReal holder, int position) {
         Log.d("TAG", "onBindViewHolder " + position);
+
+        holder.bind(items.get(position), listener);
 
         if (items.get(position).getImageType() == 1)
             holder.icon.setBackgroundResource(R.drawable.v_avatar_01);

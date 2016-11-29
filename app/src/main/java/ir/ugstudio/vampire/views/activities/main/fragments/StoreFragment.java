@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -20,6 +21,7 @@ import ir.ugstudio.vampire.events.StartPurchase;
 import ir.ugstudio.vampire.managers.SharedPrefManager;
 import ir.ugstudio.vampire.models.StoreItemReal;
 import ir.ugstudio.vampire.models.StoreItems;
+import ir.ugstudio.vampire.views.activities.main.adapters.OnRealStoreItemClickListener;
 import ir.ugstudio.vampire.views.activities.main.adapters.StoreItemAdapterReal;
 
 public class StoreFragment extends Fragment implements View.OnClickListener {
@@ -67,7 +69,12 @@ public class StoreFragment extends Fragment implements View.OnClickListener {
         if (storeItems != null) {
             Log.d("TAG", "configureRealItems " + storeItems.getReals().size());
             realItemsList = storeItems.getReals();
-            realItemsAdapter = new StoreItemAdapterReal(realItemsList);
+            realItemsAdapter = new StoreItemAdapterReal(realItemsList, new OnRealStoreItemClickListener() {
+                @Override
+                public void onItemClick(StoreItemReal item) {
+                    Toast.makeText(getActivity(), item.getItemSku(), Toast.LENGTH_SHORT).show();
+                }
+            });
             realItems.setAdapter(realItemsAdapter);
         }
     }
