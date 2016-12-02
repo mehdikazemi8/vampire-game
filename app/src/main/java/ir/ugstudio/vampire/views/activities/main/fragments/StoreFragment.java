@@ -14,15 +14,26 @@ import android.widget.Toast;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.io.IOException;
 import java.util.List;
 
 import ir.ugstudio.vampire.R;
+import ir.ugstudio.vampire.VampireApp;
+import ir.ugstudio.vampire.async.GetProfile;
 import ir.ugstudio.vampire.events.StartRealPurchase;
 import ir.ugstudio.vampire.managers.SharedPrefManager;
+import ir.ugstudio.vampire.managers.UserManager;
 import ir.ugstudio.vampire.models.StoreItemReal;
+import ir.ugstudio.vampire.models.StoreItemVirtual;
 import ir.ugstudio.vampire.models.StoreItems;
 import ir.ugstudio.vampire.views.activities.main.adapters.OnRealStoreItemClickListener;
+import ir.ugstudio.vampire.views.activities.main.adapters.OnVirtualStoreItemClickListener;
 import ir.ugstudio.vampire.views.activities.main.adapters.StoreItemAdapterReal;
+import ir.ugstudio.vampire.views.activities.main.adapters.StoreItemAdapterVirtual;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class StoreFragment extends Fragment implements View.OnClickListener {
 
@@ -30,7 +41,9 @@ public class StoreFragment extends Fragment implements View.OnClickListener {
     private RecyclerView virtualItems;
     private RecyclerView realItems;
     private StoreItemAdapterReal realItemsAdapter;
+    private StoreItemAdapterVirtual virtualItemsAdapter;
     private List<StoreItemReal> realItemsList;
+    private List<StoreItemVirtual> virtualItemsList;
 
     public static StoreFragment getInstance() {
         return new StoreFragment();
@@ -62,6 +75,51 @@ public class StoreFragment extends Fragment implements View.OnClickListener {
         virtualItems.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         configureRealItems();
+        configureVirtualItems();
+    }
+
+    private void configureVirtualItems() {
+        StoreItems storeItems = SharedPrefManager.readStoreItems(getActivity());
+        if (storeItems != null) {
+            Log.d("TAG", "configureVirtualItems " + storeItems.getVirtuals().size());
+            virtualItemsList = storeItems.getVirtuals();
+            virtualItemsAdapter = new StoreItemAdapterVirtual(virtualItemsList, new OnVirtualStoreItemClickListener() {
+                @Override
+                public void onItemClick(StoreItemVirtual item) {
+                    startVirtualPurchase(item);
+                }
+            });
+            virtualItems.setAdapter(virtualItemsAdapter);
+        }
+    }
+
+    private void startVirtualPurchase(StoreItemVirtual item) {
+        String token = UserManager.readToken(getActivity());
+        Call<ResponseBody> call = VampireApp.createUserApi().virtualPurchase(
+                token, item.getItemId()
+        );
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                String result = "IOEXception";
+                try {
+                    result = response.body().string();
+                    Log.d("TAG", "xxx " + result);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                Toast.makeText(getContext(), result, Toast.LENGTH_SHORT).show();
+
+                if (response.isSuccessful()) {
+                    GetProfile.run(getActivity());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+            }
+        });
     }
 
     private void configureRealItems() {

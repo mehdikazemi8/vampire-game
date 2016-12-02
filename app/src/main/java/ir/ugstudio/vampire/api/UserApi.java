@@ -78,4 +78,11 @@ public interface UserApi {
             @Field("token") String token,
             @Field("developerPayload") String developerPayload
     );
+
+    @FormUrlEncoded
+    @POST("virtualpurchase")
+    Call<ResponseBody> virtualPurchase(
+            @Field("token") String token,
+            @Field("itemId") String itemId
+    );
 }
