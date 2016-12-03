@@ -45,6 +45,8 @@
         <item>vampire</item>
     </string-array>
 
+    <string name="template_notification_message" formatted="false">&#160; ازت %d سکه دزدید و گفت: &#160;</string>
+
     <string name="icon.map">A</string>
     <string name="icon.ranklist">B</string>
     <string name="icon.notifications">C</string>

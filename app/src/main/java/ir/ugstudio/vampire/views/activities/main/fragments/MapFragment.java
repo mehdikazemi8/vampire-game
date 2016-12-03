@@ -734,6 +734,7 @@ public class MapFragment extends BaseFragment
             markers.add(marker);
         }
 
+        // todo why this crashes when app starts
         addMeToMap(CacheManager.getLastLocation().getLatitude(), CacheManager.getLastLocation().getLongitude(), MIN_ZOOM_HEAL_MODE, false);
     }
 

@@ -1,5 +1,6 @@
 package ir.ugstudio.vampire.api;
 
+import ir.ugstudio.vampire.models.NotificationList;
 import ir.ugstudio.vampire.models.Ranklist;
 import ir.ugstudio.vampire.models.StoreItems;
 import ir.ugstudio.vampire.models.User;
@@ -88,7 +89,7 @@ public interface UserApi {
 
     @FormUrlEncoded
     @POST("getnotification")
-    Call<ResponseBody> getNotification(
+    Call<NotificationList> getNotification(
             @Field("token") String token
     );
 }
