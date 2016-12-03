@@ -428,6 +428,16 @@ public class MapFragment extends BaseFragment
             markers.add(marker);
         }
 
+        for (User user : response.getSheeps()) {
+            markerOptions.position(new LatLng(user.getGeo().get(0), user.getGeo().get(1)));
+            markerOptions.title(user.getUsername());
+            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.sheep));
+
+            marker = googleMap.addMarker(markerOptions);
+            marker.setTag(user);
+            markers.add(marker);
+        }
+
         for (User user : response.getHunters()) {
             markerOptions.position(new LatLng(user.getGeo().get(0), user.getGeo().get(1)));
             markerOptions.title(user.getUsername());

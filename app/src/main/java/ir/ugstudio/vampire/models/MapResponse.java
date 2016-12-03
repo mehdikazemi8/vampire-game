@@ -7,10 +7,19 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class MapResponse extends BaseModel {
     private List<Tower> towers;
+    private List<User> sheeps;
     private List<User> vampires;
     private List<User> hunters;
 
     public MapResponse() {
+    }
+
+    public List<User> getSheeps() {
+        return sheeps;
+    }
+
+    public void setSheeps(List<User> sheeps) {
+        this.sheeps = sheeps;
     }
 
     public List<Tower> getTowers() {
