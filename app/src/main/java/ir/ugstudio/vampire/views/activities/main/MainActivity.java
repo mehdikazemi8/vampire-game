@@ -32,6 +32,7 @@ import ir.ugstudio.vampire.events.StartRealPurchase;
 import ir.ugstudio.vampire.managers.UserManager;
 import ir.ugstudio.vampire.models.StoreItemReal;
 import ir.ugstudio.vampire.utils.FontHelper;
+import ir.ugstudio.vampire.views.BaseFragment;
 import ir.ugstudio.vampire.views.activities.main.adapters.MainFragmentsPagerAdapter;
 import ir.ugstudio.vampire.views.activities.main.fragments.MapFragment;
 import ir.ugstudio.vampire.views.activities.main.fragments.NotificationsFragment;
@@ -52,7 +53,7 @@ public class MainActivity extends FragmentActivity {
     static final int RC_REQUEST = 1367;
     // SKUs for our products: the premium upgrade (non-consumable)
     static String SKU_PREMIUM = "coin-500";
-    private static Fragment[] fragments = new Fragment[NUMBER_OF_FRAGMENTS];
+    private static BaseFragment[] fragments = new BaseFragment[NUMBER_OF_FRAGMENTS];
     // Does the user have the premium upgrade?
     boolean mIsPremium = false;
     // The helper object
@@ -141,8 +142,28 @@ public class MainActivity extends FragmentActivity {
 
     private void configure() {
         configureTabLayoutFont();
+        configureViewPager();
+    }
+
+    private void configureViewPager() {
         viewPager.setOffscreenPageLimit(4);
         viewPager.setCurrentItem(4);
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                Log.d("TAG", "onPageSelected " + position);
+                fragments[position].onBringToFront();
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
     private void configureTabLayoutFont() {

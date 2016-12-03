@@ -2,7 +2,6 @@ package ir.ugstudio.vampire.views.activities.main.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -26,6 +25,7 @@ import ir.ugstudio.vampire.managers.UserManager;
 import ir.ugstudio.vampire.models.StoreItemReal;
 import ir.ugstudio.vampire.models.StoreItemVirtual;
 import ir.ugstudio.vampire.models.StoreItems;
+import ir.ugstudio.vampire.views.BaseFragment;
 import ir.ugstudio.vampire.views.activities.main.adapters.OnRealStoreItemClickListener;
 import ir.ugstudio.vampire.views.activities.main.adapters.OnVirtualStoreItemClickListener;
 import ir.ugstudio.vampire.views.activities.main.adapters.StoreItemAdapterReal;
@@ -35,7 +35,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class StoreFragment extends Fragment implements View.OnClickListener {
+public class StoreFragment extends BaseFragment implements View.OnClickListener {
 
     private Button startPurchase;
     private RecyclerView virtualItems;
@@ -145,5 +145,11 @@ public class StoreFragment extends Fragment implements View.OnClickListener {
 //                EventBus.getDefault().post(new StartRealPurchase());
                 break;
         }
+    }
+
+    @Override
+    public void onBringToFront() {
+        super.onBringToFront();
+        Log.d("TAG", "onBringToFront StoreFragment");
     }
 }

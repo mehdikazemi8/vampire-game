@@ -2,7 +2,6 @@ package ir.ugstudio.vampire.views.activities.main.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -15,12 +14,13 @@ import ir.ugstudio.vampire.VampireApp;
 import ir.ugstudio.vampire.managers.UserManager;
 import ir.ugstudio.vampire.models.Ranklist;
 import ir.ugstudio.vampire.models.User;
+import ir.ugstudio.vampire.views.BaseFragment;
 import ir.ugstudio.vampire.views.activities.main.adapters.RankViewAdapter;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class RanklistFragment extends Fragment {
+public class RanklistFragment extends BaseFragment {
     private RecyclerView ranklist;
     private RankViewAdapter adapter;
 
@@ -57,7 +57,7 @@ public class RanklistFragment extends Fragment {
             @Override
             public void onResponse(Call<Ranklist> call, Response<Ranklist> response) {
                 if (response.isSuccessful()) {
-                    for(User user : response.body().getTop()) {
+                    for (User user : response.body().getTop()) {
                         Log.d("TAG", "rank " + user.getUsername());
                     }
                     response.body().getTop().addAll(response.body().getNear());
@@ -71,5 +71,11 @@ public class RanklistFragment extends Fragment {
                 Log.d("TAG", "onFailure " + t.getMessage());
             }
         });
+    }
+
+    @Override
+    public void onBringToFront() {
+        super.onBringToFront();
+        Log.d("TAG", "onBringToFront RanklistFragment");
     }
 }

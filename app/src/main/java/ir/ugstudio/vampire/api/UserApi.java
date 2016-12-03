@@ -85,4 +85,10 @@ public interface UserApi {
             @Field("token") String token,
             @Field("itemId") String itemId
     );
+
+    @FormUrlEncoded
+    @POST("getnotification")
+    Call<ResponseBody> getNotification(
+            @Field("token") String token
+    );
 }

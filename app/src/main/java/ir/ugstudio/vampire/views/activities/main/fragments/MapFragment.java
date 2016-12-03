@@ -8,7 +8,6 @@ import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -56,6 +55,7 @@ import ir.ugstudio.vampire.models.Tower;
 import ir.ugstudio.vampire.models.User;
 import ir.ugstudio.vampire.utils.Consts;
 import ir.ugstudio.vampire.utils.FontHelper;
+import ir.ugstudio.vampire.views.BaseFragment;
 import ir.ugstudio.vampire.views.dialogs.AttackDialog;
 import ir.ugstudio.vampire.views.dialogs.HealDialog;
 import ir.ugstudio.vampire.views.dialogs.TowerDialog;
@@ -64,51 +64,43 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MapFragment extends Fragment
+public class MapFragment extends BaseFragment
         implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener,
         GoogleApiClient.ConnectionCallbacks, LocationListener, View.OnClickListener,
         GoogleMap.OnCameraMoveListener {
 
-    private GoogleMap googleMap;
-    private GoogleApiClient mGoogleApiClient = null;
+    private static long lastRequestTime = 0;
     private final int MIN_ZOOM = 16;
     private final int MAX_ZOOM = 17;
-
     private final int MIN_ZOOM_HEAL_MODE = 14;
     private final int MAX_ZOOM_HEAL_MODE = 17;
-
+    boolean addingTowerMode = false;
+    boolean healMode = false;
+    boolean collectCoinsMode = false;
+    boolean watchMyTowersMode = false;
+    private GoogleMap googleMap;
+    private GoogleApiClient mGoogleApiClient = null;
     private Queue<Tower> towersToCollectCoin = new LinkedList<>();
     private Queue<Tower> towersToWatch = new LinkedList<>();
     private Tower nowOnThisTower = null;
-
-    private static long lastRequestTime = 0;
-
-    public static MapFragment getInstance() {
-        return new MapFragment();
-    }
-
     private MapView mapView;
-
     private TextView coin;
     private TextView score;
     private TextView rank;
     private FloatingActionButton addTower;
     private FloatingActionButton watchMyTowers;
     private FloatingActionButton collectCoinFromMyTowers;
-
-    boolean addingTowerMode = false;
-    boolean healMode = false;
-    boolean collectCoinsMode = false;
-    boolean watchMyTowersMode = false;
-
     private TextView coinIcon;
     private TextView scoreIcon;
     private TextView rankIcon;
-
     private MarkerOptions sampleTower = new MarkerOptions();
     private Marker sampleTowerMarker = null;
     private List<Marker> markers = new ArrayList<>();
     private MapResponse lastResponse = null;
+
+    public static MapFragment getInstance() {
+        return new MapFragment();
+    }
 
     @Nullable
     @Override
@@ -806,5 +798,11 @@ public class MapFragment extends Fragment
                 Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    @Override
+    public void onBringToFront() {
+        super.onBringToFront();
+        Log.d("TAG", "onBringToFront MapFragment");
     }
 }
