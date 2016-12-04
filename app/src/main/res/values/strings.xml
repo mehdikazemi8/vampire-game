@@ -47,6 +47,8 @@
 
     <string name="template_notification_message" formatted="false">&#160; ازت %d سکه دزدید و گفت: &#160;</string>
 
+    <string name="message_share" formatted="false">ببین پاشو بیا این اپلیکیشن رو دانلود کن \n وقتی وارد شدی هم این کد رو بزن تا پولدار بشی \n کد من : %s </string>
+
     <string name="icon.map">A</string>
     <string name="icon.ranklist">B</string>
     <string name="icon.notifications">C</string>

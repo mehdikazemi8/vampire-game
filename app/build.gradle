@@ -8,8 +8,8 @@ android {
         minSdkVersion 14
         targetSdkVersion 24
         multiDexEnabled true
-        versionCode 4
-        versionName "0.7.0"
+        versionCode 5
+        versionName "0.7.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
@@ -51,6 +51,8 @@ dependencies {
     compile 'com.google.firebase:firebase-core:9.6.1'
     compile 'com.google.firebase:firebase-messaging:9.6.1'
     compile 'com.squareup.picasso:picasso:2.5.2'
+
+    compile 'fr.avianey.com.viewpagerindicator:library:2.4.1.1@aar'
 }
 
 apply plugin: 'com.google.gms.google-services'

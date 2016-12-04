@@ -5,14 +5,39 @@
 
     <TextView
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:text="Settings Fragment"
-        android:layout_height="wrap_content" />
+        android:text="Settings Fragment" />
 
-    <Button
-        android:id="@+id/logout"
-        android:layout_width="wrap_content"
-        android:text="@string/btn_logout"
-        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/logout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_logout" />
+
+        <Button
+            android:id="@+id/share"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="share" />
+
+        <Button
+            android:id="@+id/rate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="rate" />
+
+        <Button
+            android:id="@+id/select_avatar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="select avatar" />
+
+    </LinearLayout>
 
 </RelativeLayout>

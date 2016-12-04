@@ -157,6 +157,7 @@ public class MapFragment extends BaseFragment
     }
 
     private void updateView(User user) {
+        // todo, when goes to cafe for rating and comes back it crashes
         coin.setText(String.valueOf(user.getCoin()));
         rank.setText(String.valueOf(user.getRank()));
         score.setText(String.valueOf(user.getScore()));
