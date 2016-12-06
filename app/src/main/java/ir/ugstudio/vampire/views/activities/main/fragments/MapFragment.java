@@ -87,9 +87,12 @@ public class MapFragment extends BaseFragment
     private TextView coin;
     private TextView score;
     private TextView rank;
+
+    private FloatingActionButton cancelButton;
     private FloatingActionButton addTower;
     private FloatingActionButton watchMyTowers;
     private FloatingActionButton collectCoinFromMyTowers;
+
     private TextView coinIcon;
     private TextView scoreIcon;
     private TextView rankIcon;
@@ -147,6 +150,7 @@ public class MapFragment extends BaseFragment
         score = (TextView) view.findViewById(R.id.score);
         rank = (TextView) view.findViewById(R.id.rank);
 
+        cancelButton = (FloatingActionButton) view.findViewById(R.id.cancel_button);
         addTower = (FloatingActionButton) view.findViewById(R.id.add_tower);
         collectCoinFromMyTowers = (FloatingActionButton) view.findViewById(R.id.collect_coin_from_my_towers);
         watchMyTowers = (FloatingActionButton) view.findViewById(R.id.watch_my_towers);
@@ -173,6 +177,7 @@ public class MapFragment extends BaseFragment
         addTower.setOnClickListener(this);
         watchMyTowers.setOnClickListener(this);
         collectCoinFromMyTowers.setOnClickListener(this);
+        cancelButton.setOnClickListener(this);
     }
 
     @Override
@@ -503,10 +508,25 @@ public class MapFragment extends BaseFragment
         }
     }
 
-    private void handleAddTower() {
-        addTower.setVisibility(View.INVISIBLE);
+    private void revertButtonsState(boolean buttonsVisible) {
+        Log.d("TAG", "revertButtonsState " + buttonsVisible);
+        if (!buttonsVisible) {
+            addTower.setVisibility(View.INVISIBLE);
+            collectCoinFromMyTowers.setVisibility(View.INVISIBLE);
+            watchMyTowers.setVisibility(View.INVISIBLE);
+            cancelButton.setVisibility(View.VISIBLE);
+        } else {
+            addTower.setVisibility(View.VISIBLE);
+            collectCoinFromMyTowers.setVisibility(View.VISIBLE);
+            watchMyTowers.setVisibility(View.VISIBLE);
+            cancelButton.setVisibility(View.INVISIBLE);
+        }
+    }
 
-        Log.d("TAG", "" + googleMap.getCameraPosition().target);
+    private void handleAddTower() {
+        revertButtonsState(false);
+
+        Log.d("TAG", "handleAddTower " + googleMap.getCameraPosition().target);
 
         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
                 new LatLng(CacheManager.getLastLocation().getLatitude(), CacheManager.getLastLocation().getLongitude()), MIN_ZOOM));
@@ -538,6 +558,7 @@ public class MapFragment extends BaseFragment
         }
 
         if (towersToCollectCoin.size() > 0) {
+            revertButtonsState(false);
             collectCoinsMode = true;
             googleMap.clear();
             showNextTowerToCollect();
@@ -569,7 +590,14 @@ public class MapFragment extends BaseFragment
 
     private void finishCollectCoinsMode() {
         collectCoinsMode = false;
+        revertButtonsState(true);
         requestForMap(CacheManager.getLastLocation().getLatitude(), CacheManager.getLastLocation().getLongitude(), false);
+    }
+
+    private void actionCanceled() {
+        watchMyTowersMode = healMode = addingTowerMode = collectCoinsMode = false;
+        revertButtonsState(true);
+        requestForMap(CacheManager.getLastLocation().getLatitude(), CacheManager.getLastLocation().getLongitude(), true);
     }
 
     @Override
@@ -586,10 +614,16 @@ public class MapFragment extends BaseFragment
             case R.id.watch_my_towers:
                 startWatchMyTowersMode();
                 break;
+
+            case R.id.cancel_button:
+                actionCanceled();
+                break;
         }
     }
 
     private void startWatchMyTowersMode() {
+        revertButtonsState(false);
+
         towersToWatch.clear();
         User user = CacheManager.getUser();
         for (Tower tower : user.getTowersList()) {
@@ -607,6 +641,7 @@ public class MapFragment extends BaseFragment
     }
 
     private void finishWatchMyTowersMode() {
+        revertButtonsState(true);
         nowOnThisTower = null;
         watchMyTowersMode = false;
         requestForMap(CacheManager.getLastLocation().getLatitude(), CacheManager.getLastLocation().getLongitude(), false);
@@ -697,6 +732,7 @@ public class MapFragment extends BaseFragment
             if (sampleTowerMarker == null) {
                 sampleTower.position(googleMap.getCameraPosition().target);
                 sampleTower.title("SampleTower");
+                sampleTower.icon(BitmapDescriptorFactory.fromResource(R.drawable.plus_tower1));
                 sampleTowerMarker = googleMap.addMarker(sampleTower);
             } else {
                 sampleTowerMarker.setPosition(googleMap.getCameraPosition().target);
