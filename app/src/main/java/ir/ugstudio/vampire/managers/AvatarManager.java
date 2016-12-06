@@ -27,6 +27,10 @@ public class AvatarManager {
         if (avatars == null)
             load(context);
 
+        // // TODO: 12/5/16
+        if (0 == 0)
+            return avatars[0];
+
         if (avatars.length >= position && position > 0)
             return avatars[position - 1];
         else

@@ -16,12 +16,22 @@ class CustomPagerAdapter extends PagerAdapter {
     private LayoutInflater mLayoutInflater;
 
     private int[] mResources = {
-            R.drawable.v_avatar_01,
-            R.drawable.v_avatar_02,
-            R.drawable.v_avatar_03,
-            R.drawable.v_avatar_04,
-            R.drawable.v_avatar_05,
-            R.drawable.v_avatar_06
+            R.drawable.hunt0,
+            R.drawable.hunt1,
+            R.drawable.hunt2,
+            R.drawable.hunt3,
+            R.drawable.hunt4,
+            R.drawable.hunt5,
+            R.drawable.hunt6,
+            R.drawable.hunt7,
+            R.drawable.vamp0,
+            R.drawable.vamp1,
+            R.drawable.vamp2,
+            R.drawable.vamp3,
+            R.drawable.vamp4,
+            R.drawable.vamp5,
+            R.drawable.vamp6,
+            R.drawable.vamp7,
     };
 
     public CustomPagerAdapter(Context context) {

@@ -9,7 +9,7 @@
         android:id="@+id/item_icon"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:src="@drawable/v_avatar_00" />
+        android:src="@drawable/hunt0" />
 
     <TextView
         android:id="@+id/item_title"

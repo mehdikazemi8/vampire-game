@@ -58,15 +58,22 @@
     <string name="icon.person">G</string>
 
     <string-array name="avatars">
-        <item>@drawable/v_avatar_00</item>
-        <item>@drawable/v_avatar_01</item>
-        <item>@drawable/v_avatar_02</item>
-        <item>@drawable/v_avatar_03</item>
-        <item>@drawable/v_avatar_04</item>
-        <item>@drawable/v_avatar_05</item>
-        <item>@drawable/v_avatar_06</item>
-        <item>@drawable/v_avatar_07</item>
-        <item>@drawable/v_avatar_08</item>
+        <item>@drawable/hunt0</item>
+        <item>@drawable/hunt1</item>
+        <item>@drawable/hunt2</item>
+        <item>@drawable/hunt3</item>
+        <item>@drawable/hunt4</item>
+        <item>@drawable/hunt5</item>
+        <item>@drawable/hunt6</item>
+        <item>@drawable/hunt7</item>
+        <item>@drawable/vamp0</item>
+        <item>@drawable/vamp1</item>
+        <item>@drawable/vamp2</item>
+        <item>@drawable/vamp3</item>
+        <item>@drawable/vamp4</item>
+        <item>@drawable/vamp5</item>
+        <item>@drawable/vamp6</item>
+        <item>@drawable/vamp7</item>
     </string-array>
 
 </resources>
