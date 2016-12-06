@@ -26,6 +26,7 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
@@ -84,6 +85,9 @@ public class MapFragment extends BaseFragment
     private Queue<Tower> towersToWatch = new LinkedList<>();
     private Tower nowOnThisTower = null;
     private MapView mapView;
+    private Circle innerCircle = null;
+    private Circle outerCircle = null;
+
     private TextView coin;
     private TextView score;
     private TextView rank;
@@ -355,19 +359,24 @@ public class MapFragment extends BaseFragment
 
         LatLng newPlace = new LatLng(lat, lng);
 
-        googleMap.addCircle(new CircleOptions()
-                .center(newPlace)
-                .radius(CacheManager.getUser().getSightRange())
-                .fillColor(Color.parseColor("#33AAAAAA"))
-                .strokeColor(Color.parseColor("#00FFFFFF"))
-        );
+        if (outerCircle == null) {
+            outerCircle = googleMap.addCircle(new CircleOptions()
+                    .center(newPlace)
+                    .radius(CacheManager.getUser().getSightRange())
+                    .fillColor(Color.parseColor("#33AAAAAA"))
+                    .strokeColor(Color.parseColor("#00FFFFFF"))
+            );
 
-        googleMap.addCircle(new CircleOptions()
-                .center(newPlace)
-                .radius(CacheManager.getUser().getAttackRange())
-                .fillColor(Color.parseColor("#44AAAAAA"))
-                .strokeColor(Color.parseColor("#00FFFFFF"))
-        );
+            innerCircle = googleMap.addCircle(new CircleOptions()
+                    .center(newPlace)
+                    .radius(CacheManager.getUser().getAttackRange())
+                    .fillColor(Color.parseColor("#44AAAAAA"))
+                    .strokeColor(Color.parseColor("#00FFFFFF"))
+            );
+        } else {
+            innerCircle.setCenter(newPlace);
+            outerCircle.setCenter(newPlace);
+        }
 
         Call<MapResponse> call = VampireApp.createMapApi().getMap(
                 UserManager.readToken(getActivity()),
