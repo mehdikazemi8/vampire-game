@@ -5,6 +5,8 @@
     <string name="title_activity_splash">Vampire</string>
     <string name="title_activity_register">Vampire</string>
 
+    <string name="choose_attack_message">لطفا یکی از پیام ها رو هم انتخاب کن</string>
+
     <string name="enter_message">پیام را وارد کنید</string>
     <string name="btn_submit_message">ارسال</string>
     <string name="btn_new_user">کاربر ‌جدید</string>
@@ -18,6 +20,9 @@
     <string name="btn_buy_healer">یه درمان‌کننده می‌خرم</string>
 
     <string name="toast_enter_message">خب یه چیزی بزن که ارسال کنم :|</string>
+
+    <string name="caption_coin">سکه:</string>
+    <string name="caption_score">امتیاز:</string>
 
     <string name="caption_vampires_tower">برج خون‌آشام‌ها</string>
     <string name="caption_hunters_tower">برج‌ شکارچی‌ها</string>

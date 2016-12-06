@@ -7,25 +7,84 @@
 
     <ImageView
         android:id="@+id/avatar"
-        android:layout_width="200dp"
-        android:layout_height="272dp"
+        android:layout_width="150dp"
+        android:layout_height="195dp"
         android:layout_gravity="center_horizontal"
         android:layout_margin="@dimen/padding.medium"
         android:contentDescription="@string/desc.avatar" />
 
-    <TextView
-        android:id="@+id/username"
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:padding="@dimen/padding.medium" />
+        android:layout_gravity="center"
+        android:orientation="horizontal">
+
+        <ir.ugstudio.vampire.views.custom.CustomTextView
+            android:id="@+id/username"
+            style="@style/attack_dialog_user_data" />
+
+        <ir.ugstudio.vampire.views.custom.CustomTextView
+            android:id="@+id/role"
+            style="@style/attack_dialog_user_data" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="horizontal">
+
+        <ir.ugstudio.vampire.views.custom.CustomTextView
+            android:id="@+id/coin"
+            style="@style/attack_dialog_user_data" />
+
+        <ir.ugstudio.vampire.views.custom.CustomTextView
+            style="@style/attack_dialog_user_data"
+            android:text="@string/caption_coin" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="horizontal">
+
+        <ir.ugstudio.vampire.views.custom.CustomTextView
+            android:id="@+id/score"
+            style="@style/attack_dialog_user_data" />
+
+        <ir.ugstudio.vampire.views.custom.CustomTextView
+            style="@style/attack_dialog_user_data"
+            android:text="@string/caption_score" />
+    </LinearLayout>
 
     <Spinner
         android:id="@+id/quotes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/edit_text_border"
-        android:padding="@dimen/padding.medium" />
+        android:padding="@dimen/padding.medium"
+        android:visibility="gone" />
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/padding.medium"
+        android:layout_marginRight="@dimen/padding.medium"
+        android:layoutDirection="rtl">
+
+        <RadioButton
+            android:id="@+id/quote_0"
+            style="@style/radio_buttons_attack_dialog" />
+
+        <RadioButton
+            android:id="@+id/quote_1"
+            style="@style/radio_buttons_attack_dialog" />
+
+        <RadioButton
+            android:id="@+id/quote_2"
+            style="@style/radio_buttons_attack_dialog" />
+    </RadioGroup>
 
     <Button
         android:id="@+id/attack_button"
