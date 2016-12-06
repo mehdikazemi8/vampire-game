@@ -266,7 +266,7 @@ public class MapFragment extends BaseFragment
                 AttackDialog dialog = new AttackDialog(getActivity(), (User) marker.getTag(), nowOnThisTower);
                 dialog.show();
             } else {
-                AttackDialog dialog = new AttackDialog(getActivity(), getUser(marker.getTitle()));
+                AttackDialog dialog = new AttackDialog(getActivity(), (User) (marker.getTag()));
                 dialog.show();
             }
 
