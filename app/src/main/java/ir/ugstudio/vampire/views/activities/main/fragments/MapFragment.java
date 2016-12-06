@@ -162,6 +162,7 @@ public class MapFragment extends BaseFragment
 
     private void updateView(User user) {
         // todo, when goes to cafe for rating and comes back it crashes
+        FontHelper.setKoodakFor(getActivity(), coin, rank, score);
         coin.setText(String.valueOf(user.getCoin()));
         rank.setText(String.valueOf(user.getRank()));
         score.setText(String.valueOf(user.getScore()));
@@ -189,19 +190,15 @@ public class MapFragment extends BaseFragment
         googleMap.setOnCameraMoveListener(this);
 
         try {
-            // Customise the styling of the base map using a JSON object defined
-            // in a raw resource file.
             boolean success = googleMap.setMapStyle(
                     MapStyleOptions.loadRawResourceStyle(
                             getActivity(), R.raw.style_json));
-
             if (!success) {
                 Log.e("MapsActivityRaw", "Style parsing failed.");
             }
         } catch (Resources.NotFoundException e) {
             Log.e("MapsActivityRaw", "Can't find style.", e);
         }
-
 
 //        googleMap.getUiSettings().setZoomGesturesEnabled(false);
         googleMap.getUiSettings().setRotateGesturesEnabled(false);
@@ -212,8 +209,7 @@ public class MapFragment extends BaseFragment
 
         LatLng myPlace = new LatLng(35.702945, 51.405907);
         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(myPlace, MAX_ZOOM));
-
-        googleMap.addMarker(new MarkerOptions().position(new LatLng(35.702456, 51.406055)).title("مرکز فرماندهی"));
+//        googleMap.addMarker(new MarkerOptions().position(new LatLng(35.702456, 51.406055)).title("مرکز فرماندهی"));
 
         if (CacheManager.getUser().getLifestat().equals(Consts.LIFESTAT_DEAD)) {
             GetPlaces.run(getActivity());
@@ -315,7 +311,7 @@ public class MapFragment extends BaseFragment
 
     @Override
     public void onLocationChanged(Location location) {
-        Log.d("TAG", "changed " + location.getLatitude() + " " + location.getLongitude());
+        Log.d("TAG", "changed onLocationChanged " + location.getLatitude() + " " + location.getLongitude());
         CacheManager.setLastLocation(location);
         requestForMap(location.getLatitude(), location.getLongitude(), false);
     }
@@ -347,7 +343,8 @@ public class MapFragment extends BaseFragment
             lastRequestTime = System.currentTimeMillis();
         }
 
-        googleMap.clear();
+        // todo must clear or not 6 december
+//        googleMap.clear();
         sampleTowerMarker = null;
 
         if (addingTowerMode) {
@@ -358,14 +355,12 @@ public class MapFragment extends BaseFragment
 
         LatLng newPlace = new LatLng(lat, lng);
 
-        if (!addingTowerMode) {
-            googleMap.addCircle(new CircleOptions()
-                    .center(newPlace)
-                    .radius(CacheManager.getUser().getSightRange())
-                    .fillColor(Color.parseColor("#33AAAAAA"))
-                    .strokeColor(Color.parseColor("#00FFFFFF"))
-            );
-        }
+        googleMap.addCircle(new CircleOptions()
+                .center(newPlace)
+                .radius(CacheManager.getUser().getSightRange())
+                .fillColor(Color.parseColor("#33AAAAAA"))
+                .strokeColor(Color.parseColor("#00FFFFFF"))
+        );
 
         googleMap.addCircle(new CircleOptions()
                 .center(newPlace)
@@ -382,7 +377,6 @@ public class MapFragment extends BaseFragment
         call.enqueue(new Callback<MapResponse>() {
             @Override
             public void onResponse(Call<MapResponse> call, Response<MapResponse> response) {
-
                 if (response.isSuccessful()) {
                     if (!healMode && !watchMyTowersMode && !collectCoinsMode) {
                         refreshMap(response.body());
@@ -402,7 +396,13 @@ public class MapFragment extends BaseFragment
 
     private void refreshMap(MapResponse response) {
         lastResponse = response;
-        markers.clear();
+
+        // // TODO: 12/6/16
+        /**
+         * oon googleMap.clear() ro az tooye requestForMap bardashtim, hala bayad diff begirim ba chizayee
+         * ke jadid oomade
+         * */
+        //markers.clear();
 
         MarkerOptions markerOptions = new MarkerOptions();
         Marker marker = null;
@@ -420,40 +420,97 @@ public class MapFragment extends BaseFragment
             return;
         }
 
-        for (User user : response.getVampires()) {
-            markerOptions.position(new LatLng(user.getGeo().get(0), user.getGeo().get(1)));
-            markerOptions.title(user.getUsername());
-            if (user.getLifestat().equals("dead")) {
+        List<User> sheeps = response.getSheeps();
+        List<User> hunters = response.getHunters();
+        List<User> vampires = response.getVampires();
+
+        for (Marker oldMarker : markers) {
+            if (oldMarker.getTag() instanceof User) {
+                boolean foundTagUser = false;
+                User tagUser = (User) oldMarker.getTag();
+                for (User sheep : sheeps) {
+                    if (sheep.getUsername().equals(tagUser.getUsername())) {
+                        tagUser.setGeo(sheep.getGeo());
+                        oldMarker.setPosition(new LatLng(tagUser.getGeo().get(0), tagUser.getGeo().get(1)));
+                        foundTagUser = true;
+                        sheeps.remove(sheep);
+                        break;
+                    }
+                }
+                if (foundTagUser)
+                    continue;
+                for (User hunter : hunters) {
+                    if (hunter.getUsername().equals(tagUser.getUsername())) {
+                        tagUser.setGeo(hunter.getGeo());
+                        oldMarker.setPosition(new LatLng(tagUser.getGeo().get(0), tagUser.getGeo().get(1)));
+                        foundTagUser = true;
+                        hunters.remove(hunter);
+                        break;
+                    }
+                }
+                if (foundTagUser)
+                    continue;
+                for (User vampire : vampires) {
+                    if (vampire.getUsername().equals(tagUser.getUsername())) {
+                        tagUser.setGeo(vampire.getGeo());
+                        oldMarker.setPosition(new LatLng(tagUser.getGeo().get(0), tagUser.getGeo().get(1)));
+                        foundTagUser = true;
+                        vampires.remove(vampire);
+                        break;
+                    }
+                }
+
+                if (!foundTagUser) {
+                    oldMarker.remove();
+                }
+            }
+        }
+
+        // todo check this again
+        for (User sheep : sheeps) {
+            markerOptions.position(new LatLng(sheep.getGeo().get(0), sheep.getGeo().get(1)));
+            markerOptions.title(sheep.getUsername());
+            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.sheep));
+
+            marker = googleMap.addMarker(markerOptions);
+            marker.setTag(sheep);
+            markers.add(marker);
+        }
+
+        for (User vampire : vampires) {
+            markerOptions.position(new LatLng(vampire.getGeo().get(0), vampire.getGeo().get(1)));
+            markerOptions.title(vampire.getUsername());
+            if (vampire.getLifestat().equals("dead")) {
                 markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.vampire_black));
             } else {
                 markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.vampire_red));
             }
 
             marker = googleMap.addMarker(markerOptions);
-            marker.setTag(user);
+            marker.setTag(vampire);
             markers.add(marker);
         }
 
-        for (User user : response.getSheeps()) {
-            markerOptions.position(new LatLng(user.getGeo().get(0), user.getGeo().get(1)));
-            markerOptions.title(user.getUsername());
-            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.sheep));
+//        for (User user : response.getSheeps()) {
+//            markerOptions.position(new LatLng(user.getGeo().get(0), user.getGeo().get(1)));
+//            markerOptions.title(user.getUsername());
+//            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.sheep));
+//
+//            marker = googleMap.addMarker(markerOptions);
+//            marker.setTag(user);
+//            markers.add(marker);
+//        }
 
-            marker = googleMap.addMarker(markerOptions);
-            marker.setTag(user);
-            markers.add(marker);
-        }
-
-        for (User user : response.getHunters()) {
-            markerOptions.position(new LatLng(user.getGeo().get(0), user.getGeo().get(1)));
-            markerOptions.title(user.getUsername());
-            if (user.getLifestat().equals("dead")) {
+        for (User hunter : hunters) {
+            markerOptions.position(new LatLng(hunter.getGeo().get(0), hunter.getGeo().get(1)));
+            markerOptions.title(hunter.getUsername());
+            if (hunter.getLifestat().equals("dead")) {
                 markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.hunter_black));
             } else {
                 markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.hunter_red));
             }
             marker = googleMap.addMarker(markerOptions);
-            marker.setTag(user);
+            marker.setTag(hunter);
             markers.add(marker);
         }
     }
@@ -702,7 +759,8 @@ public class MapFragment extends BaseFragment
             call.enqueue(new Callback<ResponseBody>() {
                 @Override
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                    addTower.setVisibility(View.VISIBLE);
+//                    addTower.setVisibility(View.VISIBLE);
+                    revertButtonsState(true);
 
                     if (response.isSuccessful()) {
                         String result = "IOEXception";
@@ -719,7 +777,8 @@ public class MapFragment extends BaseFragment
 
                 @Override
                 public void onFailure(Call<ResponseBody> call, Throwable t) {
-                    addTower.setVisibility(View.VISIBLE);
+//                    addTower.setVisibility(View.VISIBLE);
+                    revertButtonsState(true);
 
                     Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
                 }

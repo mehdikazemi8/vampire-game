@@ -102,10 +102,6 @@ public class AttackDialog extends Dialog implements View.OnClickListener {
         coin.setText(String.valueOf(user.getCoin()));
         score.setText(String.valueOf(user.getScore()));
         role.setText(user.getRole().equals("hunter") ? "شکارچی" : "خون‌آشام");
-//        String usernameStr = user.getRole().equals("hunter") ? "شکارچی" : "خون‌آشام";
-//        usernameStr = usernameStr + " " + user.getUsername() + " با " + String.valueOf(user.getCoin());
-//        usernameStr = usernameStr + " سکه با امتیاز " + user.getScore();
-//        username.setText(usernameStr);
 
         messageStr = null;
         final QuotesResponse quotes = CacheManager.getQuotes();
