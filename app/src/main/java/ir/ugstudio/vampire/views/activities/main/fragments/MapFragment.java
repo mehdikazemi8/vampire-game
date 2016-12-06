@@ -85,8 +85,10 @@ public class MapFragment extends BaseFragment
     private Queue<Tower> towersToWatch = new LinkedList<>();
     private Tower nowOnThisTower = null;
     private MapView mapView;
+
     private Circle innerCircle = null;
     private Circle outerCircle = null;
+    private Marker myMarker = null;
 
     private TextView coin;
     private TextView score;
@@ -626,7 +628,7 @@ public class MapFragment extends BaseFragment
         if (towersToCollectCoin.size() > 0) {
             revertButtonsState(false);
             collectCoinsMode = true;
-            googleMap.clear();
+            clearGoogleMap();
             showNextTowerToCollect();
         } else {
             Toast.makeText(getActivity(), "همه چی رو به راهه، یه ساعت دیگه بیا", Toast.LENGTH_LONG).show();
@@ -657,12 +659,14 @@ public class MapFragment extends BaseFragment
     private void finishCollectCoinsMode() {
         collectCoinsMode = false;
         revertButtonsState(true);
+        clearGoogleMap();
         requestForMap(CacheManager.getLastLocation().getLatitude(), CacheManager.getLastLocation().getLongitude(), false);
     }
 
     private void actionCanceled() {
         watchMyTowersMode = healMode = addingTowerMode = collectCoinsMode = false;
         revertButtonsState(true);
+        clearGoogleMap();
         requestForMap(CacheManager.getLastLocation().getLatitude(), CacheManager.getLastLocation().getLongitude(), true);
     }
 
@@ -701,13 +705,14 @@ public class MapFragment extends BaseFragment
             return;
         }
 
-        googleMap.clear();
+        clearGoogleMap();
         watchMyTowersMode = true;
         showNextTowerToWatch();
     }
 
     private void finishWatchMyTowersMode() {
         revertButtonsState(true);
+        clearGoogleMap();
         nowOnThisTower = null;
         watchMyTowersMode = false;
         requestForMap(CacheManager.getLastLocation().getLatitude(), CacheManager.getLastLocation().getLongitude(), false);
@@ -759,6 +764,12 @@ public class MapFragment extends BaseFragment
         });
     }
 
+    private void clearGoogleMap() {
+        googleMap.clear();
+        markers.clear();
+        innerCircle = outerCircle = null;
+    }
+
     public void addTowerNow(LatLng position) {
         Log.d("TAG", "abcd " + position.latitude + " " + position.longitude);
         if (addingTowerMode) {
@@ -768,8 +779,8 @@ public class MapFragment extends BaseFragment
             call.enqueue(new Callback<ResponseBody>() {
                 @Override
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-//                    addTower.setVisibility(View.VISIBLE);
                     revertButtonsState(true);
+                    clearGoogleMap();
 
                     if (response.isSuccessful()) {
                         String result = "IOEXception";
@@ -786,8 +797,8 @@ public class MapFragment extends BaseFragment
 
                 @Override
                 public void onFailure(Call<ResponseBody> call, Throwable t) {
-//                    addTower.setVisibility(View.VISIBLE);
                     revertButtonsState(true);
+                    clearGoogleMap();
 
                     Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
                 }
@@ -823,8 +834,8 @@ public class MapFragment extends BaseFragment
         healMode = false;
         googleMap.setMinZoomPreference(MIN_ZOOM);
         googleMap.setMaxZoomPreference(MAX_ZOOM);
-
-        requestForMap(CacheManager.getLastLocation().getLatitude(), CacheManager.getLastLocation().getLongitude(), false);
+        clearGoogleMap();
+        requestForMap(CacheManager.getLastLocation().getLatitude(), CacheManager.getLastLocation().getLongitude(), true);
     }
 
     private void startHealMode(List<Place> places) {
@@ -834,8 +845,7 @@ public class MapFragment extends BaseFragment
         googleMap.setMinZoomPreference(MIN_ZOOM_HEAL_MODE);
         googleMap.setMaxZoomPreference(MAX_ZOOM_HEAL_MODE);
 
-        googleMap.clear();
-        markers.clear();
+        clearGoogleMap();
 
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.hospital));
@@ -862,8 +872,12 @@ public class MapFragment extends BaseFragment
             markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.dot));
         }
 
-        Marker marker = googleMap.addMarker(markerOptions);
-        marker.setTag(CacheManager.getUser());
+        if (myMarker == null) {
+            myMarker = googleMap.addMarker(markerOptions);
+        } else {
+            myMarker.setPosition(newPlace);
+        }
+        myMarker.setTag(CacheManager.getUser());
 
         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(newPlace, zoomLevel), new GoogleMap.CancelableCallback() {
             @Override
@@ -875,7 +889,6 @@ public class MapFragment extends BaseFragment
 
             @Override
             public void onCancel() {
-
             }
         });
     }
