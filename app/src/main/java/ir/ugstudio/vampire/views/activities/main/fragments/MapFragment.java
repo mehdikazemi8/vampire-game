@@ -71,10 +71,10 @@ public class MapFragment extends BaseFragment
         GoogleMap.OnCameraMoveListener {
 
     private static long lastRequestTime = 0;
-    private final int MIN_ZOOM = 16;
-    private final int MAX_ZOOM = 17;
-    private final int MIN_ZOOM_HEAL_MODE = 14;
-    private final int MAX_ZOOM_HEAL_MODE = 17;
+    private final int MIN_ZOOM = 15;
+    private final int MAX_ZOOM = 16;
+    private final int MIN_ZOOM_HEAL_MODE = 15;
+    private final int MAX_ZOOM_HEAL_MODE = 16;
     boolean addingTowerMode = false;
     boolean healMode = false;
     boolean collectCoinsMode = false;
