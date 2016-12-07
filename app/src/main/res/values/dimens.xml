@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="padding.small">5dp</dimen>
-    <dimen name="padding.medium">10dp</dimen>
-    <dimen name="padding.large">15dp</dimen>
+    <dimen name="space.small">5dp</dimen>
+    <dimen name="space.medium">10dp</dimen>
+    <dimen name="space.large">15dp</dimen>
 
     <dimen name="text.size.small">10sp</dimen>
     <dimen name="text.size.medium">15sp</dimen>

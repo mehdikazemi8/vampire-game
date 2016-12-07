@@ -11,8 +11,8 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center"
-        android:paddingBottom="@dimen/padding.small"
-        android:paddingTop="@dimen/padding.small" />
+        android:paddingBottom="@dimen/space.small"
+        android:paddingTop="@dimen/space.small" />
 
     <TextView
         android:id="@+id/username"

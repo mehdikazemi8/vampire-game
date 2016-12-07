@@ -10,7 +10,7 @@
         android:layout_width="150dp"
         android:layout_height="195dp"
         android:layout_gravity="center_horizontal"
-        android:layout_margin="@dimen/padding.medium"
+        android:layout_margin="@dimen/space.medium"
         android:contentDescription="@string/desc.avatar" />
 
     <LinearLayout
@@ -63,14 +63,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/edit_text_border"
-        android:padding="@dimen/padding.medium"
+        android:padding="@dimen/space.medium"
         android:visibility="gone" />
 
     <RadioGroup
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/padding.medium"
-        android:layout_marginRight="@dimen/padding.medium"
+        android:layout_marginLeft="@dimen/space.medium"
+        android:layout_marginRight="@dimen/space.medium"
         android:layoutDirection="rtl">
 
         <RadioButton
@@ -91,7 +91,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_margin="@dimen/padding.medium"
+        android:layout_margin="@dimen/space.medium"
         android:text="@string/btn_attack" />
 
 </LinearLayout>

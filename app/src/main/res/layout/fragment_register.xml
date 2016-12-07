@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scrollbars="none"
-            android:padding="@dimen/padding.medium"
+            android:padding="@dimen/space.medium"
             android:background="@drawable/edit_text_border"
             android:entries="@array/player_type_keys"
             android:id="@+id/player_type" />
@@ -26,7 +26,7 @@
             android:layout_width="match_parent"
             android:hint="@string/username"
             android:background="@drawable/edit_text_border"
-            android:padding="@dimen/padding.medium"
+            android:padding="@dimen/space.medium"
             android:layout_height="wrap_content" />
 
         <EditText
@@ -35,7 +35,7 @@
             android:id="@+id/password"
             android:inputType="textPassword"
             android:background="@drawable/edit_text_border"
-            android:padding="@dimen/padding.medium"
+            android:padding="@dimen/space.medium"
             android:layout_height="wrap_content" />
         
         <Button

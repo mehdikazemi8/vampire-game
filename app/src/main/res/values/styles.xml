@@ -17,15 +17,15 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">@android:color/white</item>
-        <item name="android:padding">@dimen/padding.small</item>
+        <item name="android:padding">@dimen/space.small</item>
     </style>
 
     <style name="attack_dialog_user_data">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:gravity">center</item>
-        <item name="android:paddingLeft">@dimen/padding.medium</item>
-        <item name="android:paddingRight">@dimen/padding.medium</item>
+        <item name="android:paddingLeft">@dimen/space.medium</item>
+        <item name="android:paddingRight">@dimen/space.medium</item>
         <item name="android:textColor">@android:color/white</item>
     </style>
 

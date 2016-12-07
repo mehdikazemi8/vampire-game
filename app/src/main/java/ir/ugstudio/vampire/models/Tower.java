@@ -2,10 +2,11 @@ package ir.ugstudio.vampire.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import java.io.Serializable;
 import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Tower {
+public class Tower implements Serializable {
     private Integer coin;
     private Integer level;
     private List<TowerMessage> wall;

@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:padding="@dimen/padding.medium"
+        android:padding="@dimen/space.medium"
         android:textColor="@color/white_smoke"
         android:textSize="@dimen/text.size.large" />
 
@@ -25,14 +25,14 @@
             android:id="@+id/coin_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="@dimen/padding.small"
+            android:padding="@dimen/space.small"
             android:textColor="@color/white_smoke" />
 
         <ir.ugstudio.vampire.views.custom.CustomTextView
             android:id="@+id/coin_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="@dimen/padding.small"
+            android:padding="@dimen/space.small"
             android:text="@string/caption_coin"
             android:textColor="@color/white_smoke" />
 
@@ -55,7 +55,7 @@
             android:id="@+id/show_tower_wall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/padding.medium"
+            android:layout_margin="@dimen/space.medium"
             android:text="@string/btn_show_tower_wall"
             android:visibility="gone" />
 
@@ -63,7 +63,7 @@
             android:id="@+id/steal_from_tower_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/padding.medium"
+            android:layout_margin="@dimen/space.medium"
             android:text="@string/btn_steal_coins"
             android:visibility="gone" />
 
@@ -71,7 +71,7 @@
             android:id="@+id/join_tower_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/padding.medium"
+            android:layout_margin="@dimen/space.medium"
             android:text="@string/btn_join_tower_owners"
             android:visibility="gone" />
     </FrameLayout>

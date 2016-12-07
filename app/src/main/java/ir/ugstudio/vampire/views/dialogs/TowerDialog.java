@@ -11,14 +11,18 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Toast;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.io.IOException;
 
 import ir.ugstudio.vampire.R;
 import ir.ugstudio.vampire.VampireApp;
+import ir.ugstudio.vampire.events.OpenTowerWallFragment;
 import ir.ugstudio.vampire.managers.CacheManager;
 import ir.ugstudio.vampire.models.Tower;
 import ir.ugstudio.vampire.utils.Consts;
 import ir.ugstudio.vampire.views.activities.main.adapters.OwnerViewAdapter;
+import ir.ugstudio.vampire.views.activities.main.fragments.TowerWallFragment;
 import ir.ugstudio.vampire.views.custom.CustomButton;
 import ir.ugstudio.vampire.views.custom.CustomTextView;
 import okhttp3.ResponseBody;
@@ -172,6 +176,11 @@ public class TowerDialog extends Dialog implements View.OnClickListener {
 
             case R.id.steal_from_tower_button:
                 stealTower();
+                break;
+
+            case R.id.show_tower_wall:
+                EventBus.getDefault().post(new OpenTowerWallFragment(tower));
+                dismiss();
                 break;
         }
     }

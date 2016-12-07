@@ -29,7 +29,7 @@
             android:id="@+id/button_go_to_hospital"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/padding.small"
+            android:layout_margin="@dimen/space.small"
             android:text="@string/btn_go_to_hospital"
             android:visibility="gone" />
 
@@ -37,7 +37,7 @@
             android:id="@+id/button_buy_healer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/padding.small"
+            android:layout_margin="@dimen/space.small"
             android:text="@string/btn_buy_healer"
             android:visibility="gone" />
     </LinearLayout>

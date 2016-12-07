@@ -28,6 +28,7 @@ import ir.ugstudio.vampire.cafeutil.IabHelper;
 import ir.ugstudio.vampire.cafeutil.IabResult;
 import ir.ugstudio.vampire.cafeutil.Inventory;
 import ir.ugstudio.vampire.cafeutil.Purchase;
+import ir.ugstudio.vampire.events.OpenTowerWallFragment;
 import ir.ugstudio.vampire.events.StartRealPurchase;
 import ir.ugstudio.vampire.managers.UserManager;
 import ir.ugstudio.vampire.models.StoreItemReal;
@@ -39,6 +40,7 @@ import ir.ugstudio.vampire.views.activities.main.fragments.NotificationsFragment
 import ir.ugstudio.vampire.views.activities.main.fragments.RanklistFragment;
 import ir.ugstudio.vampire.views.activities.main.fragments.SettingsFragment;
 import ir.ugstudio.vampire.views.activities.main.fragments.StoreFragment;
+import ir.ugstudio.vampire.views.activities.main.fragments.TowerWallFragment;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -243,6 +245,19 @@ public class MainActivity extends FragmentActivity {
         } else {
             Toast.makeText(this, "null", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Subscribe
+    public void onEvent(OpenTowerWallFragment event) {
+        TowerWallFragment fragment = TowerWallFragment.getInstance();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("tower", event.getTower());
+        fragment.setArguments(bundle);
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.fragment_holder, fragment)
+                .addToBackStack(null)
+                .commit();
     }
 
     private void startRealPurchase(StoreItemReal item) {

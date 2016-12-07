@@ -7,8 +7,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="@dimen/padding.small"
-        android:paddingTop="@dimen/padding.small">
+        android:paddingBottom="@dimen/space.small"
+        android:paddingTop="@dimen/space.small">
 
         <LinearLayout
             android:layout_width="0dp"
@@ -21,8 +21,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:paddingLeft="@dimen/padding.small"
-                android:paddingRight="@dimen/padding.small"
+                android:paddingLeft="@dimen/space.small"
+                android:paddingRight="@dimen/space.small"
                 android:text="@string/icon.coin"
                 android:textSize="@dimen/text.size.medium" />
 
@@ -46,8 +46,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:paddingLeft="@dimen/padding.small"
-                android:paddingRight="@dimen/padding.small"
+                android:paddingLeft="@dimen/space.small"
+                android:paddingRight="@dimen/space.small"
                 android:text="@string/icon.person"
                 android:textSize="@dimen/text.size.medium" />
 
@@ -71,8 +71,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:paddingLeft="@dimen/padding.small"
-                android:paddingRight="@dimen/padding.small"
+                android:paddingLeft="@dimen/space.small"
+                android:paddingRight="@dimen/space.small"
                 android:text="@string/icon.ranklist"
                 android:textSize="@dimen/text.size.medium" />
 
@@ -101,9 +101,9 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
-            android:layout_marginBottom="@dimen/padding.large"
-            android:layout_marginRight="@dimen/padding.small"
-            android:layout_marginTop="@dimen/padding.small"
+            android:layout_marginBottom="@dimen/space.large"
+            android:layout_marginRight="@dimen/space.small"
+            android:layout_marginTop="@dimen/space.small"
             android:clickable="true"
             android:src="@drawable/tower" />
 
@@ -113,7 +113,7 @@
             android:layout_height="wrap_content"
             android:layout_above="@id/add_tower"
             android:layout_alignParentRight="true"
-            android:layout_margin="@dimen/padding.small"
+            android:layout_margin="@dimen/space.small"
             android:clickable="true"
             android:src="@drawable/tower_eye" />
 
@@ -123,7 +123,7 @@
             android:layout_height="wrap_content"
             android:layout_above="@id/watch_my_towers"
             android:layout_alignParentRight="true"
-            android:layout_margin="@dimen/padding.small"
+            android:layout_margin="@dimen/space.small"
             android:clickable="true"
             android:src="@drawable/tower_coin" />
 
@@ -133,9 +133,9 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
-            android:layout_marginBottom="@dimen/padding.large"
-            android:layout_marginRight="@dimen/padding.small"
-            android:layout_marginTop="@dimen/padding.small"
+            android:layout_marginBottom="@dimen/space.large"
+            android:layout_marginRight="@dimen/space.small"
+            android:layout_marginTop="@dimen/space.small"
             android:clickable="true"
             android:src="@drawable/cancel_button"
             android:visibility="invisible" />
