@@ -11,10 +11,14 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
 import java.io.IOException;
 
 import ir.ugstudio.vampire.R;
 import ir.ugstudio.vampire.VampireApp;
+import ir.ugstudio.vampire.events.FCMNewMessage;
 import ir.ugstudio.vampire.managers.CacheManager;
 import ir.ugstudio.vampire.managers.UserManager;
 import ir.ugstudio.vampire.models.Tower;
@@ -61,6 +65,7 @@ public class TowerWallFragment extends BaseFragment implements View.OnClickListe
 
         find(view);
         configure();
+        getTower(tower.get_id());
     }
 
     private void find(View view) {
@@ -74,6 +79,8 @@ public class TowerWallFragment extends BaseFragment implements View.OnClickListe
         messageAdapter = new MessageViewAdapter(tower.getWall());
         messagesList.setLayoutManager(new LinearLayoutManager(getContext()));
         messagesList.setAdapter(messageAdapter);
+
+        showLastItem();
 
         submitMessage.setOnClickListener(this);
     }
@@ -94,7 +101,6 @@ public class TowerWallFragment extends BaseFragment implements View.OnClickListe
         }
         return true;
     }
-
 
     private void submitMessage() {
         if (!hasEnteredMessage()) {
@@ -122,10 +128,7 @@ public class TowerWallFragment extends BaseFragment implements View.OnClickListe
                     }
                     Toast.makeText(getContext(), result, Toast.LENGTH_SHORT).show();
                     message.setText("");
-                    tower.getWall().add(new TowerMessage(CacheManager.getUser().getUsername(), messageStr, CacheManager.getUser().getAvatar()));
-                    messageAdapter.notifyDataSetChanged();
-                    int lastPos = messageAdapter.getItemCount() - 1;
-                    messagesList.scrollToPosition(lastPos);
+                    updateWallMessages(messageStr);
                 } else {
                     Toast.makeText(getContext(), "NOT SUCCESSFUL", Toast.LENGTH_SHORT).show();
                 }
@@ -134,6 +137,66 @@ public class TowerWallFragment extends BaseFragment implements View.OnClickListe
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 Log.d("TAG", "yyy " + t.getMessage());
+            }
+        });
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        EventBus.getDefault().register(this);
+    }
+
+    @Subscribe
+    public void onEvent(FCMNewMessage event) {
+        Log.d("TAG", "onMessageReceived " + event.getTowerId());
+        getTower(event.getTowerId());
+    }
+
+    private void updateWallMessages(String messageStr) {
+        tower.getWall().add(new TowerMessage(CacheManager.getUser().getUsername(), messageStr, CacheManager.getUser().getAvatar()));
+        messageAdapter.notifyDataSetChanged();
+        showLastItem();
+    }
+
+    private void showLastItem() {
+        int lastPos = messageAdapter.getItemCount() - 1;
+        messagesList.scrollToPosition(lastPos);
+    }
+
+    private void updateWallFromServer(Tower newTower) {
+        for (TowerMessage newMessage : newTower.getWall()) {
+            if (!tower.getWall().contains(newMessage)) {
+                tower.getWall().add(newMessage);
+            }
+        }
+        messageAdapter.notifyDataSetChanged();
+        showLastItem();
+    }
+
+    private void getTower(String towerId) {
+        Call<Tower> call = VampireApp.createMapApi().getTower(
+                UserManager.readToken(getActivity()),
+                towerId
+        );
+        call.enqueue(new Callback<Tower>() {
+            @Override
+            public void onResponse(Call<Tower> call, Response<Tower> response) {
+                if (response.isSuccessful()) {
+                    updateWallFromServer(response.body());
+//                    updateWallMessages(response.body().getWall().get(response.body().getWall().size() - 1).getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Tower> call, Throwable t) {
+
             }
         });
     }

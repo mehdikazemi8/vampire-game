@@ -5,6 +5,10 @@ import android.util.Log;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
+import org.greenrobot.eventbus.EventBus;
+
+import ir.ugstudio.vampire.events.FCMNewMessage;
+
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
@@ -17,6 +21,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         // Check if message contains a data payload.
         if (remoteMessage.getData().size() > 0) {
             Log.d("TAG", "onMessageReceived bb: " + remoteMessage.getData());
+            Log.d("TAG", "onMessageReceived bb: " + remoteMessage.getData().get("towerId"));
+            EventBus.getDefault().post(new FCMNewMessage(remoteMessage.getData().get("towerId")));
         }
 
         // Check if message contains a notification payload.

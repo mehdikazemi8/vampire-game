@@ -19,6 +19,4 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
         // Instance ID token to your app server.
         SendFCMIdToServer.run(refreshedToken);
     }
-
-
 }

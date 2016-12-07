@@ -3,6 +3,7 @@ package ir.ugstudio.vampire.api;
 import ir.ugstudio.vampire.models.MapResponse;
 import ir.ugstudio.vampire.models.PlacesResponse;
 import ir.ugstudio.vampire.models.QuotesResponse;
+import ir.ugstudio.vampire.models.Tower;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -93,5 +94,12 @@ public interface MapApi {
             @Field("token") String token,
             @Field("towerId") String towerId,
             @Field("message") String message
+    );
+
+    @FormUrlEncoded
+    @POST("gettower")
+    Call<Tower> getTower(
+            @Field("token") String token,
+            @Field("towerId") String towerId
     );
 }
