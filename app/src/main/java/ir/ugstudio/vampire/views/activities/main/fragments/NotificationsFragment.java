@@ -14,7 +14,7 @@ import java.util.List;
 
 import ir.ugstudio.vampire.R;
 import ir.ugstudio.vampire.VampireApp;
-import ir.ugstudio.vampire.managers.UserManager;
+import ir.ugstudio.vampire.managers.UserHandler;
 import ir.ugstudio.vampire.models.Notification;
 import ir.ugstudio.vampire.models.NotificationList;
 import ir.ugstudio.vampire.views.BaseFragment;
@@ -65,7 +65,7 @@ public class NotificationsFragment extends BaseFragment {
     }
 
     private void callForNotifications() {
-        String token = UserManager.readToken(getActivity());
+        String token = UserHandler.readToken(getActivity());
         Call<NotificationList> call = VampireApp.createUserApi().getNotification(token);
         call.enqueue(new Callback<NotificationList>() {
             @Override

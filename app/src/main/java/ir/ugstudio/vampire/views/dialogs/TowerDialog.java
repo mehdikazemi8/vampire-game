@@ -18,11 +18,10 @@ import java.io.IOException;
 import ir.ugstudio.vampire.R;
 import ir.ugstudio.vampire.VampireApp;
 import ir.ugstudio.vampire.events.OpenTowerWallFragment;
-import ir.ugstudio.vampire.managers.CacheManager;
+import ir.ugstudio.vampire.managers.CacheHandler;
 import ir.ugstudio.vampire.models.Tower;
 import ir.ugstudio.vampire.utils.Consts;
 import ir.ugstudio.vampire.views.activities.main.adapters.OwnerViewAdapter;
-import ir.ugstudio.vampire.views.activities.main.fragments.TowerWallFragment;
 import ir.ugstudio.vampire.views.custom.CustomButton;
 import ir.ugstudio.vampire.views.custom.CustomTextView;
 import okhttp3.ResponseBody;
@@ -79,12 +78,12 @@ public class TowerDialog extends Dialog implements View.OnClickListener {
         showTowerWall.setOnClickListener(this);
 
         Log.d("TAG", "configurexxx " + tower.get_id());
-        for (String towerID : CacheManager.getUser().getTowers()) {
+        for (String towerID : CacheHandler.getUser().getTowers()) {
             Log.d("TAG", "configurexxx " + towerID);
         }
 
-        if (CacheManager.getUser().getRole().equals(tower.getRole())) {
-            if (CacheManager.amIOwnerOfThisTower(tower.get_id())) {
+        if (CacheHandler.getUser().getRole().equals(tower.getRole())) {
+            if (CacheHandler.amIOwnerOfThisTower(tower.get_id())) {
                 showTowerWall.setVisibility(View.VISIBLE);
             } else {
                 joinTowerOwners.setVisibility(View.VISIBLE);
@@ -109,9 +108,9 @@ public class TowerDialog extends Dialog implements View.OnClickListener {
 
     private void joinTower() {
         Call<ResponseBody> call = VampireApp.createMapApi().joinTower(
-                CacheManager.getUser().getToken(),
-                CacheManager.getUser().getGeo().get(0),
-                CacheManager.getUser().getGeo().get(1),
+                CacheHandler.getUser().getToken(),
+                CacheHandler.getUser().getGeo().get(0),
+                CacheHandler.getUser().getGeo().get(1),
                 tower.get_id()
         );
 
@@ -140,7 +139,7 @@ public class TowerDialog extends Dialog implements View.OnClickListener {
 
     private void stealTower() {
         Call<ResponseBody> call = VampireApp.createMapApi().stealFromTower(
-                CacheManager.getUser().getToken(),
+                CacheHandler.getUser().getToken(),
                 tower.get_id()
         );
 

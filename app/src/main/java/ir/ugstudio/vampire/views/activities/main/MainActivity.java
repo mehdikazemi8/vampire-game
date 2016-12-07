@@ -30,7 +30,7 @@ import ir.ugstudio.vampire.cafeutil.Inventory;
 import ir.ugstudio.vampire.cafeutil.Purchase;
 import ir.ugstudio.vampire.events.OpenTowerWallFragment;
 import ir.ugstudio.vampire.events.StartRealPurchase;
-import ir.ugstudio.vampire.managers.UserManager;
+import ir.ugstudio.vampire.managers.UserHandler;
 import ir.ugstudio.vampire.models.StoreItemReal;
 import ir.ugstudio.vampire.utils.FontHelper;
 import ir.ugstudio.vampire.views.BaseFragment;
@@ -263,7 +263,7 @@ public class MainActivity extends FragmentActivity {
     private void startRealPurchase(StoreItemReal item) {
         SKU_PREMIUM = item.getItemSku();
 
-        String token = UserManager.readToken(this);
+        String token = UserHandler.readToken(this);
         Call<ResponseBody> call = VampireApp.createUserApi().startRealPurchase(token, item.getItemSku());
         call.enqueue(new Callback<ResponseBody>() {
             @Override
@@ -291,7 +291,7 @@ public class MainActivity extends FragmentActivity {
     }
 
     private void confirmRealPurchase(final Purchase purchase) {
-        String token = UserManager.readToken(this);
+        String token = UserHandler.readToken(this);
         Call<ResponseBody> call = VampireApp.createUserApi().confirmRealPurchase(
                 token, purchase.getOrderId(), purchase.getDeveloperPayload()
         );
@@ -312,7 +312,7 @@ public class MainActivity extends FragmentActivity {
     }
 
     private void finalizeRealPurchase(final Purchase purchase) {
-        String token = UserManager.readToken(this);
+        String token = UserHandler.readToken(this);
         Call<ResponseBody> call = VampireApp.createUserApi().finalizeRealPurchase(
                 token, purchase.getDeveloperPayload()
         );

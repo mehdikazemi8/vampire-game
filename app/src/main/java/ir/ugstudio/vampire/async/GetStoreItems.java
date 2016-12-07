@@ -4,8 +4,8 @@ import android.content.Context;
 import android.util.Log;
 
 import ir.ugstudio.vampire.VampireApp;
-import ir.ugstudio.vampire.managers.SharedPrefManager;
-import ir.ugstudio.vampire.managers.UserManager;
+import ir.ugstudio.vampire.managers.SharedPrefHandler;
+import ir.ugstudio.vampire.managers.UserHandler;
 import ir.ugstudio.vampire.models.StoreItems;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -14,7 +14,7 @@ import retrofit2.Response;
 public class GetStoreItems {
     public static void run(final Context context) {
         Log.d("TAG", "HeRE GetStoreItems");
-        String token = UserManager.readToken(context);
+        String token = UserHandler.readToken(context);
 
         Call<StoreItems> call = VampireApp.createUserApi().getStoreItems(token);
         call.enqueue(new Callback<StoreItems>() {
@@ -22,7 +22,7 @@ public class GetStoreItems {
             public void onResponse(Call<StoreItems> call, Response<StoreItems> response) {
                 Log.d("TAG", "GetStoreItems " + response.message());
                 if (response.isSuccessful()) {
-                    SharedPrefManager.writeStoreItems(context, response.body());
+                    SharedPrefHandler.writeStoreItems(context, response.body());
                 }
             }
 

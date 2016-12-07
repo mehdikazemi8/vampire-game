@@ -47,8 +47,8 @@ import ir.ugstudio.vampire.VampireApp;
 import ir.ugstudio.vampire.async.GetPlaces;
 import ir.ugstudio.vampire.async.GetProfile;
 import ir.ugstudio.vampire.events.GetProfileEvent;
-import ir.ugstudio.vampire.managers.CacheManager;
-import ir.ugstudio.vampire.managers.UserManager;
+import ir.ugstudio.vampire.managers.CacheHandler;
+import ir.ugstudio.vampire.managers.UserHandler;
 import ir.ugstudio.vampire.models.MapResponse;
 import ir.ugstudio.vampire.models.Place;
 import ir.ugstudio.vampire.models.PlacesResponse;
@@ -179,7 +179,7 @@ public class MapFragment extends BaseFragment
         scoreIcon.setTypeface(FontHelper.getIcons(getActivity()), Typeface.NORMAL);
         rankIcon.setTypeface(FontHelper.getIcons(getActivity()), Typeface.NORMAL);
 
-        updateView(CacheManager.getUser());
+        updateView(CacheHandler.getUser());
 
         addTower.setOnClickListener(this);
         watchMyTowers.setOnClickListener(this);
@@ -217,13 +217,13 @@ public class MapFragment extends BaseFragment
         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(myPlace, MAX_ZOOM));
 //        googleMap.addMarker(new MarkerOptions().position(new LatLng(35.702456, 51.406055)).title("مرکز فرماندهی"));
 
-        if (CacheManager.getUser().getLifestat().equals(Consts.LIFESTAT_DEAD)) {
+        if (CacheHandler.getUser().getLifestat().equals(Consts.LIFESTAT_DEAD)) {
             GetPlaces.run(getActivity());
         }
     }
 
     private void collectCoinsOfThisTower(Tower tower) {
-        Call<ResponseBody> call = VampireApp.createMapApi().collectTowerCoins(CacheManager.getUser().getToken(), tower.get_id());
+        Call<ResponseBody> call = VampireApp.createMapApi().collectTowerCoins(CacheHandler.getUser().getToken(), tower.get_id());
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -251,7 +251,7 @@ public class MapFragment extends BaseFragment
     public boolean onMarkerClick(Marker marker) {
         Log.d("TAG", "onMarkerClick " + marker.getId() + " " + marker.getTitle() + " " + watchMyTowersMode);
 
-        if (marker.getTitle().equals(CacheManager.getUser().getUsername())) {
+        if (marker.getTitle().equals(CacheHandler.getUser().getUsername())) {
             return true;
         }
 
@@ -275,7 +275,7 @@ public class MapFragment extends BaseFragment
             handleHealNow((Place) marker.getTag());
         } else if (marker.getTag() instanceof Tower) {
             Tower tower = (Tower) marker.getTag();
-            Log.d("TAG", "onMarkerClick TOWER " + tower.getRole() + " " + CacheManager.getUser().getRole());
+            Log.d("TAG", "onMarkerClick TOWER " + tower.getRole() + " " + CacheHandler.getUser().getRole());
 
             if (collectCoinsMode) {
                 collectCoinsOfThisTower(tower);
@@ -318,7 +318,7 @@ public class MapFragment extends BaseFragment
     @Override
     public void onLocationChanged(Location location) {
         Log.d("TAG", "changed onLocationChanged " + location.getLatitude() + " " + location.getLongitude());
-        CacheManager.setLastLocation(location);
+        CacheHandler.setLastLocation(location);
         requestForMap(location.getLatitude(), location.getLongitude(), false);
     }
 
@@ -364,14 +364,14 @@ public class MapFragment extends BaseFragment
         if (outerCircle == null) {
             outerCircle = googleMap.addCircle(new CircleOptions()
                     .center(newPlace)
-                    .radius(CacheManager.getUser().getSightRange())
+                    .radius(CacheHandler.getUser().getSightRange())
                     .fillColor(Color.parseColor("#33AAAAAA"))
                     .strokeColor(Color.parseColor("#00FFFFFF"))
             );
 
             innerCircle = googleMap.addCircle(new CircleOptions()
                     .center(newPlace)
-                    .radius(CacheManager.getUser().getAttackRange())
+                    .radius(CacheHandler.getUser().getAttackRange())
                     .fillColor(Color.parseColor("#44AAAAAA"))
                     .strokeColor(Color.parseColor("#00FFFFFF"))
             );
@@ -381,7 +381,7 @@ public class MapFragment extends BaseFragment
         }
 
         Call<MapResponse> call = VampireApp.createMapApi().getMap(
-                UserManager.readToken(getActivity()),
+                UserHandler.readToken(getActivity()),
                 lat,
                 lng
         );
@@ -597,14 +597,14 @@ public class MapFragment extends BaseFragment
         Log.d("TAG", "handleAddTower " + googleMap.getCameraPosition().target);
 
         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
-                new LatLng(CacheManager.getLastLocation().getLatitude(), CacheManager.getLastLocation().getLongitude()), MIN_ZOOM));
+                new LatLng(CacheHandler.getLastLocation().getLatitude(), CacheHandler.getLastLocation().getLongitude()), MIN_ZOOM));
 
         addingTowerMode = true;
         for (Marker marker : markers) {
             if (marker.getTitle().equals("Tower")) {
                 googleMap.addCircle(new CircleOptions()
                         .center(new LatLng(marker.getPosition().latitude, marker.getPosition().longitude))
-                        .radius(CacheManager.getUser().getAttackRange())
+                        .radius(CacheHandler.getUser().getAttackRange())
                         .fillColor(Color.parseColor("#33AA5555"))
                         .strokeColor(Color.parseColor("#00FFFFFF"))
                 );
@@ -613,11 +613,11 @@ public class MapFragment extends BaseFragment
             }
         }
         markers.clear();
-//        requestForMap(CacheManager.getLastLocation().getLatitude(), CacheManager.getLastLocation().getLongitude(), true);
+//        requestForMap(CacheHandler.getLastLocation().getLatitude(), CacheHandler.getLastLocation().getLongitude(), true);
     }
 
     private void startCollectCoinsMode() {
-        User user = CacheManager.getUser();
+        User user = CacheHandler.getUser();
         towersToCollectCoin.clear();
         for (Tower tower : user.getTowersList()) {
             if (tower.getCoin() != 0) {
@@ -660,14 +660,14 @@ public class MapFragment extends BaseFragment
         collectCoinsMode = false;
         revertButtonsState(true);
         clearGoogleMap();
-        requestForMap(CacheManager.getLastLocation().getLatitude(), CacheManager.getLastLocation().getLongitude(), false);
+        requestForMap(CacheHandler.getLastLocation().getLatitude(), CacheHandler.getLastLocation().getLongitude(), false);
     }
 
     private void actionCanceled() {
         watchMyTowersMode = healMode = addingTowerMode = collectCoinsMode = false;
         revertButtonsState(true);
         clearGoogleMap();
-        requestForMap(CacheManager.getLastLocation().getLatitude(), CacheManager.getLastLocation().getLongitude(), true);
+        requestForMap(CacheHandler.getLastLocation().getLatitude(), CacheHandler.getLastLocation().getLongitude(), true);
     }
 
     @Override
@@ -695,7 +695,7 @@ public class MapFragment extends BaseFragment
         revertButtonsState(false);
 
         towersToWatch.clear();
-        User user = CacheManager.getUser();
+        User user = CacheHandler.getUser();
         for (Tower tower : user.getTowersList()) {
             towersToWatch.add(tower);
         }
@@ -715,7 +715,7 @@ public class MapFragment extends BaseFragment
         clearGoogleMap();
         nowOnThisTower = null;
         watchMyTowersMode = false;
-        requestForMap(CacheManager.getLastLocation().getLatitude(), CacheManager.getLastLocation().getLongitude(), false);
+        requestForMap(CacheHandler.getLastLocation().getLatitude(), CacheHandler.getLastLocation().getLongitude(), false);
     }
 
     private void showNextTowerToWatch() {
@@ -742,7 +742,7 @@ public class MapFragment extends BaseFragment
 
     private void showMapAroundTheTower(Tower tower) {
         Call<MapResponse> call = VampireApp.createMapApi().getMapAroundTower(
-                UserManager.readToken(getActivity()),
+                UserHandler.readToken(getActivity()),
                 tower.get_id()
         );
 
@@ -775,7 +775,7 @@ public class MapFragment extends BaseFragment
         if (addingTowerMode) {
             addingTowerMode = false;
 
-            Call<ResponseBody> call = VampireApp.createMapApi().addTower(CacheManager.getUser().getToken(), position.latitude, position.longitude);
+            Call<ResponseBody> call = VampireApp.createMapApi().addTower(CacheHandler.getUser().getToken(), position.latitude, position.longitude);
             call.enqueue(new Callback<ResponseBody>() {
                 @Override
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -835,7 +835,7 @@ public class MapFragment extends BaseFragment
         googleMap.setMinZoomPreference(MIN_ZOOM);
         googleMap.setMaxZoomPreference(MAX_ZOOM);
         clearGoogleMap();
-        requestForMap(CacheManager.getLastLocation().getLatitude(), CacheManager.getLastLocation().getLongitude(), true);
+        requestForMap(CacheHandler.getLastLocation().getLatitude(), CacheHandler.getLastLocation().getLongitude(), true);
     }
 
     private void startHealMode(List<Place> places) {
@@ -860,13 +860,13 @@ public class MapFragment extends BaseFragment
         }
 
         // todo why this crashes when app starts
-        addMeToMap(CacheManager.getLastLocation().getLatitude(), CacheManager.getLastLocation().getLongitude(), MIN_ZOOM_HEAL_MODE, false);
+        addMeToMap(CacheHandler.getLastLocation().getLatitude(), CacheHandler.getLastLocation().getLongitude(), MIN_ZOOM_HEAL_MODE, false);
     }
 
     private void addMeToMap(double lat, double lng, float zoomLevel, final boolean putDot) {
         LatLng newPlace = new LatLng(lat, lng);
         MarkerOptions markerOptions = new MarkerOptions();
-        markerOptions.position(newPlace).title(CacheManager.getUser().getUsername());
+        markerOptions.position(newPlace).title(CacheHandler.getUser().getUsername());
 
         if (putDot) {
             markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.dot));
@@ -877,7 +877,7 @@ public class MapFragment extends BaseFragment
         } else {
             myMarker.setPosition(newPlace);
         }
-        myMarker.setTag(CacheManager.getUser());
+        myMarker.setTag(CacheHandler.getUser());
 
         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(newPlace, zoomLevel), new GoogleMap.CancelableCallback() {
             @Override
@@ -900,7 +900,7 @@ public class MapFragment extends BaseFragment
     private void handleHealNow(Place place) {
         // TODO, replace my place instead of one of the hospitals
         Call<ResponseBody> call = VampireApp.createUserApi().healMe(
-                CacheManager.getUser().getToken(),
+                CacheHandler.getUser().getToken(),
                 place.getGeo().get(0),
                 place.getGeo().get(1),
                 place.getPlaceId());

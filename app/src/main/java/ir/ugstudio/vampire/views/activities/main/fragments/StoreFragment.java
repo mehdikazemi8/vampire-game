@@ -20,8 +20,8 @@ import ir.ugstudio.vampire.R;
 import ir.ugstudio.vampire.VampireApp;
 import ir.ugstudio.vampire.async.GetProfile;
 import ir.ugstudio.vampire.events.StartRealPurchase;
-import ir.ugstudio.vampire.managers.SharedPrefManager;
-import ir.ugstudio.vampire.managers.UserManager;
+import ir.ugstudio.vampire.managers.SharedPrefHandler;
+import ir.ugstudio.vampire.managers.UserHandler;
 import ir.ugstudio.vampire.models.StoreItemReal;
 import ir.ugstudio.vampire.models.StoreItemVirtual;
 import ir.ugstudio.vampire.models.StoreItems;
@@ -79,7 +79,7 @@ public class StoreFragment extends BaseFragment implements View.OnClickListener 
     }
 
     private void configureVirtualItems() {
-        StoreItems storeItems = SharedPrefManager.readStoreItems(getActivity());
+        StoreItems storeItems = SharedPrefHandler.readStoreItems(getActivity());
         if (storeItems != null) {
             Log.d("TAG", "configureVirtualItems " + storeItems.getVirtuals().size());
             virtualItemsList = storeItems.getVirtuals();
@@ -94,7 +94,7 @@ public class StoreFragment extends BaseFragment implements View.OnClickListener 
     }
 
     private void startVirtualPurchase(StoreItemVirtual item) {
-        String token = UserManager.readToken(getActivity());
+        String token = UserHandler.readToken(getActivity());
         Call<ResponseBody> call = VampireApp.createUserApi().virtualPurchase(
                 token, item.getItemId()
         );
@@ -123,7 +123,7 @@ public class StoreFragment extends BaseFragment implements View.OnClickListener 
     }
 
     private void configureRealItems() {
-        StoreItems storeItems = SharedPrefManager.readStoreItems(getActivity());
+        StoreItems storeItems = SharedPrefHandler.readStoreItems(getActivity());
         if (storeItems != null) {
             Log.d("TAG", "configureRealItems " + storeItems.getReals().size());
             realItemsList = storeItems.getReals();

@@ -4,17 +4,10 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import org.greenrobot.eventbus.EventBus;
-
-import java.util.List;
-
 import ir.ugstudio.vampire.VampireApp;
-import ir.ugstudio.vampire.managers.CacheManager;
-import ir.ugstudio.vampire.managers.UserManager;
+import ir.ugstudio.vampire.managers.CacheHandler;
+import ir.ugstudio.vampire.managers.UserHandler;
 import ir.ugstudio.vampire.models.QuotesResponse;
-import ir.ugstudio.vampire.models.User;
-import ir.ugstudio.vampire.utils.Consts;
-import ir.ugstudio.vampire.utils.MemoryCache;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -31,12 +24,12 @@ public class GetQuotes extends AsyncTask<Void, Void, Void> {
     protected Void doInBackground(Void... voids) {
         Log.d("TAG", "ddd doInBackground");
 
-        Call<QuotesResponse> call = VampireApp.createMapApi().getQuotes(UserManager.readToken(context));
+        Call<QuotesResponse> call = VampireApp.createMapApi().getQuotes(UserHandler.readToken(context));
         call.enqueue(new Callback<QuotesResponse>() {
             @Override
             public void onResponse(Call<QuotesResponse> call, Response<QuotesResponse> response) {
                 if(response.isSuccessful()) {
-                    CacheManager.setQuotes(response.body());
+                    CacheHandler.setQuotes(response.body());
                     Log.d("TAG", "ddd isSuccessful");
                     for(String str : response.body().getQuotes()) {
                         Log.d("TAG", "ddd " + str);

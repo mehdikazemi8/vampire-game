@@ -11,8 +11,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import ir.ugstudio.vampire.R;
-import ir.ugstudio.vampire.managers.CacheManager;
-import ir.ugstudio.vampire.managers.VampirePreferenceManager;
+import ir.ugstudio.vampire.managers.CacheHandler;
+import ir.ugstudio.vampire.managers.SharedPrefManager;
 import ir.ugstudio.vampire.views.BaseFragment;
 import ir.ugstudio.vampire.views.custom.avatar.AvatarSelectionDialog;
 
@@ -56,7 +56,7 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
     }
 
     private void logout() {
-        VampirePreferenceManager.clearAll(getActivity());
+        SharedPrefManager.clearAll(getActivity());
         getActivity().finish();
     }
 
@@ -71,7 +71,7 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
         Intent sendIntent = new Intent();
         sendIntent.setAction(Intent.ACTION_SEND);
         String str = "http://cafebazaar.ir/app/" + getActivity().getPackageName();
-        str = str + "\n\n" + String.format(getString(R.string.message_share), CacheManager.getUser().getUsername());
+        str = str + "\n\n" + String.format(getString(R.string.message_share), CacheHandler.getUser().getUsername());
         sendIntent.putExtra(Intent.EXTRA_TEXT, str);
         sendIntent.setType("text/plain");
         startActivity(sendIntent);

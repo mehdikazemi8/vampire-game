@@ -19,8 +19,8 @@ import java.io.IOException;
 import ir.ugstudio.vampire.R;
 import ir.ugstudio.vampire.VampireApp;
 import ir.ugstudio.vampire.events.FCMNewMessage;
-import ir.ugstudio.vampire.managers.CacheManager;
-import ir.ugstudio.vampire.managers.UserManager;
+import ir.ugstudio.vampire.managers.CacheHandler;
+import ir.ugstudio.vampire.managers.UserHandler;
 import ir.ugstudio.vampire.models.Tower;
 import ir.ugstudio.vampire.models.TowerMessage;
 import ir.ugstudio.vampire.views.BaseFragment;
@@ -110,7 +110,7 @@ public class TowerWallFragment extends BaseFragment implements View.OnClickListe
         final String messageStr = message.getText().toString().trim();
 
         Call<ResponseBody> call = VampireApp.createMapApi().sendMessageToTower(
-                UserManager.readToken(getContext()),
+                UserHandler.readToken(getContext()),
                 tower.get_id(),
                 messageStr
         );
@@ -160,7 +160,7 @@ public class TowerWallFragment extends BaseFragment implements View.OnClickListe
     }
 
     private void updateWallMessages(String messageStr) {
-        tower.getWall().add(new TowerMessage(CacheManager.getUser().getUsername(), messageStr, CacheManager.getUser().getAvatar()));
+        tower.getWall().add(new TowerMessage(CacheHandler.getUser().getUsername(), messageStr, CacheHandler.getUser().getAvatar()));
         messageAdapter.notifyDataSetChanged();
         showLastItem();
     }
@@ -182,7 +182,7 @@ public class TowerWallFragment extends BaseFragment implements View.OnClickListe
 
     private void getTower(String towerId) {
         Call<Tower> call = VampireApp.createMapApi().getTower(
-                UserManager.readToken(getActivity()),
+                UserHandler.readToken(getActivity()),
                 towerId
         );
         call.enqueue(new Callback<Tower>() {

@@ -22,8 +22,8 @@ import ir.ugstudio.vampire.R;
 import ir.ugstudio.vampire.VampireApp;
 import ir.ugstudio.vampire.async.GetProfile;
 import ir.ugstudio.vampire.managers.AvatarManager;
-import ir.ugstudio.vampire.managers.CacheManager;
-import ir.ugstudio.vampire.managers.UserManager;
+import ir.ugstudio.vampire.managers.CacheHandler;
+import ir.ugstudio.vampire.managers.UserHandler;
 import ir.ugstudio.vampire.models.QuotesResponse;
 import ir.ugstudio.vampire.models.Tower;
 import ir.ugstudio.vampire.models.User;
@@ -104,7 +104,7 @@ public class AttackDialog extends Dialog implements View.OnClickListener {
         role.setText(user.getRole().equals("hunter") ? "شکارچی" : "خون‌آشام");
 
         messageStr = null;
-        final QuotesResponse quotes = CacheManager.getQuotes();
+        final QuotesResponse quotes = CacheHandler.getQuotes();
         Collections.shuffle(quotes.getQuotes(), new Random(System.nanoTime()));
         for (int i = 0; i < NUMBER_OF_RADIO; i++) {
             final int idx = i;
@@ -124,9 +124,9 @@ public class AttackDialog extends Dialog implements View.OnClickListener {
             Toast.makeText(getContext(), getContext().getString(R.string.choose_attack_message), Toast.LENGTH_SHORT).show();
             return;
         }
-        Location lastLocation = CacheManager.getLastLocation();
+        Location lastLocation = CacheHandler.getLastLocation();
         Call<ResponseBody> call = VampireApp.createMapApi().attack(
-                UserManager.readToken(getContext()),
+                UserHandler.readToken(getContext()),
                 lastLocation.getLatitude(),
                 lastLocation.getLongitude(),
                 user.getUsername(),
@@ -164,7 +164,7 @@ public class AttackDialog extends Dialog implements View.OnClickListener {
 
     private void attackFromTower() {
         Call<ResponseBody> call = VampireApp.createMapApi().attackFromTower(
-                UserManager.readToken(getContext()),
+                UserHandler.readToken(getContext()),
                 tower.get_id(),
                 user.getUsername()
         );

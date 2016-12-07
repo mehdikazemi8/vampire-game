@@ -15,7 +15,7 @@ import ir.ugstudio.vampire.async.GetProfile;
 import ir.ugstudio.vampire.async.GetQuotes;
 import ir.ugstudio.vampire.async.GetStoreItems;
 import ir.ugstudio.vampire.events.GetProfileEvent;
-import ir.ugstudio.vampire.managers.UserManager;
+import ir.ugstudio.vampire.managers.UserHandler;
 import ir.ugstudio.vampire.models.User;
 import ir.ugstudio.vampire.views.activities.main.MainActivity;
 import ir.ugstudio.vampire.views.activities.register.RegisterActivity;
@@ -31,7 +31,7 @@ public class SplashActivity extends FragmentActivity {
     }
 
     private void getProfile() {
-        String token = UserManager.readToken(SplashActivity.this);
+        String token = UserHandler.readToken(SplashActivity.this);
 
         if (token == null || token.isEmpty()) {
             startRegisterActivity();
@@ -47,7 +47,7 @@ public class SplashActivity extends FragmentActivity {
 //        new GetPlaces(SplashActivity.this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
         // get profile, save it and continue to maps activity
-        UserManager.writeUser(SplashActivity.this, user);
+        UserHandler.writeUser(SplashActivity.this, user);
 
         Log.d("TAG", "startMainActivity " + user.serialize());
 
@@ -56,7 +56,7 @@ public class SplashActivity extends FragmentActivity {
     }
 
     private void startRegisterActivity() {
-        UserManager.clearUser(SplashActivity.this);
+        UserHandler.clearUser(SplashActivity.this);
 //        start register activity
         startActivity(new Intent(SplashActivity.this, RegisterActivity.class));
         finish();

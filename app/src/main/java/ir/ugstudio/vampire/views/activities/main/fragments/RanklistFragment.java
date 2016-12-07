@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 
 import ir.ugstudio.vampire.R;
 import ir.ugstudio.vampire.VampireApp;
-import ir.ugstudio.vampire.managers.UserManager;
+import ir.ugstudio.vampire.managers.UserHandler;
 import ir.ugstudio.vampire.models.Ranklist;
 import ir.ugstudio.vampire.models.User;
 import ir.ugstudio.vampire.views.BaseFragment;
@@ -52,7 +52,7 @@ public class RanklistFragment extends BaseFragment {
     }
 
     private void getRanklist() {
-        Call<Ranklist> call = VampireApp.createUserApi().getRanklist(UserManager.readToken(getActivity()));
+        Call<Ranklist> call = VampireApp.createUserApi().getRanklist(UserHandler.readToken(getActivity()));
         call.enqueue(new Callback<Ranklist>() {
             @Override
             public void onResponse(Call<Ranklist> call, Response<Ranklist> response) {
