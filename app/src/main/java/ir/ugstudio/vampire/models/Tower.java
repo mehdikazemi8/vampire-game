@@ -12,8 +12,17 @@ public class Tower {
     private String role;
     private List<Double> geo;
     private String _id;
+    private List<User> owners;
 
     public Tower() {
+    }
+
+    public List<User> getOwners() {
+        return owners;
+    }
+
+    public void setOwners(List<User> owners) {
+        this.owners = owners;
     }
 
     public Integer getCoin() {

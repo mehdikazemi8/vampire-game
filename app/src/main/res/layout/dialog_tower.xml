@@ -2,80 +2,78 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/salem"
     android:orientation="vertical">
 
-    <TextView
+    <ir.ugstudio.vampire.views.custom.CustomTextView
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:padding="@dimen/padding.medium" />
+        android:padding="@dimen/padding.medium"
+        android:textColor="@color/white_smoke"
+        android:textSize="@dimen/text.size.large" />
 
     <LinearLayout
+        android:id="@+id/coin_section"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
+        android:layout_gravity="center"
         android:orientation="horizontal">
 
-        <TextView
+        <ir.ugstudio.vampire.views.custom.CustomTextView
+            android:id="@+id/coin_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/padding.small"
+            android:textColor="@color/white_smoke" />
+
+        <ir.ugstudio.vampire.views.custom.CustomTextView
             android:id="@+id/coin_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="@dimen/padding.small"
-            android:text="@string/icon.coin" />
-
-        <TextView
-            android:id="@+id/coin_count"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/padding.small" />
+            android:text="@string/caption_coin"
+            android:textColor="@color/white_smoke" />
 
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/messages"
+        android:id="@+id/owners"
         android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_gravity="center_vertical"
         android:layout_weight="1"
-        android:layout_height="0dp" />
+        android:orientation="horizontal" />
 
-    <Button
-        android:id="@+id/join_tower_button"
+    <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="@dimen/padding.medium"
-        android:text="@string/btn_join_tower_owners" />
+        android:layout_gravity="center_horizontal">
 
-    <Button
-        android:id="@+id/steal_from_tower_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="@dimen/padding.medium"
-        android:text="@string/btn_steal_coins" />
-
-    <LinearLayout
-        android:id="@+id/send_message_section"
-        android:layout_width="match_parent"
-        android:orientation="horizontal"
-        android:layout_margin="@dimen/padding.small"
-        android:gravity="center_vertical"
-        android:layout_height="wrap_content">
-
-        <EditText
-            android:id="@+id/message"
-            android:layout_width="0dp"
-            android:layout_weight="5"
-            android:background="@drawable/edit_text_border"
-            android:padding="@dimen/padding.small"
-            android:hint="@string/enter_message"
-            android:layout_height="match_parent" />
-
-        <Button
-            android:id="@+id/submit_message"
+        <ir.ugstudio.vampire.views.custom.CustomButton
+            android:id="@+id/show_tower_wall"
             android:layout_width="wrap_content"
-            android:text="@string/btn_submit_message"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/padding.medium"
+            android:text="@string/btn_show_tower_wall"
+            android:visibility="gone" />
+
+        <ir.ugstudio.vampire.views.custom.CustomButton
+            android:id="@+id/steal_from_tower_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/padding.medium"
+            android:text="@string/btn_steal_coins"
+            android:visibility="gone" />
+
+        <ir.ugstudio.vampire.views.custom.CustomButton
+            android:id="@+id/join_tower_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/padding.medium"
+            android:text="@string/btn_join_tower_owners"
+            android:visibility="gone" />
+    </FrameLayout>
 
 </LinearLayout>

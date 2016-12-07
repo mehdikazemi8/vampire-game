@@ -15,6 +15,7 @@
     <string name="btn_attack">حمله</string>
     <string name="btn_steal_coins">غارت سکه‌ها</string>
     <string name="btn_join_tower_owners">اضافه شدن به اعضای برج</string>
+    <string name="btn_show_tower_wall">دیوارِ برج</string>
     <string name="btn_confirm">خب!</string>
     <string name="btn_go_to_hospital">میرم نزدیک بیمارستان</string>
     <string name="btn_buy_healer">یه درمان‌کننده می‌خرم</string>

@@ -72,7 +72,7 @@ public class AttackDialog extends Dialog implements View.OnClickListener {
         setContentView(R.layout.dialog_attack);
 
         DisplayMetrics metrics = getContext().getResources().getDisplayMetrics();
-        getWindow().setLayout((int) (metrics.widthPixels * 0.98), (int) (metrics.heightPixels * 0.95));
+        getWindow().setLayout(Math.min(1000, (int) (metrics.widthPixels * 0.98)), (int) (metrics.heightPixels * 0.95));
         findControls();
         configure();
     }
