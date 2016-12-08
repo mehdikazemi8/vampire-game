@@ -14,6 +14,8 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
+import com.squareup.picasso.Picasso;
+
 import java.io.IOException;
 import java.util.Collections;
 import java.util.Random;
@@ -47,7 +49,7 @@ public class AttackDialog extends Dialog implements View.OnClickListener {
     private CustomTextView score;
 
     private Button attackButton;
-    private boolean doIattackFromTower = false;
+    private boolean doIAttackFromTower = false;
     private Tower tower;
 
     private ImageView avatar;
@@ -61,7 +63,7 @@ public class AttackDialog extends Dialog implements View.OnClickListener {
         super(context);
         this.user = user;
         this.tower = tower;
-        this.doIattackFromTower = true;
+        this.doIAttackFromTower = true;
     }
 
     @Override
@@ -95,13 +97,26 @@ public class AttackDialog extends Dialog implements View.OnClickListener {
     private void configure() {
         FontHelper.setKoodakFor(getContext(), quotesRadio[0], quotesRadio[1], quotesRadio[2], attackButton);
 
-        avatar.setBackgroundResource(AvatarManager.getResourceId(getContext(), user.getAvatar()));
+        if (user.getRole().equals("sheep")) {
+            Picasso.with(getContext()).load(R.drawable.sheep).into(avatar);
+        } else {
+            avatar.setBackgroundResource(AvatarManager.getResourceId(getContext(), user.getAvatar()));
+        }
+
         attackButton.setOnClickListener(this);
 
         username.setText(user.getUsername());
         coin.setText(String.valueOf(user.getCoin()));
         score.setText(String.valueOf(user.getScore()));
-        role.setText(user.getRole().equals("hunter") ? "شکارچی" : "خون‌آشام");
+
+        if (user.getRole().equals("hunter")) {
+            role.setText("شکارچی");
+        } else if (user.getRole().equals("vampire")) {
+            role.setText("خون‌آشام");
+        } else {
+//            role.setText("");
+            role.setVisibility(View.GONE);
+        }
 
         messageStr = null;
         final QuotesResponse quotes = CacheHandler.getQuotes();
@@ -200,7 +215,7 @@ public class AttackDialog extends Dialog implements View.OnClickListener {
     }
 
     private void handleAttack() {
-        if (doIattackFromTower) {
+        if (doIAttackFromTower) {
             attackFromTower();
         } else {
             attack();
