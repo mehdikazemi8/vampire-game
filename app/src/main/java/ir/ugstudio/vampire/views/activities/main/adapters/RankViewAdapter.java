@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import java.util.List;
 
 import ir.ugstudio.vampire.R;
+import ir.ugstudio.vampire.models.Notification;
 import ir.ugstudio.vampire.models.User;
 
 public class RankViewAdapter extends RecyclerView.Adapter<RankViewHolder> {
@@ -39,6 +40,11 @@ public class RankViewAdapter extends RecyclerView.Adapter<RankViewHolder> {
     @Override
     public int getItemCount() {
         return items.size();
+    }
+
+    public void update(List<User> items) {
+        this.items = items;
+        notifyDataSetChanged();
     }
 }
 

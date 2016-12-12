@@ -8,6 +8,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import ir.ugstudio.vampire.R;
 import ir.ugstudio.vampire.VampireApp;
@@ -21,8 +25,12 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class RanklistFragment extends BaseFragment {
+
+    private List<User> players = new ArrayList<>();
     private RecyclerView ranklist;
     private RankViewAdapter adapter;
+
+    private ProgressBar progressbar;
 
     public static RanklistFragment getInstance() {
         return new RanklistFragment();
@@ -40,15 +48,17 @@ public class RanklistFragment extends BaseFragment {
 
         find(view);
         configure();
-        getRanklist();
     }
 
     private void find(View view) {
         ranklist = (RecyclerView) view.findViewById(R.id.ranklist);
+        progressbar = (ProgressBar) view.findViewById(R.id.progressbar);
     }
 
     private void configure() {
         ranklist.setLayoutManager(new LinearLayoutManager(getActivity()));
+        adapter = new RankViewAdapter(getActivity(), players);
+        ranklist.setAdapter(adapter);
     }
 
     private void getRanklist() {
@@ -56,18 +66,18 @@ public class RanklistFragment extends BaseFragment {
         call.enqueue(new Callback<Ranklist>() {
             @Override
             public void onResponse(Call<Ranklist> call, Response<Ranklist> response) {
+                progressbar.setVisibility(View.GONE);
+
                 if (response.isSuccessful()) {
-                    for (User user : response.body().getTop()) {
-                        Log.d("TAG", "rank " + user.getUsername());
-                    }
-                    response.body().getTop().addAll(response.body().getNear());
-                    adapter = new RankViewAdapter(getContext(), response.body().getTop());
-                    ranklist.setAdapter(adapter);
+                    players = response.body().getTop();
+                    players.addAll(response.body().getNear());
+                    ((RankViewAdapter) ranklist.getAdapter()).update(players);
                 }
             }
 
             @Override
             public void onFailure(Call<Ranklist> call, Throwable t) {
+                progressbar.setVisibility(View.GONE);
                 Log.d("TAG", "onFailure " + t.getMessage());
             }
         });
@@ -77,5 +87,11 @@ public class RanklistFragment extends BaseFragment {
     public void onBringToFront() {
         super.onBringToFront();
         Log.d("TAG", "onBringToFront RanklistFragment");
+        progressbar.setVisibility(View.VISIBLE);
+
+        players = new ArrayList<>();
+        ((RankViewAdapter) ranklist.getAdapter()).update(players);
+
+        getRanklist();
     }
 }

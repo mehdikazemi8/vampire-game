@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,9 +26,11 @@ import retrofit2.Response;
 
 public class NotificationsFragment extends BaseFragment {
 
-    private NotificationViewAdapter adapter;
     private List<Notification> victim = new ArrayList<>();
     private RecyclerView notifications;
+    private NotificationViewAdapter adapter;
+
+    private ProgressBar progressbar;
 
     public static NotificationsFragment getInstance() {
         return new NotificationsFragment();
@@ -49,6 +52,7 @@ public class NotificationsFragment extends BaseFragment {
 
     private void find(View view) {
         notifications = (RecyclerView) view.findViewById(R.id.notifications);
+        progressbar = (ProgressBar) view.findViewById(R.id.progressbar);
     }
 
     private void configure() {
@@ -57,19 +61,14 @@ public class NotificationsFragment extends BaseFragment {
         notifications.setAdapter(adapter);
     }
 
-    @Override
-    public void onBringToFront() {
-        super.onBringToFront();
-        Log.d("TAG", "onBringToFront NotificationsFragment");
-        callForNotifications();
-    }
-
     private void callForNotifications() {
         String token = UserHandler.readToken(getActivity());
         Call<NotificationList> call = VampireApp.createUserApi().getNotification(token);
         call.enqueue(new Callback<NotificationList>() {
             @Override
             public void onResponse(Call<NotificationList> call, Response<NotificationList> response) {
+                progressbar.setVisibility(View.GONE);
+
                 if (response.isSuccessful()) {
                     Log.d("TAG", "onResponse " + response.body().getVictim().size());
                     victim = response.body().getVictim();
@@ -79,8 +78,23 @@ public class NotificationsFragment extends BaseFragment {
 
             @Override
             public void onFailure(Call<NotificationList> call, Throwable t) {
+                progressbar.setVisibility(View.GONE);
+
                 Log.d("TAG", "onResponse " + t.getMessage());
             }
         });
+    }
+
+    @Override
+    public void onBringToFront() {
+        super.onBringToFront();
+        Log.d("TAG", "onBringToFront NotificationsFragment");
+
+        progressbar.setVisibility(View.VISIBLE);
+
+        victim = new ArrayList<>();
+        ((NotificationViewAdapter) notifications.getAdapter()).update(victim);
+
+        callForNotifications();
     }
 }
