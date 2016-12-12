@@ -1,5 +1,7 @@
 package ir.ugstudio.vampire.views.activities.main;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -331,5 +333,31 @@ public class MainActivity extends FragmentActivity {
 
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+//        super.onBackPressed();
+
+        // todo, in case some other fragment is added to backstack in MainActivity
+        confirmExit();
+    }
+
+    private void confirmExit() {
+        AlertDialog dialog = new AlertDialog.Builder(MainActivity.this)
+                .setMessage("مطمئنی می خوای خارج بشی؟")
+                .setPositiveButton("بله", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        finish();
+                    }
+                })
+                .setNegativeButton("خیر", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                }).show();
+        FontHelper.setKoodakFor(MainActivity.this, (TextView) dialog.findViewById(android.R.id.message));
     }
 }
