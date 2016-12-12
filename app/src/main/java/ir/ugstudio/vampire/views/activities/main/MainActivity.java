@@ -31,6 +31,7 @@ import ir.ugstudio.vampire.cafeutil.IabResult;
 import ir.ugstudio.vampire.cafeutil.Inventory;
 import ir.ugstudio.vampire.cafeutil.Purchase;
 import ir.ugstudio.vampire.events.OpenTowerWallFragment;
+import ir.ugstudio.vampire.events.ShowTabEvent;
 import ir.ugstudio.vampire.events.StartRealPurchase;
 import ir.ugstudio.vampire.managers.UserHandler;
 import ir.ugstudio.vampire.models.StoreItemReal;
@@ -248,6 +249,11 @@ public class MainActivity extends FragmentActivity {
         } else {
             Toast.makeText(this, "null", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Subscribe
+    public void onEvent(ShowTabEvent event) {
+        viewPager.setCurrentItem(event.getTabIndex());
     }
 
     @Subscribe

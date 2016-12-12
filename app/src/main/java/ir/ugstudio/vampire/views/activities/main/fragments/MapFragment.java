@@ -1,5 +1,7 @@
 package ir.ugstudio.vampire.views.activities.main.fragments;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Color;
@@ -47,6 +49,7 @@ import ir.ugstudio.vampire.VampireApp;
 import ir.ugstudio.vampire.async.GetPlaces;
 import ir.ugstudio.vampire.async.GetProfile;
 import ir.ugstudio.vampire.events.GetProfileEvent;
+import ir.ugstudio.vampire.events.ShowTabEvent;
 import ir.ugstudio.vampire.managers.CacheHandler;
 import ir.ugstudio.vampire.managers.UserHandler;
 import ir.ugstudio.vampire.models.MapResponse;
@@ -57,6 +60,7 @@ import ir.ugstudio.vampire.models.User;
 import ir.ugstudio.vampire.utils.Consts;
 import ir.ugstudio.vampire.utils.FontHelper;
 import ir.ugstudio.vampire.views.BaseFragment;
+import ir.ugstudio.vampire.views.activities.main.MainActivity;
 import ir.ugstudio.vampire.views.dialogs.AttackDialog;
 import ir.ugstudio.vampire.views.dialogs.HealDialog;
 import ir.ugstudio.vampire.views.dialogs.TowerDialog;
@@ -604,6 +608,24 @@ public class MapFragment extends BaseFragment
         }
     }
 
+    private void redirectToStore() {
+        AlertDialog dialog = new AlertDialog.Builder(getActivity())
+                .setMessage("متاسفانه سکه‌ي کافی برای ساخت برج نداری، دوس داری سکه خریداری کنی؟")
+                .setPositiveButton("بله", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        EventBus.getDefault().post(new ShowTabEvent(1));
+                    }
+                })
+                .setNegativeButton("خیر", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                }).show();
+        FontHelper.setKoodakFor(getActivity(), (TextView) dialog.findViewById(android.R.id.message));
+    }
+
     private void handleAddTower() {
         revertButtonsState(false);
 
@@ -830,7 +852,11 @@ public class MapFragment extends BaseFragment
                         }
                         Toast.makeText(getContext(), result, Toast.LENGTH_SHORT).show();
 
-                        GetProfile.run(getActivity());
+                        if(result.equals("not_enough_money")) {
+                            redirectToStore();
+                        } else {
+                            GetProfile.run(getActivity());
+                        }
                     } else {
                         Toast.makeText(getContext(), "NOT SUCCESSFUL", Toast.LENGTH_SHORT).show();
                     }
