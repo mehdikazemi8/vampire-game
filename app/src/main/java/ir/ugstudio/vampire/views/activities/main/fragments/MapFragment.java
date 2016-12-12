@@ -829,6 +829,8 @@ public class MapFragment extends BaseFragment
                             e.printStackTrace();
                         }
                         Toast.makeText(getContext(), result, Toast.LENGTH_SHORT).show();
+
+                        GetProfile.run(getActivity());
                     } else {
                         Toast.makeText(getContext(), "NOT SUCCESSFUL", Toast.LENGTH_SHORT).show();
                     }
