@@ -651,6 +651,8 @@ public class MapFragment extends BaseFragment
         Marker marker = googleMap.addMarker(markerOptions);
         marker.setTag(nextTower);
 
+        marker.showInfoWindow();
+
         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(towerPlace, MIN_ZOOM));
 
         Toast.makeText(getActivity(), String.valueOf(nextTower.getCoin()), Toast.LENGTH_LONG).show();
