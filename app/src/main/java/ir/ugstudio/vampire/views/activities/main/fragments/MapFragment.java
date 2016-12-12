@@ -95,6 +95,7 @@ public class MapFragment extends BaseFragment
     private TextView rank;
 
     private FloatingActionButton cancelButton;
+    private FloatingActionButton showNextTower;
     private FloatingActionButton addTower;
     private FloatingActionButton watchMyTowers;
     private FloatingActionButton collectCoinFromMyTowers;
@@ -157,6 +158,7 @@ public class MapFragment extends BaseFragment
         rank = (TextView) view.findViewById(R.id.rank);
 
         cancelButton = (FloatingActionButton) view.findViewById(R.id.cancel_button);
+        showNextTower = (FloatingActionButton) view.findViewById(R.id.show_next_tower);
         addTower = (FloatingActionButton) view.findViewById(R.id.add_tower);
         collectCoinFromMyTowers = (FloatingActionButton) view.findViewById(R.id.collect_coin_from_my_towers);
         watchMyTowers = (FloatingActionButton) view.findViewById(R.id.watch_my_towers);
@@ -181,6 +183,7 @@ public class MapFragment extends BaseFragment
 
         updateView(CacheHandler.getUser());
 
+        showNextTower.setOnClickListener(this);
         addTower.setOnClickListener(this);
         watchMyTowers.setOnClickListener(this);
         collectCoinFromMyTowers.setOnClickListener(this);
@@ -280,7 +283,9 @@ public class MapFragment extends BaseFragment
             if (collectCoinsMode) {
                 collectCoinsOfThisTower(tower);
             } else if (watchMyTowersMode) {
-                helpMeWatchThisTower(tower);
+//                helpMeWatchThisTower(tower);
+                TowerDialog dialog = new TowerDialog(getActivity(), (Tower) marker.getTag());
+                dialog.show();
             } else {
                 TowerDialog dialog = new TowerDialog(getActivity(), (Tower) marker.getTag());
                 dialog.show();
@@ -291,7 +296,8 @@ public class MapFragment extends BaseFragment
     }
 
     private void helpMeWatchThisTower(Tower tower) {
-        showNextTowerToWatch();
+
+        //showNextTowerToWatch();
     }
 
     @Override
@@ -582,12 +588,16 @@ public class MapFragment extends BaseFragment
             addTower.setVisibility(View.INVISIBLE);
             collectCoinFromMyTowers.setVisibility(View.INVISIBLE);
             watchMyTowers.setVisibility(View.INVISIBLE);
+
             cancelButton.setVisibility(View.VISIBLE);
+            showNextTower.setVisibility(View.VISIBLE);
         } else {
             addTower.setVisibility(View.VISIBLE);
             collectCoinFromMyTowers.setVisibility(View.VISIBLE);
             watchMyTowers.setVisibility(View.VISIBLE);
+
             cancelButton.setVisibility(View.INVISIBLE);
+            showNextTower.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -677,6 +687,10 @@ public class MapFragment extends BaseFragment
         switch (view.getId()) {
             case R.id.add_tower:
                 handleAddTower();
+                break;
+
+            case R.id.show_next_tower:
+                showNextTowerToWatch();
                 break;
 
             case R.id.collect_coin_from_my_towers:

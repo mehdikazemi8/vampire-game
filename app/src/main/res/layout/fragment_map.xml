@@ -108,6 +108,17 @@
             android:src="@drawable/tower" />
 
         <android.support.design.widget.FloatingActionButton
+            android:id="@+id/show_next_tower"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/add_tower"
+            android:layout_alignParentRight="true"
+            android:layout_margin="@dimen/space.small"
+            android:clickable="true"
+            android:src="@drawable/arrow_right"
+            android:visibility="invisible" />
+
+        <android.support.design.widget.FloatingActionButton
             android:id="@+id/watch_my_towers"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

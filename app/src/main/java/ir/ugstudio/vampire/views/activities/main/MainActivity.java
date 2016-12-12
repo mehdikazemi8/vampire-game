@@ -34,6 +34,7 @@ import ir.ugstudio.vampire.events.OpenTowerWallFragment;
 import ir.ugstudio.vampire.events.StartRealPurchase;
 import ir.ugstudio.vampire.managers.UserHandler;
 import ir.ugstudio.vampire.models.StoreItemReal;
+import ir.ugstudio.vampire.utils.Consts;
 import ir.ugstudio.vampire.utils.FontHelper;
 import ir.ugstudio.vampire.views.BaseFragment;
 import ir.ugstudio.vampire.views.activities.main.adapters.MainFragmentsPagerAdapter;
@@ -257,7 +258,7 @@ public class MainActivity extends FragmentActivity {
         fragment.setArguments(bundle);
         getSupportFragmentManager()
                 .beginTransaction()
-                .add(R.id.fragment_holder, fragment)
+                .add(R.id.fragment_holder, fragment, Consts.FRG_WALL)
                 .addToBackStack(null)
                 .commit();
     }
@@ -338,6 +339,11 @@ public class MainActivity extends FragmentActivity {
     @Override
     public void onBackPressed() {
 //        super.onBackPressed();
+
+        if( getSupportFragmentManager().findFragmentByTag(Consts.FRG_WALL) != null ) {
+            getSupportFragmentManager().popBackStack();
+            return;
+        }
 
         // todo, in case some other fragment is added to backstack in MainActivity
         confirmExit();
