@@ -2,12 +2,14 @@ package ir.ugstudio.vampire.views.activities.main.fragments;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.location.Location;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
@@ -59,8 +61,8 @@ import ir.ugstudio.vampire.models.Tower;
 import ir.ugstudio.vampire.models.User;
 import ir.ugstudio.vampire.utils.Consts;
 import ir.ugstudio.vampire.utils.FontHelper;
+import ir.ugstudio.vampire.utils.VampireLocationManager;
 import ir.ugstudio.vampire.views.BaseFragment;
-import ir.ugstudio.vampire.views.activities.main.MainActivity;
 import ir.ugstudio.vampire.views.dialogs.AttackDialog;
 import ir.ugstudio.vampire.views.dialogs.HealDialog;
 import ir.ugstudio.vampire.views.dialogs.TowerDialog;
@@ -157,6 +159,8 @@ public class MapFragment extends BaseFragment
 
         find(view);
         configure();
+
+        onBringToFront();
     }
 
     private void find(View view) {
@@ -572,6 +576,8 @@ public class MapFragment extends BaseFragment
         Log.d("TAG", "MapFragment onResume");
         mapView.onResume();
         EventBus.getDefault().register(this);
+        
+        onBringToFront();
     }
 
     @Override
@@ -852,7 +858,7 @@ public class MapFragment extends BaseFragment
                         }
                         Toast.makeText(getContext(), result, Toast.LENGTH_SHORT).show();
 
-                        if(result.equals("not_enough_money")) {
+                        if (result.equals("not_enough_money")) {
                             redirectToStore();
                         } else {
                             GetProfile.run(getActivity());
@@ -996,9 +1002,32 @@ public class MapFragment extends BaseFragment
         });
     }
 
+    private void turnOnGPS() {
+        AlertDialog dialog = new AlertDialog.Builder(getActivity())
+                .setMessage("لطفا GPS خود را روشن کنید.\nوقتی GPS روشن نباشه نمی تونی بازی کنی.")
+                .setPositiveButton("باشه", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Intent myIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                        startActivity(myIntent);
+                    }
+                })
+                .setNegativeButton("بی‌خیال", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                }).show();
+        FontHelper.setKoodakFor(getActivity(), (TextView) dialog.findViewById(android.R.id.message));
+    }
+
     @Override
     public void onBringToFront() {
         super.onBringToFront();
-        Log.d("TAG", "onBringToFront MapFragment");
+        Log.d("TAG", "onBringToFront MapFragment " + VampireLocationManager.checkGPS(getActivity()));
+
+        if (!VampireLocationManager.checkGPS(getActivity())) {
+            turnOnGPS();
+        }
     }
 }
