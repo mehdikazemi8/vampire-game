@@ -88,6 +88,9 @@ public class MapFragment extends BaseFragment
 
     private Circle innerCircle = null;
     private Circle outerCircle = null;
+
+    private Circle innerCircleTower = null;
+    private Circle outerCircleTower = null;
     private Marker myMarker = null;
 
     private TextView coin;
@@ -728,6 +731,7 @@ public class MapFragment extends BaseFragment
 
     private void finishWatchMyTowersMode() {
         revertButtonsState(true);
+        innerCircleTower = outerCircleTower = null;
         clearGoogleMap();
         nowOnThisTower = null;
         watchMyTowersMode = false;
@@ -750,6 +754,25 @@ public class MapFragment extends BaseFragment
         markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.tower));
         Marker marker = googleMap.addMarker(markerOptions);
         marker.setTag(nextTower);
+
+        if (innerCircleTower == null) {
+            innerCircleTower = googleMap.addCircle(new CircleOptions()
+                    .center(towerPlace)
+                    .radius(200)
+                    .fillColor(Color.parseColor("#33AAAAAA"))
+                    .strokeColor(Color.parseColor("#00FFFFFF"))
+            );
+
+            outerCircleTower = googleMap.addCircle(new CircleOptions()
+                    .center(towerPlace)
+                    .radius(400)
+                    .fillColor(Color.parseColor("#44AAAAAA"))
+                    .strokeColor(Color.parseColor("#00FFFFFF"))
+            );
+        } else {
+            innerCircleTower.setCenter(towerPlace);
+            outerCircleTower.setCenter(towerPlace);
+        }
 
         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(towerPlace, MIN_ZOOM));
 
