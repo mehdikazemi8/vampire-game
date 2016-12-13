@@ -160,7 +160,7 @@ public class MapFragment extends BaseFragment
         find(view);
         configure();
 
-        onBringToFront();
+//        onBringToFront();
     }
 
     private void find(View view) {
@@ -576,7 +576,7 @@ public class MapFragment extends BaseFragment
         Log.d("TAG", "MapFragment onResume");
         mapView.onResume();
         EventBus.getDefault().register(this);
-        
+
         onBringToFront();
     }
 

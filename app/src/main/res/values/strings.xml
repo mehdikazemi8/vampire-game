@@ -5,6 +5,13 @@
     <string name="title_activity_splash">Vampire</string>
     <string name="title_activity_register">Vampire</string>
 
+    <string name="connection_lost_string">به نظر اینترنت نداری، لطفا اینترنتت رو روشن کن تا وارد بازی بشیم.</string>
+    <string name="connection_lost_cancel">تلاش مجدد</string>
+    <string name="connection_lost_wifi">روشن کردن wifi</string>
+    <string name="connection_lost_data">روشن کردن 3G</string>
+    <string name="connection_lost_message_turn_on_wifi">در حال روشن کردن wifi\nلطفا کمی صبر کنید\nحدود ۱۰ تا ۱۵ ثانیه طول می کشه</string>
+    <string name="connection_lost_message_get_profile">در حال دریافت پروفایل&#8230;</string>
+
     <string name="choose_attack_message">لطفا یکی از پیام ها رو هم انتخاب کن</string>
 
     <string name="enter_message">پیام را وارد کنید</string>

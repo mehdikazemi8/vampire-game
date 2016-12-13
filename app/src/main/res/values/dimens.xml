@@ -3,6 +3,9 @@
     <dimen name="space.small">5dp</dimen>
     <dimen name="space.medium">10dp</dimen>
     <dimen name="space.large">15dp</dimen>
+    <dimen name="space.xlarge">20dp</dimen>
+    <dimen name="space.2xlarge">25dp</dimen>
+    <dimen name="space.3xlarge">30dp</dimen>
 
     <dimen name="text.size.small">10sp</dimen>
     <dimen name="text.size.medium">15sp</dimen>

@@ -87,6 +87,7 @@ public class MainActivity extends FragmentActivity {
             Log.d(TAG, "Initial inventory query finished; enabling main UI.");
         }
     };
+
     IabHelper.OnConsumeFinishedListener onConsumeFinishedListener = new IabHelper.OnConsumeFinishedListener() {
         @Override
         public void onConsumeFinished(Purchase purchase, IabResult result) {
@@ -95,6 +96,7 @@ public class MainActivity extends FragmentActivity {
             finalizeRealPurchase(purchase);
         }
     };
+
     IabHelper.OnIabPurchaseFinishedListener mPurchaseFinishedListener = new IabHelper.OnIabPurchaseFinishedListener() {
         public void onIabPurchaseFinished(IabResult result, Purchase purchase) {
 
@@ -103,7 +105,9 @@ public class MainActivity extends FragmentActivity {
                 return;
             } else if (purchase.getSku().equals(SKU_PREMIUM)) {
 
-                confirmRealPurchase(purchase);
+                // todo test this line after opening the app
+                if(!MainActivity.this.isFinishing())
+                    confirmRealPurchase(purchase);
 
                 // give user access to premium content and update the UI
             }

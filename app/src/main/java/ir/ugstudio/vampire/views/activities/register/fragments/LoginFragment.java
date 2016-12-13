@@ -58,7 +58,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     }
 
     private void doLogin() {
-        String usernameStr = username.getText().toString();
+        String usernameStr = username.getText().toString().trim();
         String passwordStr = password.getText().toString();
 
         Log.d("TAG", "doLogin " + usernameStr);
