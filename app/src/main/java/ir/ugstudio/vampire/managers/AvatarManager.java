@@ -15,7 +15,8 @@ public class AvatarManager {
     }
 
     private static void load(Context context) {
-        TypedArray imgs = context.getResources().obtainTypedArray(R.array.avatars);
+        // todo, handle vampires
+        TypedArray imgs = context.getResources().obtainTypedArray(R.array.hunters);
         int length = imgs.length();
         avatars = new int[length];
         for (int i = 0; i < length; i++)
@@ -42,4 +43,19 @@ public class AvatarManager {
             load(context);
         return avatars.length;
     }
+
+    public static int getAvatarIndex(String playerType, int position) {
+        if(playerType == null || playerType.isEmpty()) {
+            return -1;
+        }
+
+        if(playerType.equals("vampire")) {
+            return position + 1000;
+        } else if(playerType.equals("hunter")) {
+            return position + 2000;
+        }
+
+        return -2;
+    }
+
 }

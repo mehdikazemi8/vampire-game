@@ -2,11 +2,12 @@ package ir.ugstudio.vampire.views.custom;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.widget.EditText;
+
+import com.rengwuxian.materialedittext.MaterialEditText;
 
 import ir.ugstudio.vampire.utils.FontHelper;
 
-public class CustomEditText extends EditText {
+public class CustomEditText extends MaterialEditText {
     public CustomEditText(Context context) {
         super(context);
         fixFont();

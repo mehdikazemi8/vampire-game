@@ -8,40 +8,70 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.squareup.picasso.Picasso;
+
 import ir.ugstudio.vampire.R;
 
-class CustomPagerAdapter extends PagerAdapter {
+public class CustomPagerAdapter extends PagerAdapter {
 
-    private Context mContext;
-    private LayoutInflater mLayoutInflater;
+    private final int EMPTY = 0;
+    private final int VAMPIRE = 1;
+    private final int HUNTER = 2;
+    private LayoutInflater layoutInflater;
+    private Context context;
+    private int type = -1;
 
-    private int[] mResources = {
-            R.drawable.hunt0,
-            R.drawable.hunt1,
-            R.drawable.hunt2,
-            R.drawable.hunt3,
-            R.drawable.hunt4,
-            R.drawable.hunt5,
-            R.drawable.hunt6,
-            R.drawable.hunt7,
-            R.drawable.vamp0,
-            R.drawable.vamp1,
-            R.drawable.vamp2,
-            R.drawable.vamp3,
-            R.drawable.vamp4,
-            R.drawable.vamp5,
-            R.drawable.vamp6,
-            R.drawable.vamp7,
+    private int[] huntersArray = {
+            R.drawable.hunt2000,
+            R.drawable.hunt2001,
+            R.drawable.hunt2002,
+            R.drawable.hunt2003,
+            R.drawable.hunt2004,
+            R.drawable.hunt2005,
+            R.drawable.hunt2006,
+            R.drawable.hunt2007,
     };
 
-    public CustomPagerAdapter(Context context) {
-        mContext = context;
-        mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    private int[] vampiresArray = {
+            R.drawable.vamp1000,
+            R.drawable.vamp1001,
+            R.drawable.vamp1002,
+            R.drawable.vamp1003,
+            R.drawable.vamp1004,
+            R.drawable.vamp1005,
+            R.drawable.vamp1006,
+            R.drawable.vamp1007,
+    };
+
+    private int[] emptyArray = {
+            R.drawable.icon,
+            R.drawable.icon,
+            R.drawable.icon,
+            R.drawable.icon,
+            R.drawable.icon,
+            R.drawable.icon,
+            R.drawable.icon,
+            R.drawable.icon
+    };
+
+    public CustomPagerAdapter(Context context, int type) {
+        this.layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        this.context = context;
+        this.type = type;
     }
 
     @Override
     public int getCount() {
-        return mResources.length;
+        switch (this.type) {
+            case VAMPIRE:
+                return vampiresArray.length;
+            case HUNTER:
+                return huntersArray.length;
+            case EMPTY:
+                return emptyArray.length;
+            default:
+                return 0;
+        }
     }
 
     @Override
@@ -49,15 +79,25 @@ class CustomPagerAdapter extends PagerAdapter {
         return view == ((LinearLayout) object);
     }
 
+    private int getResource(int position) {
+        switch (this.type) {
+            case VAMPIRE:
+                return vampiresArray[position];
+            case HUNTER:
+                return huntersArray[position];
+            case EMPTY:
+                return emptyArray[position];
+            default:
+                return 0;
+        }
+    }
+
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
-        View itemView = mLayoutInflater.inflate(R.layout.pager_item, container, false);
-
-        ImageView imageView = (ImageView) itemView.findViewById(R.id.imageView);
-        imageView.setImageResource(mResources[position]);
-
+        View itemView = layoutInflater.inflate(R.layout.pager_item, container, false);
+        ImageView avatar = (ImageView) itemView.findViewById(R.id.avatar);
+        Picasso.with(context).load(getResource(position)).into(avatar);
         container.addView(itemView);
-
         return itemView;
     }
 

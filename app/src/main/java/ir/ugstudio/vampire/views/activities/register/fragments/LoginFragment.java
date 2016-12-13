@@ -9,25 +9,26 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
 
 import ir.ugstudio.vampire.R;
 import ir.ugstudio.vampire.VampireApp;
 import ir.ugstudio.vampire.async.GetQuotes;
+import ir.ugstudio.vampire.async.GetStoreItems;
 import ir.ugstudio.vampire.managers.CacheHandler;
 import ir.ugstudio.vampire.managers.UserHandler;
 import ir.ugstudio.vampire.models.User;
 import ir.ugstudio.vampire.views.activities.main.MainActivity;
+import ir.ugstudio.vampire.views.custom.CustomButton;
+import ir.ugstudio.vampire.views.custom.CustomEditText;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class LoginFragment extends Fragment implements View.OnClickListener {
 
-    private Button login;
-    private EditText username;
-    private EditText password;
+    private CustomButton login;
+    private CustomEditText username;
+    private CustomEditText password;
 
     public static LoginFragment getInstance() {
         return new LoginFragment();
@@ -48,9 +49,9 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     }
 
     private void find(View view) {
-        login = (Button) view.findViewById(R.id.login);
-        username = (EditText) view.findViewById(R.id.username);
-        password = (EditText) view.findViewById(R.id.password);
+        login = (CustomButton) view.findViewById(R.id.login);
+        username = (CustomEditText) view.findViewById(R.id.username);
+        password = (CustomEditText) view.findViewById(R.id.password);
     }
 
     private void configure() {
@@ -91,7 +92,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         CacheHandler.setUser(user);
 
         new GetQuotes(getActivity()).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-//        new GetPlaces(getActivity()).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        GetStoreItems.run(getActivity());
 
         startActivity(new Intent(getActivity(), MainActivity.class));
         // todo check this line

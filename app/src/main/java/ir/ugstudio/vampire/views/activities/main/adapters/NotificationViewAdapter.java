@@ -40,7 +40,7 @@ public class NotificationViewAdapter extends RecyclerView.Adapter<NotificationVi
         );
         holder.lostCoin.setText(forLostCoin);
         holder.username.setText(items.get(position).getKiller().getUsername());
-        Picasso.with(context).load(R.drawable.hunt2).into(holder.avatar);
+        Picasso.with(context).load(R.drawable.hunt2000).into(holder.avatar);
         }
 
     @Override

@@ -14,6 +14,9 @@
     <dimen name="avatar.size.small">50dp</dimen>
     <dimen name="avatar.size.medium">100dp</dimen>
     <dimen name="avatar.size.large">150dp</dimen>
+    <dimen name="avatar.size.xlarge">200dp</dimen>
+    <dimen name="avatar.size.2xlarge">250dp</dimen>
+    <dimen name="avatar.size.3xlarge">300dp</dimen>
 
     <dimen name="icon.size.large">150dp</dimen>
 

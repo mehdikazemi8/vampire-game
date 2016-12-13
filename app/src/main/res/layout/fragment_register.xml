@@ -1,48 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:clickable="true"
-    android:background="@android:color/white"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:clickable="true">
+
+    <LinearLayout
+        android:id="@+id/avatar_section"
+        android:layout_width="@dimen/avatar.size.3xlarge"
+        android:layout_height="@dimen/avatar.size.3xlarge"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/space.medium"
+        android:layout_marginTop="@dimen/space.medium"
+        android:orientation="vertical">
+
+        <android.support.v4.view.ViewPager
+            android:id="@id/viewpager_avatars"
+            android:layout_width="@dimen/avatar.size.2xlarge"
+            android:layout_height="@dimen/avatar.size.2xlarge"
+            android:layout_gravity="center_horizontal" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal">
+
+            <com.viewpagerindicator.CirclePageIndicator
+                android:id="@+id/indicator_avatars"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom" />
+        </LinearLayout>
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/avatar_section"
         android:layout_centerInParent="true"
         android:gravity="center"
-        android:orientation="vertical"
-        android:layout_height="wrap_content">
+        android:orientation="vertical">
 
-        <Spinner
+        <com.jaredrummler.materialspinner.MaterialSpinner
+            android:id="@+id/player_type"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:scrollbars="none"
-            android:padding="@dimen/space.medium"
             android:background="@drawable/edit_text_border"
             android:entries="@array/player_type_keys"
-            android:id="@+id/player_type" />
+            android:padding="@dimen/space.medium"
+            android:scrollbars="none" />
 
-        <EditText
+        <ir.ugstudio.vampire.views.custom.CustomEditText
             android:id="@+id/username"
-            android:layout_width="match_parent"
-            android:hint="@string/username"
-            android:background="@drawable/edit_text_border"
-            android:padding="@dimen/space.medium"
-            android:layout_height="wrap_content" />
+            style="@style/register_edit_text"
+            android:hint="@string/username" />
 
-        <EditText
-            android:layout_width="match_parent"
-            android:hint="@string/password"
+        <ir.ugstudio.vampire.views.custom.CustomEditText
             android:id="@+id/password"
-            android:inputType="textPassword"
-            android:background="@drawable/edit_text_border"
-            android:padding="@dimen/space.medium"
-            android:layout_height="wrap_content" />
-        
-        <Button
-            android:layout_width="wrap_content"
+            style="@style/register_edit_text"
+            android:hint="@string/password"
+            android:inputType="textPassword" />
+
+        <ir.ugstudio.vampire.views.custom.CustomButton
             android:id="@+id/register"
-            android:text="@string/btn_register"
-            android:layout_height="wrap_content" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_register" />
 
     </LinearLayout>
 

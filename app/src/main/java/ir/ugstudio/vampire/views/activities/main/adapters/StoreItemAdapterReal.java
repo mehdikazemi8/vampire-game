@@ -36,9 +36,9 @@ public class StoreItemAdapterReal extends RecyclerView.Adapter<StoreItemViewHold
         holder.bind(items.get(position), listener);
 
         if (items.get(position).getImageType() == 1)
-            holder.icon.setBackgroundResource(R.drawable.hunt0);
+            holder.icon.setBackgroundResource(R.drawable.hunt2000);
         else
-            holder.icon.setBackgroundResource(R.drawable.hunt1);
+            holder.icon.setBackgroundResource(R.drawable.hunt2000);
 
         holder.title.setText(items.get(position).getTitle());
         holder.price.setText(String.valueOf(items.get(position).getPrice()));

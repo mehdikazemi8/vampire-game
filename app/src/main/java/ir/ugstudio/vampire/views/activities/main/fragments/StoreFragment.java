@@ -151,5 +151,8 @@ public class StoreFragment extends BaseFragment implements View.OnClickListener 
     public void onBringToFront() {
         super.onBringToFront();
         Log.d("TAG", "onBringToFront StoreFragment");
+
+        configureRealItems();
+        configureVirtualItems();
     }
 }

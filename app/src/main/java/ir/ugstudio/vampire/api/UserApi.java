@@ -26,8 +26,10 @@ public interface UserApi {
     @FormUrlEncoded
     @POST("createuser")
     Call<User> register(
-            @Field("username") String username, @Field("password") String password,
-            @Field("role") String playerType
+            @Field("username") String username,
+            @Field("password") String password,
+            @Field("role") String playerType,
+            @Field("avatar") Integer avatar
     );
 
     @FormUrlEncoded

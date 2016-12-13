@@ -29,4 +29,13 @@
         <item name="android:textColor">@android:color/white</item>
     </style>
 
+    <style name="register_edit_text">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">@dimen/space.medium</item>
+        <item name="android:gravity">right</item>
+        <item name="android:layout_marginLeft">@dimen/space.medium</item>
+        <item name="android:layout_marginRight">@dimen/space.medium</item>
+    </style>
+
 </resources>

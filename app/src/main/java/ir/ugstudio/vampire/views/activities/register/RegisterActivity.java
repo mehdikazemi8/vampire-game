@@ -4,16 +4,16 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
-import android.widget.Button;
 
 import ir.ugstudio.vampire.R;
 import ir.ugstudio.vampire.views.activities.register.fragments.LoginFragment;
 import ir.ugstudio.vampire.views.activities.register.fragments.RegisterFragment;
+import ir.ugstudio.vampire.views.custom.CustomButton;
 
 public class RegisterActivity extends FragmentActivity implements View.OnClickListener {
 
-    private Button login;
-    private Button register;
+    private CustomButton login;
+    private CustomButton register;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -26,8 +26,8 @@ public class RegisterActivity extends FragmentActivity implements View.OnClickLi
     }
 
     private void find() {
-        login = (Button) findViewById(R.id.registered_before);
-        register = (Button) findViewById(R.id.new_user);
+        login = (CustomButton) findViewById(R.id.registered_before);
+        register = (CustomButton) findViewById(R.id.new_user);
     }
 
     private void configure() {

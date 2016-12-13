@@ -49,18 +49,6 @@
 
     <string name="desc.avatar">avatar</string>
 
-    <string-array name="player_type_keys">
-        <item>نوع بازیگر</item>
-        <item>شکارچی</item>
-        <item>خون‌آشام</item>
-    </string-array>
-
-    <string-array name="player_type_values">
-        <item>player type</item>
-        <item>hunter</item>
-        <item>vampire</item>
-    </string-array>
-
     <string name="template_notification_message" formatted="false">&#160; ازت %d سکه دزدید و گفت: &#160;</string>
 
     <string name="message_share" formatted="false">ببین پاشو بیا این اپلیکیشن رو دانلود کن \n وقتی وارد شدی هم این کد رو بزن تا پولدار بشی \n کد من : %s </string>
@@ -73,23 +61,38 @@
     <string name="icon.coin">F</string>
     <string name="icon.person">G</string>
 
-    <string-array name="avatars">
-        <item>@drawable/hunt0</item>
-        <item>@drawable/hunt1</item>
-        <item>@drawable/hunt2</item>
-        <item>@drawable/hunt3</item>
-        <item>@drawable/hunt4</item>
-        <item>@drawable/hunt5</item>
-        <item>@drawable/hunt6</item>
-        <item>@drawable/hunt7</item>
-        <item>@drawable/vamp0</item>
-        <item>@drawable/vamp1</item>
-        <item>@drawable/vamp2</item>
-        <item>@drawable/vamp3</item>
-        <item>@drawable/vamp4</item>
-        <item>@drawable/vamp5</item>
-        <item>@drawable/vamp6</item>
-        <item>@drawable/vamp7</item>
+    <string-array name="player_type_keys">
+        <item>نوع شخصیت</item>
+        <item>خون‌آشام</item>
+        <item>شکارچی</item>
     </string-array>
+
+    <string-array name="player_type_values">
+        <item>player type</item>
+        <item>vampire</item>
+        <item>hunter</item>
+    </string-array>
+
+    <integer-array name="hunters">
+        <item>@drawable/hunt2000</item>
+        <item>@drawable/hunt2001</item>
+        <item>@drawable/hunt2002</item>
+        <item>@drawable/hunt2003</item>
+        <item>@drawable/hunt2004</item>
+        <item>@drawable/hunt2005</item>
+        <item>@drawable/hunt2006</item>
+        <item>@drawable/hunt2007</item>
+    </integer-array>
+
+    <integer-array name="vampires">
+        <item>@drawable/vamp1000</item>
+        <item>@drawable/vamp1001</item>
+        <item>@drawable/vamp1002</item>
+        <item>@drawable/vamp1003</item>
+        <item>@drawable/vamp1004</item>
+        <item>@drawable/vamp1005</item>
+        <item>@drawable/vamp1006</item>
+        <item>@drawable/vamp1007</item>
+    </integer-array>
 
 </resources>

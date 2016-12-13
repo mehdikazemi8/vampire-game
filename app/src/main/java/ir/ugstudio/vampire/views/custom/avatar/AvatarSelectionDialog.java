@@ -16,6 +16,7 @@ import android.view.Window;
 import com.viewpagerindicator.CirclePageIndicator;
 
 import ir.ugstudio.vampire.R;
+import ir.ugstudio.vampire.listeners.OnCompleteListener;
 
 public class AvatarSelectionDialog extends DialogFragment {
 
@@ -68,7 +69,7 @@ public class AvatarSelectionDialog extends DialogFragment {
     }
 
     private void configure() {
-        pagerAdapter = new CustomPagerAdapter(getContext());
+        pagerAdapter = new CustomPagerAdapter(getContext(), 0);
         viewPager.setAdapter(pagerAdapter);
 //        viewPager.setOffscreenPageLimit(4);
         indicator.setViewPager(viewPager);
