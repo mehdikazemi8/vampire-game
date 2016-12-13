@@ -5,10 +5,10 @@
     android:orientation="vertical">
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/icon.size.large"
+        android:layout_height="@dimen/icon.size.large"
         android:layout_centerInParent="true"
-        android:src="@drawable/vampire_red" />
+        android:src="@drawable/icon" />
 
     <ProgressBar
         android:id="@+id/progressbar"
