@@ -53,7 +53,6 @@ import ir.ugstudio.vampire.async.GetProfile;
 import ir.ugstudio.vampire.events.GetProfileEvent;
 import ir.ugstudio.vampire.events.ShowTabEvent;
 import ir.ugstudio.vampire.managers.CacheHandler;
-import ir.ugstudio.vampire.managers.CacheManager;
 import ir.ugstudio.vampire.managers.UserHandler;
 import ir.ugstudio.vampire.models.MapResponse;
 import ir.ugstudio.vampire.models.Place;
@@ -512,7 +511,11 @@ public class MapFragment extends BaseFragment
             if (vampire.getLifestat().equals("dead")) {
                 markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.vampire_black));
             } else {
-                markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.vampire_red));
+                if (CacheHandler.getUser().getRole().equals("vampire")) {
+                    markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.vampire_black));
+                } else {
+                    markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.vampire_red));
+                }
             }
 
             marker = googleMap.addMarker(markerOptions);
@@ -536,7 +539,11 @@ public class MapFragment extends BaseFragment
             if (hunter.getLifestat().equals("dead")) {
                 markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.hunter_black));
             } else {
-                markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.hunter_red));
+                if (CacheHandler.getUser().getRole().equals("hunter")) {
+                    markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.hunter_black));
+                } else {
+                    markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.hunter_red));
+                }
             }
             marker = googleMap.addMarker(markerOptions);
             marker.setTag(hunter);
@@ -604,7 +611,7 @@ public class MapFragment extends BaseFragment
             watchMyTowers.setVisibility(View.INVISIBLE);
 
             cancelButton.setVisibility(View.VISIBLE);
-            if(!isAddTowerMode)
+            if (!isAddTowerMode)
                 showNextTower.setVisibility(View.VISIBLE);
         } else {
             addTower.setVisibility(View.VISIBLE);
