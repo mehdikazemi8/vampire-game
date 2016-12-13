@@ -30,10 +30,12 @@ import ir.ugstudio.vampire.views.dialogs.ConnectionLostDialog;
 
 public class SplashActivity extends FragmentActivity {
 
-    ConnectionLostDialog dialog;
-    boolean turningWifiOnState = false;
-    boolean getProfileSent = false;
+    private ConnectionLostDialog dialog;
     private CustomTextView message;
+
+    private boolean turningWifiOnState = false;
+    private boolean getProfileSent = false;
+    private boolean continueChekingInternet = true;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -78,6 +80,11 @@ public class SplashActivity extends FragmentActivity {
     }
 
     private void checkInternet() {
+        Log.d("TAG", "checkInternet");
+        if (!continueChekingInternet) {
+            return;
+        }
+
         startAppFromHere();
 
         final long PERIOD = 2000;
@@ -128,6 +135,8 @@ public class SplashActivity extends FragmentActivity {
     }
 
     private void startMainActivity(User user) {
+        continueChekingInternet = false;
+
         new GetQuotes(SplashActivity.this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         GetStoreItems.run(SplashActivity.this);
 
@@ -139,6 +148,8 @@ public class SplashActivity extends FragmentActivity {
     }
 
     private void startRegisterActivity() {
+        continueChekingInternet = false;
+
         UserHandler.clearUser(SplashActivity.this);
         startActivity(new Intent(SplashActivity.this, RegisterActivity.class));
         finish();
