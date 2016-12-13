@@ -595,7 +595,7 @@ public class MapFragment extends BaseFragment
         }
     }
 
-    private void revertButtonsState(boolean buttonsVisible) {
+    private void revertButtonsState(boolean buttonsVisible, boolean isAddTowerMode) {
         Log.d("TAG", "revertButtonsState " + buttonsVisible);
         if (!buttonsVisible) {
             addTower.setVisibility(View.INVISIBLE);
@@ -603,7 +603,8 @@ public class MapFragment extends BaseFragment
             watchMyTowers.setVisibility(View.INVISIBLE);
 
             cancelButton.setVisibility(View.VISIBLE);
-            showNextTower.setVisibility(View.VISIBLE);
+            if(!isAddTowerMode)
+                showNextTower.setVisibility(View.VISIBLE);
         } else {
             addTower.setVisibility(View.VISIBLE);
             collectCoinFromMyTowers.setVisibility(View.VISIBLE);
@@ -633,7 +634,7 @@ public class MapFragment extends BaseFragment
     }
 
     private void handleAddTower() {
-        revertButtonsState(false);
+        revertButtonsState(false, true);
 
         Log.d("TAG", "handleAddTower " + googleMap.getCameraPosition().target);
 
@@ -683,7 +684,7 @@ public class MapFragment extends BaseFragment
         }
 
         if (towersToCollectCoin.size() > 0) {
-            revertButtonsState(false);
+            revertButtonsState(false, false);
             collectCoinsMode = true;
             clearGoogleMap();
             showNextTowerToCollect();
@@ -717,14 +718,14 @@ public class MapFragment extends BaseFragment
 
     private void finishCollectCoinsMode() {
         collectCoinsMode = false;
-        revertButtonsState(true);
+        revertButtonsState(true, false);
         clearGoogleMap();
         requestForMap(CacheHandler.getLastLocation().getLatitude(), CacheHandler.getLastLocation().getLongitude(), false);
     }
 
     private void actionCanceled() {
         watchMyTowersMode = healMode = addingTowerMode = collectCoinsMode = false;
-        revertButtonsState(true);
+        revertButtonsState(true, false);
         clearGoogleMap();
         requestForMap(CacheHandler.getLastLocation().getLatitude(), CacheHandler.getLastLocation().getLongitude(), true);
     }
@@ -770,7 +771,7 @@ public class MapFragment extends BaseFragment
             return;
         }
 
-        revertButtonsState(false);
+        revertButtonsState(false, false);
         for (Tower tower : user.getTowersList()) {
             towersToWatch.add(tower);
         }
@@ -786,7 +787,7 @@ public class MapFragment extends BaseFragment
     }
 
     private void finishWatchMyTowersMode() {
-        revertButtonsState(true);
+        revertButtonsState(true, false);
         innerCircleTower = outerCircleTower = null;
         clearGoogleMap();
         nowOnThisTower = null;
@@ -874,7 +875,7 @@ public class MapFragment extends BaseFragment
             call.enqueue(new Callback<ResponseBody>() {
                 @Override
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                    revertButtonsState(true);
+                    revertButtonsState(true, false);
                     clearGoogleMap();
 
                     if (response.isSuccessful()) {
@@ -898,7 +899,7 @@ public class MapFragment extends BaseFragment
 
                 @Override
                 public void onFailure(Call<ResponseBody> call, Throwable t) {
-                    revertButtonsState(true);
+                    revertButtonsState(true, false);
                     clearGoogleMap();
 
                     Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
