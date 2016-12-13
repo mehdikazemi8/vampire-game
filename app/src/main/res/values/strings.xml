@@ -95,4 +95,16 @@
         <item>@drawable/vamp1007</item>
     </integer-array>
 
+    <integer-array name="real_store_icons">
+        <item>@drawable/real1</item>
+    </integer-array>
+
+    <integer-array name="virtual_store_icons">
+        <item>@drawable/virtual1</item>
+        <item>@drawable/virtual2</item>
+        <item>@drawable/virtual3</item>
+        <item>@drawable/virtual4</item>
+        <item>@drawable/virtual5</item>
+    </integer-array>
+
 </resources>

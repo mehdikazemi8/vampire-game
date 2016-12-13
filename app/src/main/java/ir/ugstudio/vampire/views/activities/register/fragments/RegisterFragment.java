@@ -152,7 +152,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
         String usernameStr = username.getText().toString();
         String passwordStr = password.getText().toString();
 
-        Call<User> call = VampireApp.createUserApi().register(usernameStr, passwordStr, playerTypeStr, AvatarManager.getAvatarIndex(playerTypeStr, avatarInt));
+        Call<User> call = VampireApp.createUserApi().register(usernameStr, passwordStr, playerTypeStr, AvatarManager.getAvatarIndexInThousand(playerTypeStr, avatarInt));
         call.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {

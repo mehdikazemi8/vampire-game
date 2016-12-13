@@ -100,7 +100,7 @@ public class AttackDialog extends Dialog implements View.OnClickListener {
         if (user.getRole().equals("sheep")) {
             Picasso.with(getContext()).load(R.drawable.sheep).into(avatar);
         } else {
-            avatar.setBackgroundResource(AvatarManager.getResourceId(getContext(), user.getAvatar()));
+            Picasso.with(getContext()).load(AvatarManager.getResourceId(getContext(), user.getAvatar())).into(avatar);
         }
 
         attackButton.setOnClickListener(this);

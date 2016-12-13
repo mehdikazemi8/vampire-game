@@ -7,9 +7,8 @@
 
     <ImageView
         android:id="@+id/item_icon"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:src="@drawable/hunt2000" />
+        android:layout_width="@dimen/avatar.size.medium"
+        android:layout_height="@dimen/avatar.size.medium" />
 
     <TextView
         android:id="@+id/item_title"

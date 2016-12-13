@@ -1,20 +1,25 @@
 package ir.ugstudio.vampire.views.activities.main.adapters;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.List;
 
 import ir.ugstudio.vampire.R;
 import ir.ugstudio.vampire.models.StoreItemReal;
+import ir.ugstudio.vampire.utils.StoreIconSelector;
 
 public class StoreItemAdapterReal extends RecyclerView.Adapter<StoreItemViewHolderReal> {
 
     private final OnRealStoreItemClickListener listener;
     private List<StoreItemReal> items;
+    private Context context;
 
     public StoreItemAdapterReal(List<StoreItemReal> items, OnRealStoreItemClickListener listener) {
         this.listener = listener;
@@ -26,20 +31,17 @@ public class StoreItemAdapterReal extends RecyclerView.Adapter<StoreItemViewHold
         View view = LayoutInflater.from(parent.getContext()).inflate(
                 R.layout.template_store_item, parent, false
         );
+        context = parent.getContext();
         return new StoreItemViewHolderReal(view);
     }
 
     @Override
     public void onBindViewHolder(StoreItemViewHolderReal holder, int position) {
-        Log.d("TAG", "onBindViewHolder " + position);
+        Log.d("TAG", "onBindViewHolder " + position + " " + items.get(position).getImageType());
 
         holder.bind(items.get(position), listener);
 
-        if (items.get(position).getImageType() == 1)
-            holder.icon.setBackgroundResource(R.drawable.hunt2000);
-        else
-            holder.icon.setBackgroundResource(R.drawable.hunt2000);
-
+        Picasso.with(context).load(StoreIconSelector.getRealStoreItem(context, items.get(position).getImageType())).into(holder.icon);
         holder.title.setText(items.get(position).getTitle());
         holder.price.setText(String.valueOf(items.get(position).getPrice()));
     }
