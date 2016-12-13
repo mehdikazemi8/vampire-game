@@ -53,6 +53,7 @@ import ir.ugstudio.vampire.async.GetProfile;
 import ir.ugstudio.vampire.events.GetProfileEvent;
 import ir.ugstudio.vampire.events.ShowTabEvent;
 import ir.ugstudio.vampire.managers.CacheHandler;
+import ir.ugstudio.vampire.managers.CacheManager;
 import ir.ugstudio.vampire.managers.UserHandler;
 import ir.ugstudio.vampire.models.MapResponse;
 import ir.ugstudio.vampire.models.Place;
@@ -913,7 +914,7 @@ public class MapFragment extends BaseFragment
             if (sampleTowerMarker == null) {
                 sampleTower.position(googleMap.getCameraPosition().target);
                 sampleTower.title("SampleTower");
-                sampleTower.icon(BitmapDescriptorFactory.fromResource(R.drawable.plus_tower1));
+                sampleTower.icon(BitmapDescriptorFactory.fromResource(R.drawable.tower_add));
                 sampleTowerMarker = googleMap.addMarker(sampleTower);
             } else {
                 sampleTowerMarker.setPosition(googleMap.getCameraPosition().target);

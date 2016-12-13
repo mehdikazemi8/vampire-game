@@ -108,7 +108,6 @@
         <item>@drawable/virtual2</item>
         <item>@drawable/virtual3</item>
         <item>@drawable/virtual4</item>
-        <item>@drawable/virtual5</item>
     </integer-array>
 
 </resources>
