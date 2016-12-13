@@ -11,7 +11,7 @@
     <dimen name="text.size.medium">15sp</dimen>
     <dimen name="text.size.large">20sp</dimen>
 
-    <dimen name="avatar.size.small">50dp</dimen>
+    <dimen name="avatar.size.small">70dp</dimen>
     <dimen name="avatar.size.medium">100dp</dimen>
     <dimen name="avatar.size.large">150dp</dimen>
     <dimen name="avatar.size.xlarge">200dp</dimen>

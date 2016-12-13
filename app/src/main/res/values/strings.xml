@@ -32,6 +32,10 @@
 
     <string name="toast_enter_message">خب یه چیزی بزن که ارسال کنم :|</string>
 
+    <string name="top_of_list_rank">رتبه</string>
+    <string name="top_of_list_score">امتیاز</string>
+    <string name="top_of_list_username">نام‌کاربری</string>
+
     <string name="caption_coin">سکه:</string>
     <string name="caption_score">امتیاز:</string>
 

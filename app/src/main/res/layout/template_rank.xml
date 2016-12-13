@@ -3,28 +3,34 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:padding="@dimen/space.small">
 
-    <TextView
+    <ir.ugstudio.vampire.views.custom.CustomTextView
         android:id="@+id/score"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:paddingBottom="@dimen/space.small"
-        android:paddingTop="@dimen/space.small" />
-
-    <TextView
-        android:id="@+id/username"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1" />
-
-    <TextView
-        android:id="@+id/rank"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_weight="1"
         android:gravity="center" />
+
+    <ir.ugstudio.vampire.views.custom.CustomTextView
+        android:id="@+id/username"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center" />
+
+    <ImageView
+        android:id="@+id/avatar"
+        android:layout_width="@dimen/avatar.size.small"
+        android:layout_height="@dimen/avatar.size.small" />
+
+    <ir.ugstudio.vampire.views.custom.CustomTextView
+        android:id="@+id/rank"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/space.medium"
+        android:paddingRight="@dimen/space.medium" />
 
 </LinearLayout>
