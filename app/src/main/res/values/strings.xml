@@ -17,6 +17,8 @@
 
     <string name="choose_attack_message">لطفا یکی از پیام ها رو هم انتخاب کن</string>
 
+    <string name="btn_save">ذخیره</string>
+
     <string name="enter_message">پیام را وارد کنید</string>
     <string name="btn_submit_message">ارسال</string>
     <string name="btn_new_user">کاربر ‌جدید</string>

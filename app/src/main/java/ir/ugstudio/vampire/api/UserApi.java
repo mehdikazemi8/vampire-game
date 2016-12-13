@@ -94,4 +94,11 @@ public interface UserApi {
     Call<NotificationList> getNotification(
             @Field("token") String token
     );
+
+    @FormUrlEncoded
+    @POST("changeavatar")
+    Call<ResponseBody> changeAvatar(
+            @Field("token") String token,
+            @Field("avatar") Integer avatar
+    );
 }

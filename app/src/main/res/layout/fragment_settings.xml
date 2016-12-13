@@ -3,15 +3,48 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="Settings Fragment" />
+    <LinearLayout
+        android:id="@+id/avatar_section"
+        android:layout_width="@dimen/avatar.size.3xlarge"
+        android:layout_height="@dimen/avatar.size.3xlarge"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/space.medium"
+        android:layout_marginTop="@dimen/space.medium"
+        android:orientation="vertical">
+
+        <android.support.v4.view.ViewPager
+            android:id="@id/viewpager_avatars"
+            android:layout_width="@dimen/avatar.size.xlarge"
+            android:layout_height="@dimen/avatar.size.xlarge"
+            android:layout_gravity="center_horizontal" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <com.viewpagerindicator.CirclePageIndicator
+                android:id="@+id/indicator_avatars"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:paddingTop="@dimen/space.small" />
+
+            <ir.ugstudio.vampire.views.custom.CustomButton
+                android:id="@+id/change_avatar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/btn_save" />
+        </LinearLayout>
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/avatar_section"
         android:orientation="vertical">
 
         <Button
