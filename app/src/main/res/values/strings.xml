@@ -12,6 +12,9 @@
     <string name="connection_lost_message_turn_on_wifi">در حال روشن کردن wifi\nلطفا کمی صبر کنید\nحدود ۱۰ تا ۱۵ ثانیه طول می کشه</string>
     <string name="connection_lost_message_get_profile">در حال دریافت پروفایل&#8230;</string>
 
+    <string name="toast_have_no_tower_to_collect_coin">برجی نداری که بخوای سکه هاش رو جمع کنی، اول یه برج بساز.</string>
+    <string name="toast_have_no_tower_to_watch">اول باید برج بسازی بعد می تونی مدیریتشون کنی.</string>
+
     <string name="choose_attack_message">لطفا یکی از پیام ها رو هم انتخاب کن</string>
 
     <string name="enter_message">پیام را وارد کنید</string>

@@ -660,6 +660,22 @@ public class MapFragment extends BaseFragment
     private void startCollectCoinsMode() {
         User user = CacheHandler.getUser();
         towersToCollectCoin.clear();
+
+        if (user.getTowersList() == null || user.getTowersList().size() == 0) {
+            AlertDialog dialog = new AlertDialog.Builder(getActivity())
+                    .setMessage(getString(R.string.toast_have_no_tower_to_collect_coin))
+                    .setPositiveButton("باشه", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                        }
+                    }).show();
+            FontHelper.setKoodakFor(getActivity(), (TextView) dialog.findViewById(android.R.id.message));
+            return;
+        }
+
+        Log.d("TAG", "startCollectCoinsMode " + user.getTowersList());
+        Log.d("TAG", "startCollectCoinsMode " + user.getTowersList().size());
+
         for (Tower tower : user.getTowersList()) {
             if (tower.getCoin() != 0) {
                 towersToCollectCoin.add(tower);
@@ -739,18 +755,30 @@ public class MapFragment extends BaseFragment
     }
 
     private void startWatchMyTowersMode() {
-        revertButtonsState(false);
-
-        towersToWatch.clear();
         User user = CacheHandler.getUser();
+        towersToWatch.clear();
+
+        if (user.getTowersList() == null || user.getTowersList().size() == 0) {
+            AlertDialog dialog = new AlertDialog.Builder(getActivity())
+                    .setMessage(getString(R.string.toast_have_no_tower_to_watch))
+                    .setPositiveButton("باشه", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                        }
+                    }).show();
+            FontHelper.setKoodakFor(getActivity(), (TextView) dialog.findViewById(android.R.id.message));
+            return;
+        }
+
+        revertButtonsState(false);
         for (Tower tower : user.getTowersList()) {
             towersToWatch.add(tower);
         }
 
-        if (towersToWatch.isEmpty()) {
-            Toast.makeText(getActivity(), "اول باید برج بسازی بعد می تونی مدیریت کنیشون", Toast.LENGTH_LONG).show();
-            return;
-        }
+//        if (towersToWatch.isEmpty()) {
+//            Toast.makeText(getActivity(), "اول باید برج بسازی بعد می تونی مدیریت کنیشون", Toast.LENGTH_LONG).show();
+//            return;
+//        }
 
         clearGoogleMap();
         watchMyTowersMode = true;
