@@ -11,6 +11,7 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 import ir.ugstudio.vampire.R;
+import ir.ugstudio.vampire.managers.AvatarManager;
 import ir.ugstudio.vampire.models.Notification;
 
 public class NotificationViewAdapter extends RecyclerView.Adapter<NotificationViewHolder> {
@@ -40,8 +41,10 @@ public class NotificationViewAdapter extends RecyclerView.Adapter<NotificationVi
         );
         holder.lostCoin.setText(forLostCoin);
         holder.username.setText(items.get(position).getKiller().getUsername());
-        Picasso.with(context).load(R.drawable.hunt2000).into(holder.avatar);
-        }
+        Picasso.with(context).load(
+                AvatarManager.getResourceId(context, items.get(position).getKiller().getAvatar())
+        ).into(holder.avatar);
+    }
 
     @Override
     public int getItemCount() {
