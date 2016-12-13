@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import ir.ugstudio.vampire.R;
 import ir.ugstudio.vampire.VampireApp;
@@ -58,7 +59,22 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         login.setOnClickListener(this);
     }
 
+    private boolean validForm() {
+        if (username.getText().toString().trim().length() == 0) {
+            Toast.makeText(getActivity(), "لطفا نام کاربری خود را انتخاب کنید", Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (password.getText().toString().trim().length() == 0) {
+            Toast.makeText(getActivity(), "لطفا رمز عبور خود را انتخاب کنید", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
+    }
+
     private void doLogin() {
+        if (!validForm()) {
+            return;
+        }
+        
         String usernameStr = username.getText().toString().trim();
         String passwordStr = password.getText().toString();
 
