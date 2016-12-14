@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff"
+    android:orientation="vertical"
+    android:padding="15dp">
+
+    <ir.ugstudio.vampire.views.custom.CustomTextView
+        android:id="@+id/textView_update_caption"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/space.medium"
+        android:gravity="right"
+        android:text="یه ورژنِ جدید از برنامه به کافه بازار اضافه شده. بریم برای آپدیت؟"
+        android:visibility="visible" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ir.ugstudio.vampire.views.custom.CustomButton
+            android:id="@+id/button_negative"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="بذار بعدا" />
+
+        <ir.ugstudio.vampire.views.custom.CustomButton
+            android:id="@+id/button_positive"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="بزن بریم" />
+
+    </LinearLayout>
+</LinearLayout>

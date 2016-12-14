@@ -612,12 +612,14 @@ public class MapFragment extends BaseFragment
     public void onStart() {
         mGoogleApiClient.connect();
         super.onStart();
+        EventBus.getDefault().register(this);
     }
 
     @Override
     public void onStop() {
         mGoogleApiClient.disconnect();
         super.onStop();
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -625,7 +627,6 @@ public class MapFragment extends BaseFragment
         super.onResume();
         Log.d("TAG", "MapFragment onResume");
         mapView.onResume();
-        EventBus.getDefault().register(this);
 
         onBringToFront();
     }
@@ -634,7 +635,6 @@ public class MapFragment extends BaseFragment
     public void onPause() {
         super.onPause();
         mapView.onPause();
-        EventBus.getDefault().unregister(this);
     }
 
     @Subscribe

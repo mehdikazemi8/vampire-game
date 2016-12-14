@@ -1,6 +1,7 @@
 package ir.ugstudio.vampire.views.activities.splash;
 
 import android.content.Intent;
+import android.content.pm.PackageInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -21,18 +22,20 @@ import ir.ugstudio.vampire.events.GetProfileEvent;
 import ir.ugstudio.vampire.listeners.OnCompleteListener;
 import ir.ugstudio.vampire.managers.CacheHandler;
 import ir.ugstudio.vampire.managers.UserHandler;
+import ir.ugstudio.vampire.models.UpdateVersion;
 import ir.ugstudio.vampire.models.User;
 import ir.ugstudio.vampire.utils.VampireNetworkManager;
 import ir.ugstudio.vampire.views.activities.main.MainActivity;
 import ir.ugstudio.vampire.views.activities.register.RegisterActivity;
 import ir.ugstudio.vampire.views.custom.CustomTextView;
 import ir.ugstudio.vampire.views.dialogs.ConnectionLostDialog;
+import ir.ugstudio.vampire.views.dialogs.UpdateDialog;
 
 public class SplashActivity extends FragmentActivity {
 
+    private final static String URL = "http://cafebazaar.ir/app/%s/?l=fa";
     private ConnectionLostDialog dialog;
     private CustomTextView message;
-
     private boolean turningWifiOnState = false;
     private boolean getProfileSent = false;
     private boolean continueChekingInternet = true;
@@ -159,17 +162,59 @@ public class SplashActivity extends FragmentActivity {
         finish();
     }
 
+    private void showUpdateDialog(final boolean forceUpdate, final User user) {
+        UpdateDialog updateDialog = new UpdateDialog(SplashActivity.this, forceUpdate, new OnCompleteListener() {
+            @Override
+            public void onComplete(Integer state) {
+                if (state == 0) {
+                    if(forceUpdate) {
+                        finish();
+                    } else {
+                        startMainActivity(user);
+                    }
+                }
+            }
+        });
+        updateDialog.show();
+    }
+
+    private boolean haveNewUpdate(UpdateVersion updateVersion) {
+        try {
+            PackageInfo pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+            int myVersionCode = pInfo.versionCode;
+            return myVersionCode < updateVersion.getCurrentVersion();
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    private boolean isForceUpdate(UpdateVersion updateVersion) {
+        try {
+            PackageInfo pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+            int myVersionCode = pInfo.versionCode;
+            return myVersionCode < updateVersion.getMinimumSupportVersion();
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
     @Subscribe
     public void onEvent(GetProfileEvent event) {
         Log.d("TAG", "onEvent GetProfileEvent " + event.isSuccessfull());
         if (event.isSuccessfull()) {
+            if (haveNewUpdate(event.getUser().getUpdateVersion())) {
+                showUpdateDialog(isForceUpdate(event.getUser().getUpdateVersion()), event.getUser());
+            } else {
+                startMainActivity(event.getUser());
+            }
+        } else {
             startMainActivity(event.getUser());
         }
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
+    protected void onStart() {
+        super.onStart();
         EventBus.getDefault().register(this);
     }
 

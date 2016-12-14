@@ -19,8 +19,17 @@ public class User extends BaseModel {
     private Integer attackRange;
     private Integer sightRange;
     private Integer avatar;
+    private UpdateVersion updateVersion;
 
     public User() {
+    }
+
+    public UpdateVersion getUpdateVersion() {
+        return updateVersion;
+    }
+
+    public void setUpdateVersion(UpdateVersion updateVersion) {
+        this.updateVersion = updateVersion;
     }
 
     public String getLifestat() {

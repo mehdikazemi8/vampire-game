@@ -142,15 +142,15 @@ public class TowerWallFragment extends BaseFragment implements View.OnClickListe
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
-        EventBus.getDefault().unregister(this);
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
         EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        EventBus.getDefault().unregister(this);
     }
 
     @Subscribe

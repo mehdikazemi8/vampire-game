@@ -192,15 +192,15 @@ public class MainActivity extends FragmentActivity {
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
-        EventBus.getDefault().unregister(this);
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        EventBus.getDefault().register(this);
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
