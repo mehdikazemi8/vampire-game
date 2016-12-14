@@ -18,6 +18,8 @@ public class GetProfile {
     public static void run(final Context context) {
         String token = UserHandler.readToken(context);
 
+        Log.d("TAG", "abcd efgh");
+
         Call<User> call = VampireApp.createUserApi().getProfile(token);
         call.enqueue(new Callback<User>() {
             @Override

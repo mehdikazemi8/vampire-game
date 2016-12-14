@@ -162,7 +162,7 @@ public class AttackDialog extends Dialog implements View.OnClickListener {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    Toast.makeText(getContext(), result, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "ایول، یه مقدار از سکه هاش هم به تو رسید", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getContext(), "NOT SUCCESSFUL", Toast.LENGTH_SHORT).show();
                 }

@@ -494,25 +494,37 @@ public class MapFragment extends BaseFragment
                         break;
                     }
                 }
-                if (foundTagUser)
+                if (foundTagUser) {
                     continue;
+                }
                 for (User hunter : hunters) {
                     if (hunter.getUsername().equals(tagUser.getUsername())) {
                         tagUser.setGeo(hunter.getGeo());
                         oldMarker.setPosition(new LatLng(tagUser.getGeo().get(0), tagUser.getGeo().get(1)));
-                        foundTagUser = true;
                         hunters.remove(hunter);
+                        foundTagUser = true;
+
+                        Log.d("abcde", "yy " + tagUser.getLifestat() + " " + hunter.getLifestat());
+                        if (tagUser.getLifestat().equals("alive") && hunter.getLifestat().equals("dead")) {
+                            oldMarker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.hunter_black));
+                        }
                         break;
                     }
                 }
-                if (foundTagUser)
+                if (foundTagUser) {
                     continue;
+                }
                 for (User vampire : vampires) {
                     if (vampire.getUsername().equals(tagUser.getUsername())) {
                         tagUser.setGeo(vampire.getGeo());
                         oldMarker.setPosition(new LatLng(tagUser.getGeo().get(0), tagUser.getGeo().get(1)));
-                        foundTagUser = true;
                         vampires.remove(vampire);
+                        foundTagUser = true;
+
+                        Log.d("abcde", "xx " + tagUser.getLifestat() + " " + vampire.getLifestat());
+                        if (tagUser.getLifestat().equals("alive") && vampire.getLifestat().equals("dead")) {
+                            oldMarker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.vampire_black));
+                        }
                         break;
                     }
                 }
