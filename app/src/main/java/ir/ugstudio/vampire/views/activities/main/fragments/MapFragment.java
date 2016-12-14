@@ -679,7 +679,7 @@ public class MapFragment extends BaseFragment
 
     private void redirectToStore() {
         AlertDialog dialog = new AlertDialog.Builder(getActivity())
-                .setMessage("متاسفانه سکه‌ي کافی برای ساخت برج نداری، دوس داری سکه خریداری کنی؟")
+                .setMessage("ساختن برج نیازمند ۴۰۰۰ سکه می باشد.\nمتاسفانه سکه\u200Cي کافی برای ساخت برج نداری، دوس داری سکه خریداری کنی؟")
                 .setPositiveButton("بله", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
