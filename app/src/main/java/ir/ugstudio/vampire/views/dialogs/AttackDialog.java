@@ -53,10 +53,12 @@ public class AttackDialog extends Dialog implements View.OnClickListener {
     private Tower tower;
 
     private ImageView avatar;
+    private boolean isSheep = false;
 
     public AttackDialog(Context context, User user) {
         super(context);
         this.user = user;
+        isSheep = user.getRole().equals("sheep");
     }
 
     public AttackDialog(Context context, User user, Tower tower) {
@@ -74,7 +76,9 @@ public class AttackDialog extends Dialog implements View.OnClickListener {
         setContentView(R.layout.dialog_attack);
 
         DisplayMetrics metrics = getContext().getResources().getDisplayMetrics();
+
         getWindow().setLayout(Math.min(1000, (int) (metrics.widthPixels * 0.98)), (int) (metrics.heightPixels * 0.95));
+
         findControls();
         configure();
     }
@@ -97,7 +101,7 @@ public class AttackDialog extends Dialog implements View.OnClickListener {
     private void configure() {
         FontHelper.setKoodakFor(getContext(), quotesRadio[0], quotesRadio[1], quotesRadio[2], attackButton);
 
-        if (user.getRole().equals("sheep")) {
+        if (isSheep) {
             Picasso.with(getContext()).load(R.drawable.sheep).into(avatar);
         } else {
             Picasso.with(getContext()).load(AvatarManager.getResourceId(getContext(), user.getAvatar())).into(avatar);
@@ -132,13 +136,20 @@ public class AttackDialog extends Dialog implements View.OnClickListener {
                 }
             });
         }
+
+        if (isSheep) {
+            for (RadioButton radioButton : quotesRadio) {
+                radioButton.setVisibility(View.INVISIBLE);
+            }
+        }
     }
 
     private void attack() {
-        if (messageStr == null) {
+        if (messageStr == null && !isSheep) {
             Toast.makeText(getContext(), getContext().getString(R.string.choose_attack_message), Toast.LENGTH_SHORT).show();
             return;
         }
+
         Location lastLocation = CacheHandler.getLastLocation();
         Call<ResponseBody> call = VampireApp.createMapApi().attack(
                 UserHandler.readToken(getContext()),
