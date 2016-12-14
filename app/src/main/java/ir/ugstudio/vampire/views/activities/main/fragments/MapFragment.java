@@ -52,6 +52,7 @@ import ir.ugstudio.vampire.async.GetPlaces;
 import ir.ugstudio.vampire.async.GetProfile;
 import ir.ugstudio.vampire.events.FinishHealMode;
 import ir.ugstudio.vampire.events.GetProfileEvent;
+import ir.ugstudio.vampire.events.RefreshAroundTowerEvent;
 import ir.ugstudio.vampire.events.ShowTabEvent;
 import ir.ugstudio.vampire.listeners.OnCompleteListener;
 import ir.ugstudio.vampire.managers.CacheHandler;
@@ -645,6 +646,13 @@ public class MapFragment extends BaseFragment
     }
 
     @Subscribe
+    public void onEvent(RefreshAroundTowerEvent event) {
+        if (nowOnThisTower != null) {
+            showMapAroundTheTower(nowOnThisTower);
+        }
+    }
+
+    @Subscribe
     public void onEvent(FinishHealMode event) {
         finishHealMode();
     }
@@ -1174,4 +1182,5 @@ public class MapFragment extends BaseFragment
             turnOnGPS();
         }
     }
+
 }

@@ -17,6 +17,7 @@ import java.io.IOException;
 
 import ir.ugstudio.vampire.R;
 import ir.ugstudio.vampire.VampireApp;
+import ir.ugstudio.vampire.async.GetProfile;
 import ir.ugstudio.vampire.events.OpenTowerWallFragment;
 import ir.ugstudio.vampire.managers.CacheHandler;
 import ir.ugstudio.vampire.models.Tower;
@@ -125,6 +126,7 @@ public class TowerDialog extends Dialog implements View.OnClickListener {
                         e.printStackTrace();
                     }
                     Toast.makeText(getContext(), result, Toast.LENGTH_SHORT).show();
+                    GetProfile.run(getContext());
                 } else {
                     Toast.makeText(getContext(), "NOT SUCCESSFUL", Toast.LENGTH_SHORT).show();
                 }

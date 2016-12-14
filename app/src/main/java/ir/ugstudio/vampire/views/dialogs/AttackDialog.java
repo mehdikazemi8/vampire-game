@@ -16,6 +16,8 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.io.IOException;
 import java.util.Collections;
 import java.util.Random;
@@ -23,6 +25,7 @@ import java.util.Random;
 import ir.ugstudio.vampire.R;
 import ir.ugstudio.vampire.VampireApp;
 import ir.ugstudio.vampire.async.GetProfile;
+import ir.ugstudio.vampire.events.RefreshAroundTowerEvent;
 import ir.ugstudio.vampire.managers.AvatarManager;
 import ir.ugstudio.vampire.managers.CacheHandler;
 import ir.ugstudio.vampire.managers.UserHandler;
@@ -199,9 +202,6 @@ public class AttackDialog extends Dialog implements View.OnClickListener {
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 Log.d("TAG", "attack " + response.message());
                 if (response.isSuccessful()) {
-//                     TODO, do I have to update user
-                    GetProfile.run(getContext());
-
                     Log.d("TAG", "xxx " + response.message());
                     String result = "IOEXception";
                     try {
@@ -210,9 +210,21 @@ public class AttackDialog extends Dialog implements View.OnClickListener {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    Toast.makeText(getContext(), result, Toast.LENGTH_SHORT).show();
+
+                    if (result.equals("ok")) {
+                        GetProfile.run(getContext());
+                        Toast.makeText(getContext(), "ایول، یه مقدار از سکه هاش هم به تو رسید", Toast.LENGTH_SHORT).show();
+                        EventBus.getDefault().post(new RefreshAroundTowerEvent());
+                    } else if (result.equals("not_in_range")) {
+                        Toast.makeText(getContext(), "باید یکم بهش نزدیک تر باشی.", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getContext(), result, Toast.LENGTH_SHORT).show();
+                    }
                 } else {
                     Toast.makeText(getContext(), "NOT SUCCESSFUL", Toast.LENGTH_SHORT).show();
+
+                    // todo, as soon as server handles this, remove next line
+                    EventBus.getDefault().post(new RefreshAroundTowerEvent());
                 }
             }
 
