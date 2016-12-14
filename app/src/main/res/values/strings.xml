@@ -29,8 +29,6 @@
     <string name="btn_join_tower_owners">اضافه شدن به اعضای برج</string>
     <string name="btn_show_tower_wall">دیوارِ برج</string>
     <string name="btn_confirm">خب!</string>
-    <string name="btn_go_to_hospital">میرم نزدیک بیمارستان</string>
-    <string name="btn_buy_healer">یه درمان‌کننده می‌خرم</string>
 
     <string name="toast_enter_message">خب یه چیزی بزن که ارسال کنم :|</string>
 
@@ -47,7 +45,9 @@
     <string name="heal_you_are_dead">به نظر وقتی نبودی یه نفر زده داغونت کرده :(</string>
     <string name="heal_you_have_two_options">حالا ۲ راه داری</string>
     <string name="heal_you_can_go_to_hospital">می‌تونی بری نزدیک یه بیمارستان توی شهر و خودت رو درمان کنی</string>
-    <string name="heal_you_can_buy_healer">می‌تونی یه درمان‌کننده بخری و درجا خوب شی</string>
+    <string name="heal_you_can_buy_healer">می تونی با خرج %d سکه یه آمبولانس سفارش بدی بیاد همینجایی که هستی خوبت کنه</string>
+    <string name="btn_go_to_hospital">میرم نزدیک بیمارستان</string>
+    <string name="btn_buy_healer">سفارشِ آمبولانس</string>
 
     <string name="username">نام کاربری</string>
     <string name="password">رمز عبور</string>

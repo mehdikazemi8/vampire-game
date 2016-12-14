@@ -14,8 +14,16 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 import ir.ugstudio.vampire.R;
+import ir.ugstudio.vampire.listeners.OnCompleteListener;
+import ir.ugstudio.vampire.managers.CacheHandler;
+import ir.ugstudio.vampire.managers.CacheManager;
+import ir.ugstudio.vampire.managers.SharedPrefHandler;
+import ir.ugstudio.vampire.managers.StoreItemHandler;
+import ir.ugstudio.vampire.utils.Consts;
 
 public class HealDialog extends Dialog {
+
+    private OnCompleteListener onCompleteListener = null;
     private TextView textView;
     private Button button;
     private Button goToHospital;
@@ -23,13 +31,15 @@ public class HealDialog extends Dialog {
 
     Queue<String> queue = new LinkedList<>();
 
-    public HealDialog(Context context) {
+    public HealDialog(Context context, OnCompleteListener onCompleteListener) {
         super(context);
+
+        this.onCompleteListener = onCompleteListener;
 
         queue.add(context.getResources().getString(R.string.heal_you_are_dead));
         queue.add(context.getResources().getString(R.string.heal_you_have_two_options));
         queue.add(context.getResources().getString(R.string.heal_you_can_go_to_hospital));
-        queue.add(context.getResources().getString(R.string.heal_you_can_buy_healer));
+        queue.add(String.format(context.getResources().getString(R.string.heal_you_can_buy_healer), StoreItemHandler.getCost(context, Consts.VIRTUAL_STORE_HEAL)));
     }
 
     @Override
@@ -66,16 +76,18 @@ public class HealDialog extends Dialog {
             }
         });
 
-        buyHealer.setOnClickListener(new View.OnClickListener() {
+        goToHospital.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                onCompleteListener.onComplete(0);
                 dismiss();
             }
         });
 
-        goToHospital.setOnClickListener(new View.OnClickListener() {
+        buyHealer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                onCompleteListener.onComplete(1);
                 dismiss();
             }
         });

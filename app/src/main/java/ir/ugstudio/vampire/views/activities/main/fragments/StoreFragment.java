@@ -19,12 +19,14 @@ import java.util.List;
 import ir.ugstudio.vampire.R;
 import ir.ugstudio.vampire.VampireApp;
 import ir.ugstudio.vampire.async.GetProfile;
+import ir.ugstudio.vampire.events.FinishHealMode;
 import ir.ugstudio.vampire.events.StartRealPurchase;
 import ir.ugstudio.vampire.managers.SharedPrefHandler;
 import ir.ugstudio.vampire.managers.UserHandler;
 import ir.ugstudio.vampire.models.StoreItemReal;
 import ir.ugstudio.vampire.models.StoreItemVirtual;
 import ir.ugstudio.vampire.models.StoreItems;
+import ir.ugstudio.vampire.utils.Consts;
 import ir.ugstudio.vampire.views.BaseFragment;
 import ir.ugstudio.vampire.views.activities.main.adapters.OnRealStoreItemClickListener;
 import ir.ugstudio.vampire.views.activities.main.adapters.OnVirtualStoreItemClickListener;
@@ -93,7 +95,7 @@ public class StoreFragment extends BaseFragment implements View.OnClickListener 
         }
     }
 
-    private void startVirtualPurchase(StoreItemVirtual item) {
+    private void startVirtualPurchase(final StoreItemVirtual item) {
         String token = UserHandler.readToken(getActivity());
         Call<ResponseBody> call = VampireApp.createUserApi().virtualPurchase(
                 token, item.getItemId()
@@ -108,10 +110,19 @@ public class StoreFragment extends BaseFragment implements View.OnClickListener 
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                Toast.makeText(getContext(), result, Toast.LENGTH_SHORT).show();
 
                 if (response.isSuccessful()) {
-                    GetProfile.run(getActivity());
+                    if (result.equals("not_enough_money")) {
+                        Toast.makeText(getContext(), "به نظر سکه‌ی کافی نداری :(", Toast.LENGTH_LONG).show();
+                    } else {
+                        if(item.getItemId().equals(Consts.VIRTUAL_STORE_HEAL)) {
+                            EventBus.getDefault().post(new FinishHealMode());
+                        }
+                        Toast.makeText(getContext(), "انجام شد :) می تونی ادامه بدی", Toast.LENGTH_LONG).show();
+                        GetProfile.run(getActivity());
+                    }
+                } else {
+                    Toast.makeText(getContext(), "مشکلی پیش اومده لطفا دوباره امتحان کن", Toast.LENGTH_SHORT).show();
                 }
             }
 

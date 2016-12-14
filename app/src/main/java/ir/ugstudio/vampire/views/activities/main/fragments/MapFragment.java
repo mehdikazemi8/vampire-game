@@ -50,8 +50,10 @@ import ir.ugstudio.vampire.R;
 import ir.ugstudio.vampire.VampireApp;
 import ir.ugstudio.vampire.async.GetPlaces;
 import ir.ugstudio.vampire.async.GetProfile;
+import ir.ugstudio.vampire.events.FinishHealMode;
 import ir.ugstudio.vampire.events.GetProfileEvent;
 import ir.ugstudio.vampire.events.ShowTabEvent;
+import ir.ugstudio.vampire.listeners.OnCompleteListener;
 import ir.ugstudio.vampire.managers.CacheHandler;
 import ir.ugstudio.vampire.managers.UserHandler;
 import ir.ugstudio.vampire.models.MapResponse;
@@ -91,6 +93,9 @@ public class MapFragment extends BaseFragment
     private Queue<Tower> towersToWatch = new LinkedList<>();
     private Tower nowOnThisTower = null;
     private MapView mapView;
+
+    private HealDialog healDialog = null;
+    private int healDialogShowTimes = 0;
 
     private Circle innerCircle = null;
     private Circle outerCircle = null;
@@ -339,6 +344,31 @@ public class MapFragment extends BaseFragment
         requestForMap(location.getLatitude(), location.getLongitude(), false);
     }
 
+    private void handleMeWhenHealMode(double lat, double lng) {
+        startHealDialog();
+        addMeToMap(lat, lng, MIN_ZOOM_HEAL_MODE, true);
+
+        LatLng newPlace = new LatLng(lat, lng);
+        if (outerCircle == null) {
+            outerCircle = googleMap.addCircle(new CircleOptions()
+                    .center(newPlace)
+                    .radius(CacheHandler.getUser().getSightRange())
+                    .fillColor(Color.parseColor("#33AAAAAA"))
+                    .strokeColor(Color.parseColor("#00FFFFFF"))
+            );
+
+            innerCircle = googleMap.addCircle(new CircleOptions()
+                    .center(newPlace)
+                    .radius(CacheHandler.getUser().getAttackRange())
+                    .fillColor(Color.parseColor("#44AAAAAA"))
+                    .strokeColor(Color.parseColor("#00FFFFFF"))
+            );
+        } else {
+            innerCircle.setCenter(newPlace);
+            outerCircle.setCenter(newPlace);
+        }
+    }
+
     private void requestForMap(final double lat, final double lng, boolean forceRequest) {
         if (googleMap == null) {
             return;
@@ -349,6 +379,7 @@ public class MapFragment extends BaseFragment
         }
 
         if (healMode) {
+            handleMeWhenHealMode(lat, lng);
             return;
         }
 
@@ -366,7 +397,6 @@ public class MapFragment extends BaseFragment
             lastRequestTime = System.currentTimeMillis();
         }
 
-        // todo must clear or not 6 december
 //        googleMap.clear();
         sampleTowerMarker = null;
 
@@ -377,7 +407,6 @@ public class MapFragment extends BaseFragment
         }
 
         LatLng newPlace = new LatLng(lat, lng);
-
         if (outerCircle == null) {
             outerCircle = googleMap.addCircle(new CircleOptions()
                     .center(newPlace)
@@ -601,6 +630,11 @@ public class MapFragment extends BaseFragment
         if (event.isSuccessfull()) {
             updateView(event.getUser());
         }
+    }
+
+    @Subscribe
+    public void onEvent(FinishHealMode event) {
+        finishHealMode();
     }
 
     private void revertButtonsState(boolean buttonsVisible, boolean isAddTowerMode) {
@@ -941,6 +975,7 @@ public class MapFragment extends BaseFragment
     }
 
     private void finishHealMode() {
+        healDialogShowTimes = 10000;
         healMode = false;
         googleMap.setMinZoomPreference(MIN_ZOOM);
         googleMap.setMaxZoomPreference(MAX_ZOOM);
@@ -970,7 +1005,7 @@ public class MapFragment extends BaseFragment
         }
 
         // todo why this crashes when app starts
-        addMeToMap(CacheHandler.getLastLocation().getLatitude(), CacheHandler.getLastLocation().getLongitude(), MIN_ZOOM_HEAL_MODE, false);
+        addMeToMap(CacheHandler.getLastLocation().getLatitude(), CacheHandler.getLastLocation().getLongitude(), MIN_ZOOM_HEAL_MODE, true);
     }
 
     private void addMeToMap(double lat, double lng, float zoomLevel, final boolean putDot) {
@@ -1003,38 +1038,98 @@ public class MapFragment extends BaseFragment
         });
     }
 
+    private void startVirtualPurchase(String itemId) {
+        String token = UserHandler.readToken(getActivity());
+        Call<ResponseBody> call = VampireApp.createUserApi().virtualPurchase(
+                token, itemId
+        );
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                String result = "IOEXception";
+                try {
+                    result = response.body().string();
+                    Log.d("TAG", "xxx " + result);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                if (response.isSuccessful()) {
+                    if (result.equals("not_enough_money")) {
+                        Toast.makeText(getContext(), "به نظر سکه‌ی کافی نداری :(", Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(getContext(), "تبریک میگم بهبود پیدا کردی، می تونی ادامه بدی", Toast.LENGTH_LONG).show();
+                        finishHealMode();
+                        GetProfile.run(getActivity());
+                    }
+                } else {
+                    Toast.makeText(getContext(), "مشکلی پیش اومده لطفا دوباره امتحان کن", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+            }
+        });
+    }
+
     private void startHealDialog() {
-        new HealDialog(getActivity()).show();
+        if (healDialog == null) {
+            healDialog = new HealDialog(getActivity(), new OnCompleteListener() {
+                @Override
+                public void onComplete(Integer state) {
+                    if (state == 1) {
+                        startVirtualPurchase(Consts.VIRTUAL_STORE_HEAL);
+                    } else {
+                        healDialogShowTimes = 10000;
+                    }
+                }
+            });
+            healDialog.show();
+            healDialogShowTimes++;
+        } else {
+            if (!healDialog.isShowing() && healDialogShowTimes < 2) {
+                healDialog.show();
+                healDialogShowTimes++;
+            }
+        }
     }
 
     private void handleHealNow(Place place) {
         // TODO, replace my place instead of one of the hospitals
         Call<ResponseBody> call = VampireApp.createUserApi().healMe(
                 CacheHandler.getUser().getToken(),
-                place.getGeo().get(0),
-                place.getGeo().get(1),
+                CacheHandler.getUser().getGeo().get(0),
+                CacheHandler.getUser().getGeo().get(1),
                 place.getPlaceId());
 
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
-                    finishHealMode();
+
                     String result = "IOEXception";
                     try {
                         result = response.body().string();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    Toast.makeText(getContext(), result, Toast.LENGTH_SHORT).show();
+
+                    if (result.equals("not_in_range")) {
+                        Toast.makeText(getContext(), "یکم باید به بیمارستان نزدیک تر بشی", Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(getContext(), "ایول درمان شدی", Toast.LENGTH_LONG).show();
+                        finishHealMode();
+                    }
                 } else {
-                    Toast.makeText(getContext(), "NOT SUCCESSFUL", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "مشکلی پیش اومده لطفا دوباره امتحان کن", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "مشکلی پیش اومده لطفا دوباره امتحان کن", Toast.LENGTH_SHORT).show();
             }
         });
     }
