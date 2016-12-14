@@ -20,7 +20,7 @@ public class GetStoreItems {
         call.enqueue(new Callback<StoreItems>() {
             @Override
             public void onResponse(Call<StoreItems> call, Response<StoreItems> response) {
-                Log.d("TAG", "GetStoreItems " + response.message());
+
                 if (response.isSuccessful()) {
                     SharedPrefHandler.writeStoreItems(context, response.body());
                 }

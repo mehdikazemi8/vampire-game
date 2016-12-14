@@ -82,8 +82,7 @@ public class StoreFragment extends BaseFragment implements View.OnClickListener 
 
     private void configureVirtualItems() {
         StoreItems storeItems = SharedPrefHandler.readStoreItems(getActivity());
-        if (storeItems != null) {
-            Log.d("TAG", "configureVirtualItems " + storeItems.getVirtuals().size());
+        if (storeItems != null && storeItems.getVirtuals() != null) {
             virtualItemsList = storeItems.getVirtuals();
             virtualItemsAdapter = new StoreItemAdapterVirtual(virtualItemsList, new OnVirtualStoreItemClickListener() {
                 @Override
@@ -135,8 +134,7 @@ public class StoreFragment extends BaseFragment implements View.OnClickListener 
 
     private void configureRealItems() {
         StoreItems storeItems = SharedPrefHandler.readStoreItems(getActivity());
-        if (storeItems != null) {
-            Log.d("TAG", "configureRealItems " + storeItems.getReals().size());
+        if (storeItems != null && storeItems.getReals() != null) {
             realItemsList = storeItems.getReals();
             realItemsAdapter = new StoreItemAdapterReal(realItemsList, new OnRealStoreItemClickListener() {
                 @Override
