@@ -10,7 +10,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import com.viewpagerindicator.CirclePageIndicator;
 
@@ -38,10 +37,9 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
 
     private int avatarInt = -1;
 
-    private Button logout;
-    private Button selectAvatar;
-    private Button rate;
-    private Button share;
+    private CustomButton logout;
+    private CustomButton rate;
+    private CustomButton share;
     private CustomButton changeAvatarBtn;
 
     public static SettingsFragment getInstance() {
@@ -64,10 +62,9 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
     }
 
     private void find(View view) {
-        logout = (Button) view.findViewById(R.id.logout);
-        selectAvatar = (Button) view.findViewById(R.id.select_avatar);
-        share = (Button) view.findViewById(R.id.share);
-        rate = (Button) view.findViewById(R.id.rate);
+        logout = (CustomButton) view.findViewById(R.id.logout);
+        share = (CustomButton) view.findViewById(R.id.share);
+        rate = (CustomButton) view.findViewById(R.id.rate);
         changeAvatarBtn = (CustomButton) view.findViewById(R.id.change_avatar);
 
         viewPager = (ViewPager) view.findViewById(R.id.viewpager_avatars);
@@ -76,7 +73,6 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
 
     private void configure() {
         logout.setOnClickListener(this);
-        selectAvatar.setOnClickListener(this);
         share.setOnClickListener(this);
         rate.setOnClickListener(this);
         changeAvatarBtn.setOnClickListener(this);
@@ -133,10 +129,10 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
         startActivity(sendIntent);
     }
 
-    private void selectAvatar() {
-        AvatarSelectionDialog dialog = new AvatarSelectionDialog();
-        dialog.show(getFragmentManager(), "DIALOG_AVATAR_CHOOSER");
-    }
+//    private void selectAvatar() {
+//        AvatarSelectionDialog dialog = new AvatarSelectionDialog();
+//        dialog.show(getFragmentManager(), "DIALOG_AVATAR_CHOOSER");
+//    }
 
     private void changeAvatar() {
         progressDialog = ProgressDialog.show(getActivity(), "", "لطفا چند لحظه صبر کنید", true);
@@ -167,10 +163,6 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
         switch (view.getId()) {
             case R.id.logout:
                 logout();
-                break;
-
-            case R.id.select_avatar:
-                selectAvatar();
                 break;
 
             case R.id.share:

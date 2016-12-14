@@ -47,29 +47,34 @@
         android:layout_below="@id/avatar_section"
         android:orientation="vertical">
 
-        <Button
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <ir.ugstudio.vampire.views.custom.CustomButton
+                android:id="@+id/share"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/space.medium"
+                android:text="اشتراک گذاری با دوستان" />
+
+            <ir.ugstudio.vampire.views.custom.CustomButton
+                android:id="@+id/rate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/space.medium"
+                android:text="نظر دادن" />
+        </LinearLayout>
+
+        <ir.ugstudio.vampire.views.custom.CustomButton
             android:id="@+id/logout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:text="@string/btn_logout" />
-
-        <Button
-            android:id="@+id/share"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="share" />
-
-        <Button
-            android:id="@+id/rate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="rate" />
-
-        <Button
-            android:id="@+id/select_avatar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="select avatar" />
 
     </LinearLayout>
 
