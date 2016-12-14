@@ -120,7 +120,11 @@ public class SplashActivity extends FragmentActivity {
         }
     }
 
+    /**
+     * When this method is called, we definitely have internet access
+     */
     private void decideBetweenRegisterAndMain() {
+
         String token = UserHandler.readToken(SplashActivity.this);
         if (token == null || token.isEmpty()) {
             startRegisterActivity();
