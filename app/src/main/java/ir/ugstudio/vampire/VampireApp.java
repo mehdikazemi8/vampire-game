@@ -2,6 +2,8 @@ package ir.ugstudio.vampire;
 
 import android.app.Application;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
+
 import ir.ugstudio.vampire.api.MapApi;
 import ir.ugstudio.vampire.api.UserApi;
 import ir.ugstudio.vampire.utils.Config;
@@ -10,12 +12,7 @@ import retrofit2.converter.jackson.JacksonConverterFactory;
 
 public class VampireApp extends Application {
 
-    @Override
-    public void onCreate() {
-        super.onCreate();
-
-        retrofit = getRetrofit();
-    }
+    public static FirebaseAnalytics firebaseAnalytics;
 
     private static Retrofit retrofit;
 
@@ -31,5 +28,13 @@ public class VampireApp extends Application {
 
     public static UserApi createUserApi() {
         return retrofit.create(UserApi.class);
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+
+        retrofit = getRetrofit();
+        firebaseAnalytics = FirebaseAnalytics.getInstance(this);
     }
 }
