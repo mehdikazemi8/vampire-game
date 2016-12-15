@@ -1,9 +1,9 @@
 <resources>
-    <string name="app_name">Vampire</string>
+    <string name="app_name">ترور</string>
     <string name="btn_logout">خروج از حساب کاربری</string>
-    <string name="title_activity_maps">Vampire</string>
-    <string name="title_activity_splash">Vampire</string>
-    <string name="title_activity_register">Vampire</string>
+    <string name="title_activity_maps">ترور</string>
+    <string name="title_activity_splash">ترور</string>
+    <string name="title_activity_register">ترور</string>
 
     <string name="connection_lost_string">به نظر اینترنت نداری، لطفا اینترنتت رو روشن کن تا وارد بازی بشیم.</string>
     <string name="connection_lost_cancel">تلاش مجدد</string>
@@ -24,7 +24,7 @@
     <string name="btn_new_user">کاربر ‌جدید</string>
     <string name="btn_registered_before">قبلا ثبت‌نام کرده‌ام</string>
     <string name="btn_register">ثبت نام</string>
-    <string name="btn_attack">حمله</string>
+    <string name="btn_attack">ترور</string>
     <string name="btn_steal_coins">غارت سکه‌ها</string>
     <string name="btn_join_tower_owners">اضافه شدن به اعضای برج</string>
     <string name="btn_show_tower_wall">دیوارِ برج</string>
