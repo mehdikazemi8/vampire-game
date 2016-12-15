@@ -12,6 +12,7 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 import ir.ugstudio.vampire.R;
+import ir.ugstudio.vampire.managers.CacheHandler;
 import ir.ugstudio.vampire.models.StoreItemReal;
 import ir.ugstudio.vampire.utils.StoreIconSelector;
 
@@ -41,9 +42,11 @@ public class StoreItemAdapterReal extends RecyclerView.Adapter<StoreItemViewHold
 
         holder.bind(items.get(position), listener);
 
-        Picasso.with(context).load(StoreIconSelector.getRealStoreItem(context, items.get(position).getImageType())).into(holder.icon);
+        Picasso.with(context).load(StoreIconSelector.getRealStoreItem(context, items.get(position).getImageType(),
+                CacheHandler.getUser().getRole())).into(holder.icon);
         holder.title.setText(items.get(position).getTitle());
-        holder.price.setText(String.valueOf(items.get(position).getPrice()));
+
+        holder.price.setText(String.format(context.getString(R.string.real_store_item_price), items.get(position).getPrice()));
     }
 
     @Override

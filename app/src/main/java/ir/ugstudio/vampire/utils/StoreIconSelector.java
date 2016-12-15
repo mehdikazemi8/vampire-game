@@ -9,8 +9,13 @@ public class StoreIconSelector {
     static int[] reals = null;
     static int[] virtuals = null;
 
-    private static void loadReals(Context context) {
-        TypedArray realsTypedArray = context.getResources().obtainTypedArray(R.array.real_store_icons);
+    private static void loadReals(Context context, String role) {
+        TypedArray realsTypedArray = null;
+        if (role.equals("hunter"))
+            realsTypedArray = context.getResources().obtainTypedArray(R.array.real_hunter_store_icons);
+        else
+            realsTypedArray = context.getResources().obtainTypedArray(R.array.real_vampire_store_icons);
+
         int length = realsTypedArray.length();
         reals = new int[length];
         for (int i = 0; i < length; i++)
@@ -18,8 +23,13 @@ public class StoreIconSelector {
         realsTypedArray.recycle();
     }
 
-    private static void loadVirtuals(Context context) {
-        TypedArray virtualsTypedArray = context.getResources().obtainTypedArray(R.array.virtual_store_icons);
+    private static void loadVirtuals(Context context, String role) {
+        TypedArray virtualsTypedArray = null;
+        if (role.equals("hunter"))
+            virtualsTypedArray = context.getResources().obtainTypedArray(R.array.virtual_hunter_store_icons);
+        else
+            virtualsTypedArray = context.getResources().obtainTypedArray(R.array.virtual_vampire_store_icons);
+
         int length = virtualsTypedArray.length();
         virtuals = new int[length];
         for (int i = 0; i < length; i++)
@@ -27,9 +37,9 @@ public class StoreIconSelector {
         virtualsTypedArray.recycle();
     }
 
-    public static int getRealStoreItem(Context context, int imageType) {
+    public static int getRealStoreItem(Context context, int imageType, String role) {
         if (reals == null) {
-            loadReals(context);
+            loadReals(context, role);
         }
 
         if (reals.length >= imageType && imageType > 0)
@@ -38,9 +48,9 @@ public class StoreIconSelector {
             return reals[reals.length - 1];
     }
 
-    public static int getVirtualStoreItem(Context context, int imageType) {
+    public static int getVirtualStoreItem(Context context, int imageType, String role) {
         if (virtuals == null) {
-            loadVirtuals(context);
+            loadVirtuals(context, role);
         }
 
         if (virtuals.length >= imageType && imageType > 0)

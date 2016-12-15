@@ -3,19 +3,20 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingTop="@dimen/space.medium">
 
     <ImageView
         android:id="@+id/item_icon"
         android:layout_width="@dimen/avatar.size.medium"
         android:layout_height="@dimen/avatar.size.medium" />
 
-    <TextView
+    <ir.ugstudio.vampire.views.custom.CustomTextView
         android:id="@+id/item_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-    <TextView
+    <ir.ugstudio.vampire.views.custom.CustomTextView
         android:id="@+id/item_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />

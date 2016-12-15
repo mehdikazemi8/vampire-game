@@ -105,7 +105,7 @@ public class AttackDialog extends Dialog implements View.OnClickListener {
         FontHelper.setKoodakFor(getContext(), quotesRadio[0], quotesRadio[1], quotesRadio[2], attackButton);
 
         if (isSheep) {
-            Picasso.with(getContext()).load(R.drawable.sheep).into(avatar);
+            Picasso.with(getContext()).load(R.drawable.sheep_large).into(avatar);
         } else {
             Picasso.with(getContext()).load(AvatarManager.getResourceId(getContext(), user.getAvatar())).into(avatar);
         }
