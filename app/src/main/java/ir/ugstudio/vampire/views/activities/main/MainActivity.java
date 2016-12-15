@@ -355,7 +355,6 @@ public class MainActivity extends FragmentActivity {
             return;
         }
 
-        // todo, in case some other fragment is added to backstack in MainActivity
         confirmExit();
     }
 

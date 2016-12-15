@@ -455,7 +455,6 @@ public class MapFragment extends BaseFragment
     private void refreshMap(MapResponse response) {
         lastResponse = response;
 
-        // // TODO: 12/6/16
         /**
          * oon googleMap.clear() ro az tooye requestForMap bardashtim, hala bayad diff begirim ba chizayee
          * ke jadid oomade
@@ -1117,7 +1116,6 @@ public class MapFragment extends BaseFragment
     }
 
     private void handleHealNow(Place place) {
-        // TODO, replace my place instead of one of the hospitals
         Call<ResponseBody> call = VampireApp.createUserApi().healMe(
                 CacheHandler.getUser().getToken(),
                 CacheHandler.getUser().getGeo().get(0),

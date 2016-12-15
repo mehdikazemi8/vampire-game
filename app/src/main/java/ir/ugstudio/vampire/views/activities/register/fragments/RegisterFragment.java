@@ -195,7 +195,6 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
         GetStoreItems.run(getActivity());
 
         startActivity(new Intent(getActivity(), MainActivity.class));
-        // todo check this line
         getActivity().finish();
     }
 

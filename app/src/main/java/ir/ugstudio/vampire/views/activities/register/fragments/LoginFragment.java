@@ -89,15 +89,15 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                     Log.d("TAG", "dddd " + response.body().serialize());
                     startMainActivity(response.body());
                 } else {
-                    // todo say something to user
+                    Toast.makeText(getActivity(), "نام کاربری یا رمز عبور اشتباه است، لطفا دوباره امتحان کنید.", Toast.LENGTH_LONG).show();
                     Log.d("TAG", "dddd " + response.message() + " " + response.code());
                 }
             }
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
-                // todo say something to user
                 Log.d("TAG", "dddd fail " + t.getMessage());
+                Toast.makeText(getActivity(), "مشکلی پیش آمده، لطفا چند لحظه دیگر دوباره امتحان کنید.", Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -111,7 +111,6 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         GetStoreItems.run(getActivity());
 
         startActivity(new Intent(getActivity(), MainActivity.class));
-        // todo check this line
         getActivity().finish();
     }
 

@@ -43,7 +43,10 @@ public class TowerMessage extends BaseModel {
         if (obj == null) {
             return true;
         }
-        
+
+        if (!(obj instanceof TowerMessage))
+            return false;
+
         TowerMessage other = (TowerMessage) obj;
         return this.message.equals(other.getMessage()) && this.getUsername().equals(other.getUsername());
     }
