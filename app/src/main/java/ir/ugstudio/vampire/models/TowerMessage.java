@@ -37,4 +37,14 @@ public class TowerMessage extends BaseModel {
     public void setAvatar(Integer avatar) {
         this.avatar = avatar;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return true;
+        }
+        
+        TowerMessage other = (TowerMessage) obj;
+        return this.message.equals(other.getMessage()) && this.getUsername().equals(other.getUsername());
+    }
 }

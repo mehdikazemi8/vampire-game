@@ -87,7 +87,9 @@ public class RanklistFragment extends BaseFragment {
     public void onBringToFront() {
         super.onBringToFront();
         Log.d("TAG", "onBringToFront RanklistFragment");
-        progressbar.setVisibility(View.VISIBLE);
+
+        if (progressbar != null)
+            progressbar.setVisibility(View.VISIBLE);
 
         players = new ArrayList<>();
         ((RankViewAdapter) ranklist.getAdapter()).update(players);

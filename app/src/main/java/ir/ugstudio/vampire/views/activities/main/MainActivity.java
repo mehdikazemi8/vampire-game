@@ -106,7 +106,7 @@ public class MainActivity extends FragmentActivity {
             } else if (purchase.getSku().equals(SKU_PREMIUM)) {
 
                 // todo test this line after opening the app
-                if(!MainActivity.this.isFinishing())
+                if (!MainActivity.this.isFinishing())
                     confirmRealPurchase(purchase);
 
                 // give user access to premium content and update the UI
@@ -350,7 +350,7 @@ public class MainActivity extends FragmentActivity {
     public void onBackPressed() {
 //        super.onBackPressed();
 
-        if( getSupportFragmentManager().findFragmentByTag(Consts.FRG_WALL) != null ) {
+        if (getSupportFragmentManager().findFragmentByTag(Consts.FRG_WALL) != null) {
             getSupportFragmentManager().popBackStack();
             return;
         }
