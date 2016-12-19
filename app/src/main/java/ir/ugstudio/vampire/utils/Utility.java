@@ -6,7 +6,10 @@ import android.view.Gravity;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.IOException;
+
 import ir.ugstudio.vampire.R;
+import okhttp3.ResponseBody;
 
 public class Utility {
     public static void makeToast(Context context, String message, int duration) {
@@ -18,5 +21,16 @@ public class Utility {
         int height = (int) styledAttributes.getDimension(0, 0) + 5;
         toast.setGravity(Gravity.TOP, 0, height);
         toast.show();
+    }
+
+    public static String extractResult(ResponseBody response) {
+        String result = "IOEXception";
+        try {
+            result = response.string();
+            return result;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return result;
+        }
     }
 }

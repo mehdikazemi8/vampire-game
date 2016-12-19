@@ -244,20 +244,16 @@ public class MapFragment extends BaseFragment
         }
     }
 
-    private void collectCoinsOfThisTower(Tower tower) {
+    private void collectCoinsOfThisTower(final Tower tower) {
         Call<ResponseBody> call = VampireApp.createMapApi().collectTowerCoins(CacheHandler.getUser().getToken(), tower.get_id());
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
-                    String message = "خطا در ارتباط با سرور";
-                    try {
-                        message = response.body().string();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
                     GetProfile.run(getActivity());
-                    Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
+
+                    Utility.makeToast(getActivity(), String.format(getString(R.string.toast_collect_coin_ok), tower.getCoin()), Toast.LENGTH_SHORT);
+
                     showNextTowerToCollect();
                 }
             }
@@ -971,7 +967,7 @@ public class MapFragment extends BaseFragment
                                 break;
                         }
                     } else {
-                        Toast.makeText(getContext(), "NOT SUCCESSFUL", Toast.LENGTH_SHORT).show();
+                        Utility.makeToast(getActivity(), getString(R.string.toast_please_try_again_later), Toast.LENGTH_LONG);
                     }
                 }
 
@@ -980,7 +976,7 @@ public class MapFragment extends BaseFragment
                     revertButtonsState(true, false);
                     clearGoogleMap();
 
-                    Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+                    Utility.makeToast(getActivity(), getString(R.string.toast_please_try_again_later), Toast.LENGTH_LONG);
                 }
             });
         }
@@ -1144,27 +1140,31 @@ public class MapFragment extends BaseFragment
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
 
-                    String result = "IOEXception";
-                    try {
-                        result = response.body().string();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    String result = Utility.extractResult(response.body());
 
-                    if (result.equals("not_in_range")) {
-                        Toast.makeText(getContext(), "یکم باید به بیمارستان نزدیک تر بشی", Toast.LENGTH_LONG).show();
-                    } else {
-                        Toast.makeText(getContext(), "ایول درمان شدی", Toast.LENGTH_LONG).show();
-                        finishHealMode();
+                    switch (result) {
+                        case Consts.RESULT_OK:
+                            Utility.makeToast(getActivity(), getString(R.string.toast_heal_ok), Toast.LENGTH_LONG);
+                            finishHealMode();
+                            break;
+
+                        case Consts.RESULT_NOT_NEEDED:
+                            Utility.makeToast(getActivity(), getString(R.string.toast_heal_not_needed), Toast.LENGTH_LONG);
+                            finishHealMode();
+                            break;
+
+                        case Consts.RESULT_NOT_IN_RANGE:
+                            Utility.makeToast(getActivity(), getString(R.string.toast_heal_not_in_range), Toast.LENGTH_LONG);
+                            break;
                     }
                 } else {
-                    Toast.makeText(getContext(), "مشکلی پیش اومده لطفا دوباره امتحان کن", Toast.LENGTH_SHORT).show();
+                    Utility.makeToast(getActivity(), getString(R.string.toast_please_try_again_later), Toast.LENGTH_SHORT);
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Toast.makeText(getContext(), "مشکلی پیش اومده لطفا دوباره امتحان کن", Toast.LENGTH_SHORT).show();
+                Utility.makeToast(getActivity(), getString(R.string.toast_please_try_again_later), Toast.LENGTH_SHORT);
             }
         });
     }
