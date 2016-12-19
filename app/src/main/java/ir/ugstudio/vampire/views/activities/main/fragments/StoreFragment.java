@@ -13,7 +13,6 @@ import android.widget.Toast;
 
 import org.greenrobot.eventbus.EventBus;
 
-import java.io.IOException;
 import java.util.List;
 
 import ir.ugstudio.vampire.R;
@@ -27,6 +26,7 @@ import ir.ugstudio.vampire.models.StoreItemReal;
 import ir.ugstudio.vampire.models.StoreItemVirtual;
 import ir.ugstudio.vampire.models.StoreItems;
 import ir.ugstudio.vampire.utils.Consts;
+import ir.ugstudio.vampire.utils.Utility;
 import ir.ugstudio.vampire.views.BaseFragment;
 import ir.ugstudio.vampire.views.activities.main.adapters.OnRealStoreItemClickListener;
 import ir.ugstudio.vampire.views.activities.main.adapters.OnVirtualStoreItemClickListener;
@@ -102,32 +102,30 @@ public class StoreFragment extends BaseFragment implements View.OnClickListener 
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                String result = "IOEXception";
-                try {
-                    result = response.body().string();
-                    Log.d("TAG", "xxx " + result);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
                 if (response.isSuccessful()) {
-                    if (result.equals("not_enough_money")) {
-                        Toast.makeText(getContext(), "به نظر سکه‌ی کافی نداری :(", Toast.LENGTH_LONG).show();
-                    } else {
-                        if(item.getItemId().equals(Consts.VIRTUAL_STORE_HEAL)) {
-                            EventBus.getDefault().post(new FinishHealMode());
-                        }
-                        Toast.makeText(getContext(), "انجام شد :) می تونی ادامه بدی", Toast.LENGTH_LONG).show();
-                        GetProfile.run(getActivity());
+                    String result = Utility.extractResult(response.body());
+
+                    switch (result) {
+                        case Consts.RESULT_OK:
+                            if (item.getItemId().equals(Consts.VIRTUAL_STORE_HEAL)) {
+                                EventBus.getDefault().post(new FinishHealMode());
+                            }
+                            Utility.makeToast(getActivity(), getString(R.string.toast_virtual_purchase_ok), Toast.LENGTH_LONG);
+                            GetProfile.run(getActivity());
+                            break;
+
+                        case Consts.RESULT_NOT_ENOUGH_MONEY:
+                            Utility.makeToast(getActivity(), getString(R.string.toast_virtual_purchase_not_enough_money), Toast.LENGTH_SHORT);
+                            break;
                     }
                 } else {
-                    Toast.makeText(getContext(), "مشکلی پیش اومده لطفا دوباره امتحان کن", Toast.LENGTH_SHORT).show();
+                    Utility.makeToast(getActivity(), getString(R.string.toast_please_try_again_later), Toast.LENGTH_SHORT);
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-
+                Utility.makeToast(getActivity(), getString(R.string.toast_please_try_again_later), Toast.LENGTH_SHORT);
             }
         });
     }
@@ -139,7 +137,7 @@ public class StoreFragment extends BaseFragment implements View.OnClickListener 
             realItemsAdapter = new StoreItemAdapterReal(realItemsList, new OnRealStoreItemClickListener() {
                 @Override
                 public void onItemClick(StoreItemReal item) {
-                    Toast.makeText(getActivity(), item.getItemSku(), Toast.LENGTH_SHORT).show();
+                    Utility.makeToast(getActivity(), getString(R.string.toast_real_purchase_start), Toast.LENGTH_SHORT);
                     EventBus.getDefault().post(new StartRealPurchase(item));
                 }
             });

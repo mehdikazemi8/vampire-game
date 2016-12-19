@@ -24,6 +24,8 @@
     <string name="toast_virtual_purchase_ok">مبارکا باشه، با موفقیت انجام شد.</string>
     <string name="toast_virtual_purchase_not_enough_money">متاسفانه سکه‌ی کافی برای خرید این آیتم نداری :(</string>
 
+    <string name="toast_real_purchase_start">شروع خرید</string>
+
     <string name="connection_lost_string">به نظر اینترنت نداری، لطفا اینترنتت رو روشن کن تا وارد بازی بشیم.</string>
     <string name="connection_lost_cancel">تلاش مجدد</string>
     <string name="connection_lost_wifi">روشن کردن wifi</string>

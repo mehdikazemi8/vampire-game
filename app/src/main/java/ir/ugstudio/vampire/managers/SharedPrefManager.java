@@ -7,6 +7,7 @@ public class SharedPrefManager {
     public static String PREFERENCE_NAME = "preference_vampire";
 
     private static SharedPreferences getPreference(Context context) {
+        // todo, null mishe vaghti logout mikonim, (bazi vaghta)
         return context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE);
     }
 
