@@ -147,6 +147,7 @@ public class SplashActivity extends FragmentActivity {
         new GetQuotes(SplashActivity.this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         GetStoreItems.run(SplashActivity.this);
 
+        // todo, inja momkene user null bashe va gir kone?
         UserHandler.writeUser(SplashActivity.this, user);
         CacheHandler.setUser(user);
 
@@ -167,7 +168,7 @@ public class SplashActivity extends FragmentActivity {
             @Override
             public void onComplete(Integer state) {
                 if (state == 0) {
-                    if(forceUpdate) {
+                    if (forceUpdate) {
                         finish();
                     } else {
                         startMainActivity(user);

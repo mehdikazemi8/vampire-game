@@ -15,10 +15,14 @@
 
     <string name="toast_please_try_again_later">مشکلی پیش اومده، لطفا چند لحظه دیگه دوباره امتحان کن</string>
     <string name="toast_collect_coin_ok">%d سکه از برج به خزانه اضافه شد.</string>
+    <string name="toast_collect_coin_come_back_later">همه چی رو به راهه، یه ساعت دیگه بیا سکه‌ها رو جمع کن</string>
 
     <string name="toast_heal_ok">ایول درمان شدی</string>
     <string name="toast_heal_not_in_range">یکم باید به بیمارستان نزدیک تر بشی</string>
     <string name="toast_heal_not_needed">الان حالت خوبه، نیازی نیست :)</string>
+
+    <string name="toast_virtual_purchase_ok">مبارکا باشه، با موفقیت انجام شد.</string>
+    <string name="toast_virtual_purchase_not_enough_money">متاسفانه سکه‌ی کافی برای خرید این آیتم نداری :(</string>
 
     <string name="connection_lost_string">به نظر اینترنت نداری، لطفا اینترنتت رو روشن کن تا وارد بازی بشیم.</string>
     <string name="connection_lost_cancel">تلاش مجدد</string>

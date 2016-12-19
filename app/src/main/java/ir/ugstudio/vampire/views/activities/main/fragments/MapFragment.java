@@ -748,7 +748,7 @@ public class MapFragment extends BaseFragment
             clearGoogleMap();
             showNextTowerToCollect();
         } else {
-            Toast.makeText(getActivity(), "همه چی رو به راهه، یه ساعت دیگه بیا", Toast.LENGTH_LONG).show();
+            Utility.makeToast(getActivity(), getString(R.string.toast_collect_coin_come_back_later), Toast.LENGTH_LONG);
         }
     }
 
@@ -771,8 +771,6 @@ public class MapFragment extends BaseFragment
         marker.showInfoWindow();
 
         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(towerPlace, MIN_ZOOM));
-
-        Toast.makeText(getActivity(), String.valueOf(nextTower.getCoin()), Toast.LENGTH_LONG).show();
     }
 
     private void finishCollectCoinsMode() {
@@ -1078,21 +1076,19 @@ public class MapFragment extends BaseFragment
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                String result = "IOEXception";
-                try {
-                    result = response.body().string();
-                    Log.d("TAG", "xxx " + result);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
                 if (response.isSuccessful()) {
-                    if (result.equals("not_enough_money")) {
-                        Toast.makeText(getContext(), "به نظر سکه‌ی کافی نداری :(", Toast.LENGTH_LONG).show();
-                    } else {
-                        Toast.makeText(getContext(), "تبریک میگم بهبود پیدا کردی، می تونی ادامه بدی", Toast.LENGTH_LONG).show();
-                        finishHealMode();
-                        GetProfile.run(getActivity());
+                    String result = Utility.extractResult(response.body());
+
+                    switch (result) {
+                        case Consts.RESULT_OK:
+                            Utility.makeToast(getActivity(), getString(R.string.toast_virtual_purchase_ok), Toast.LENGTH_LONG);
+                            finishHealMode();
+                            GetProfile.run(getActivity());
+                            break;
+
+                        case Consts.RESULT_NOT_ENOUGH_MONEY:
+                            Utility.makeToast(getActivity(), getString(R.string.toast_virtual_purchase_not_enough_money), Toast.LENGTH_LONG);
+                            break;
                     }
                 } else {
                     Toast.makeText(getContext(), "مشکلی پیش اومده لطفا دوباره امتحان کن", Toast.LENGTH_SHORT).show();
