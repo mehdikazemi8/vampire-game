@@ -19,6 +19,7 @@ import java.io.IOException;
 import ir.ugstudio.vampire.R;
 import ir.ugstudio.vampire.VampireApp;
 import ir.ugstudio.vampire.events.FCMNewMessage;
+import ir.ugstudio.vampire.managers.AnalyticsManager;
 import ir.ugstudio.vampire.managers.CacheHandler;
 import ir.ugstudio.vampire.managers.UserHandler;
 import ir.ugstudio.vampire.models.Tower;
@@ -66,6 +67,8 @@ public class TowerWallFragment extends BaseFragment implements View.OnClickListe
         find(view);
         configure();
         getTower(tower.get_id());
+
+        AnalyticsManager.logEvent(AnalyticsManager.VIEW_SCREEN, "TowerWallFragment");
     }
 
     private void find(View view) {

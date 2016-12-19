@@ -26,6 +26,7 @@ import ir.ugstudio.vampire.R;
 import ir.ugstudio.vampire.VampireApp;
 import ir.ugstudio.vampire.async.GetProfile;
 import ir.ugstudio.vampire.events.RefreshAroundTowerEvent;
+import ir.ugstudio.vampire.managers.AnalyticsManager;
 import ir.ugstudio.vampire.managers.AvatarManager;
 import ir.ugstudio.vampire.managers.CacheHandler;
 import ir.ugstudio.vampire.managers.UserHandler;
@@ -84,6 +85,8 @@ public class AttackDialog extends Dialog implements View.OnClickListener {
 
         findControls();
         configure();
+
+        AnalyticsManager.logEvent(AnalyticsManager.ATTACK_DIALOG, user.getRole());
     }
 
     private void findControls() {

@@ -16,12 +16,12 @@ import com.viewpagerindicator.CirclePageIndicator;
 import ir.ugstudio.vampire.R;
 import ir.ugstudio.vampire.VampireApp;
 import ir.ugstudio.vampire.async.GetProfile;
+import ir.ugstudio.vampire.managers.AnalyticsManager;
 import ir.ugstudio.vampire.managers.AvatarManager;
 import ir.ugstudio.vampire.managers.CacheHandler;
 import ir.ugstudio.vampire.managers.SharedPrefManager;
 import ir.ugstudio.vampire.views.BaseFragment;
 import ir.ugstudio.vampire.views.custom.CustomButton;
-import ir.ugstudio.vampire.views.custom.avatar.AvatarSelectionDialog;
 import ir.ugstudio.vampire.views.custom.avatar.CustomPagerAdapter;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -113,6 +113,8 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
     }
 
     private void rateApp() {
+        AnalyticsManager.logEvent(AnalyticsManager.RATE_APP, "" + CacheHandler.getUser().getUsername());
+
         Intent intent = new Intent(Intent.ACTION_EDIT);
         intent.setData(Uri.parse("bazaar://details?id=" + getActivity().getPackageName()));
         intent.setPackage("com.farsitel.bazaar");
@@ -120,6 +122,8 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
     }
 
     private void shareApp() {
+        AnalyticsManager.logEvent(AnalyticsManager.SHARE_APP, "" + CacheHandler.getUser().getUsername());
+
         Intent sendIntent = new Intent();
         sendIntent.setAction(Intent.ACTION_SEND);
         String str = "http://cafebazaar.ir/app/" + getActivity().getPackageName();

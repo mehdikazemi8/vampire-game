@@ -55,6 +55,7 @@ import ir.ugstudio.vampire.events.GetProfileEvent;
 import ir.ugstudio.vampire.events.RefreshAroundTowerEvent;
 import ir.ugstudio.vampire.events.ShowTabEvent;
 import ir.ugstudio.vampire.listeners.OnCompleteListener;
+import ir.ugstudio.vampire.managers.AnalyticsManager;
 import ir.ugstudio.vampire.managers.CacheHandler;
 import ir.ugstudio.vampire.managers.UserHandler;
 import ir.ugstudio.vampire.models.MapResponse;
@@ -794,20 +795,23 @@ public class MapFragment extends BaseFragment
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.collect_coin_from_my_towers:
+                AnalyticsManager.logEvent(AnalyticsManager.FAB_TAPPED, "collect_coin");
+                startCollectCoinsMode();
+                break;
+
+            case R.id.watch_my_towers:
+                AnalyticsManager.logEvent(AnalyticsManager.FAB_TAPPED, "watch_towers");
+                startWatchMyTowersMode();
+                break;
+
             case R.id.add_tower:
+                AnalyticsManager.logEvent(AnalyticsManager.FAB_TAPPED, "add_tower");
                 handleAddTower();
                 break;
 
             case R.id.show_next_tower:
                 showNextTowerToWatch();
-                break;
-
-            case R.id.collect_coin_from_my_towers:
-                startCollectCoinsMode();
-                break;
-
-            case R.id.watch_my_towers:
-                startWatchMyTowersMode();
                 break;
 
             case R.id.cancel_button:
