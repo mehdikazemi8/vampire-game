@@ -26,6 +26,7 @@ import ir.ugstudio.vampire.managers.CacheHandler;
 import ir.ugstudio.vampire.managers.UserHandler;
 import ir.ugstudio.vampire.models.User;
 import ir.ugstudio.vampire.utils.FontHelper;
+import ir.ugstudio.vampire.utils.Utility;
 import ir.ugstudio.vampire.views.activities.main.MainActivity;
 import ir.ugstudio.vampire.views.custom.CustomButton;
 import ir.ugstudio.vampire.views.custom.avatar.CustomPagerAdapter;
@@ -156,23 +157,23 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
         call.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
-//                progressDialog.dismiss();
+                progressDialog.dismiss();
                 if (response.code() == 409) {
-                    Toast.makeText(getActivity(), "نام کاربری تکراری است", Toast.LENGTH_SHORT).show();
+                    Utility.makeToast(getActivity(), getString(R.string.toast_register_duplicate_username), Toast.LENGTH_LONG);
                     return;
                 }
 
                 if (response.isSuccessful()) {
                     startMainActivity(response.body());
                 } else {
-                    Toast.makeText(getActivity(), "مشکلی پیش آمده لطفا دوباره امتحان کنید", Toast.LENGTH_SHORT).show();
+                    Utility.makeToast(getActivity(), getString(R.string.toast_please_try_again_later), Toast.LENGTH_SHORT);
                 }
             }
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
-//                progressDialog.dismiss();
-                Toast.makeText(getActivity(), "مشکلی پیش آمده لطفا دوباره امتحان کنید", Toast.LENGTH_SHORT).show();
+                progressDialog.dismiss();
+                Utility.makeToast(getActivity(), getString(R.string.toast_please_try_again_later), Toast.LENGTH_SHORT);
             }
         });
     }

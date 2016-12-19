@@ -31,6 +31,8 @@
     <string name="toast_validate_form_username">لطفا نام کاربری خود را وارد کنید</string>
     <string name="toast_validate_form_password">لطفا رمز عبور خود را وارد کنید</string>
 
+    <string name="toast_register_duplicate_username">نام کاربری تکراری است، لطفا یکی دیگه انتخاب کن.</string>
+
     <string name="connection_lost_string">به نظر اینترنت نداری، لطفا اینترنتت رو روشن کن تا وارد بازی بشیم.</string>
     <string name="connection_lost_cancel">تلاش مجدد</string>
     <string name="connection_lost_wifi">روشن کردن wifi</string>
