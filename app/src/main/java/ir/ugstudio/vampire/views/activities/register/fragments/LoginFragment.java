@@ -61,10 +61,10 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
 
     private boolean validForm() {
         if (username.getText().toString().trim().length() == 0) {
-            Toast.makeText(getActivity(), "لطفا نام کاربری خود را انتخاب کنید", Toast.LENGTH_SHORT).show();
+            Utility.makeToast(getActivity(), getString(R.string.toast_validate_form_username), Toast.LENGTH_SHORT);
             return false;
         } else if (password.getText().toString().trim().length() == 0) {
-            Toast.makeText(getActivity(), "لطفا رمز عبور خود را انتخاب کنید", Toast.LENGTH_SHORT).show();
+            Utility.makeToast(getActivity(), getString(R.string.toast_validate_form_password), Toast.LENGTH_SHORT);
             return false;
         }
         return true;
