@@ -149,8 +149,8 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
         progressDialog = ProgressDialog.show(getActivity(), "", "در حال ارسال درخواست", true);
         progressDialog.show();
 
-        String usernameStr = username.getText().toString();
-        String passwordStr = password.getText().toString();
+        String usernameStr = username.getText().toString().trim();
+        String passwordStr = password.getText().toString().trim();
 
         Call<User> call = VampireApp.createUserApi().register(usernameStr, passwordStr, playerTypeStr, AvatarManager.getAvatarIndexInThousand(playerTypeStr, avatarInt));
         call.enqueue(new Callback<User>() {
