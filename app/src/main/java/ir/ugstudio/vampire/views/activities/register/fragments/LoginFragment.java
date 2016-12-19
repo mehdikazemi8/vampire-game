@@ -5,7 +5,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +17,7 @@ import ir.ugstudio.vampire.async.GetStoreItems;
 import ir.ugstudio.vampire.managers.CacheHandler;
 import ir.ugstudio.vampire.managers.UserHandler;
 import ir.ugstudio.vampire.models.User;
+import ir.ugstudio.vampire.utils.Utility;
 import ir.ugstudio.vampire.views.activities.main.MainActivity;
 import ir.ugstudio.vampire.views.custom.CustomButton;
 import ir.ugstudio.vampire.views.custom.CustomEditText;
@@ -74,30 +74,24 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         if (!validForm()) {
             return;
         }
-        
+
         String usernameStr = username.getText().toString().trim();
         String passwordStr = password.getText().toString().trim();
-
-        Log.d("TAG", "doLogin " + usernameStr);
-        Log.d("TAG", "doLogin " + passwordStr);
 
         Call<User> call = VampireApp.createUserApi().login(usernameStr, passwordStr);
         call.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 if (response.isSuccessful()) {
-                    Log.d("TAG", "dddd " + response.body().serialize());
                     startMainActivity(response.body());
                 } else {
-                    Toast.makeText(getActivity(), "نام کاربری یا رمز عبور اشتباه است، لطفا دوباره امتحان کنید.", Toast.LENGTH_LONG).show();
-                    Log.d("TAG", "dddd " + response.message() + " " + response.code());
+                    Utility.makeToast(getActivity(), getString(R.string.toast_login_401), Toast.LENGTH_SHORT);
                 }
             }
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
-                Log.d("TAG", "dddd fail " + t.getMessage());
-                Toast.makeText(getActivity(), "مشکلی پیش آمده، لطفا چند لحظه دیگر دوباره امتحان کنید.", Toast.LENGTH_LONG).show();
+                Utility.makeToast(getActivity(), getString(R.string.toast_please_try_again_later), Toast.LENGTH_SHORT);
             }
         });
     }

@@ -26,6 +26,8 @@
 
     <string name="toast_real_purchase_start">شروع خرید</string>
 
+    <string name="toast_login_401">نام کاربری یا رمز عبور اشتباه است، لطفا دوباره امتحان کنید.</string>
+
     <string name="connection_lost_string">به نظر اینترنت نداری، لطفا اینترنتت رو روشن کن تا وارد بازی بشیم.</string>
     <string name="connection_lost_cancel">تلاش مجدد</string>
     <string name="connection_lost_wifi">روشن کردن wifi</string>
