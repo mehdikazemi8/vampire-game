@@ -37,6 +37,7 @@ import ir.ugstudio.vampire.managers.UserHandler;
 import ir.ugstudio.vampire.models.StoreItemReal;
 import ir.ugstudio.vampire.utils.Consts;
 import ir.ugstudio.vampire.utils.FontHelper;
+import ir.ugstudio.vampire.utils.Utility;
 import ir.ugstudio.vampire.views.BaseFragment;
 import ir.ugstudio.vampire.views.activities.main.adapters.MainFragmentsPagerAdapter;
 import ir.ugstudio.vampire.views.activities.main.fragments.MapFragment;
@@ -92,7 +93,9 @@ public class MainActivity extends FragmentActivity {
         @Override
         public void onConsumeFinished(Purchase purchase, IabResult result) {
             Log.d("TAG", "now consume: " + result.getMessage());
-            Toast.makeText(MainActivity.this, "consume " + purchase.getSku(), Toast.LENGTH_SHORT).show();
+
+            Utility.makeToast(MainActivity.this, getString(R.string.toast_consume_real_purchase), Toast.LENGTH_SHORT);
+
             finalizeRealPurchase(purchase);
         }
     };
@@ -251,7 +254,7 @@ public class MainActivity extends FragmentActivity {
         if (mHelper != null) {
             startRealPurchase(event.getItem());
         } else {
-            Toast.makeText(this, "null", Toast.LENGTH_SHORT).show();
+            Utility.makeToast(this, getString(R.string.toast_cant_start_real_purchase), Toast.LENGTH_SHORT);
         }
     }
 
@@ -335,7 +338,7 @@ public class MainActivity extends FragmentActivity {
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
                     GetProfile.run(MainActivity.this);
-                    Toast.makeText(MainActivity.this, "finalize " + purchase.getSku(), Toast.LENGTH_SHORT).show();
+                    Utility.makeToast(MainActivity.this, getString(R.string.toast_finalize_real_purchase), Toast.LENGTH_SHORT);
                 }
             }
 

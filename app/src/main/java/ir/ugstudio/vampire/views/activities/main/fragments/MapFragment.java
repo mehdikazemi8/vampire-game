@@ -65,6 +65,7 @@ import ir.ugstudio.vampire.models.Tower;
 import ir.ugstudio.vampire.models.User;
 import ir.ugstudio.vampire.utils.Consts;
 import ir.ugstudio.vampire.utils.FontHelper;
+import ir.ugstudio.vampire.utils.Utility;
 import ir.ugstudio.vampire.utils.VampireLocationManager;
 import ir.ugstudio.vampire.views.BaseFragment;
 import ir.ugstudio.vampire.views.dialogs.AttackDialog;
@@ -950,12 +951,24 @@ public class MapFragment extends BaseFragment
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
-                        Toast.makeText(getContext(), result, Toast.LENGTH_SHORT).show();
 
-                        if (result.equals("not_enough_money")) {
-                            redirectToStore();
-                        } else {
-                            GetProfile.run(getActivity());
+                        switch (result) {
+                            case Consts.RESULT_OK:
+                                Utility.makeToast(getActivity(), getString(R.string.toast_add_tower_ok), Toast.LENGTH_LONG);
+                                GetProfile.run(getActivity());
+                                break;
+
+                            case Consts.RESULT_NOT_ENOUGH_MONEY:
+                                redirectToStore();
+                                break;
+
+                            case Consts.RESULT_NOT_IN_RANGE:
+                                Utility.makeToast(getActivity(), getString(R.string.toast_add_tower_not_in_range), Toast.LENGTH_LONG);
+                                break;
+
+                            case Consts.RESULT_RANGE_CONFLICT:
+                                Utility.makeToast(getActivity(), getString(R.string.toast_add_tower_range_conflict), Toast.LENGTH_LONG);
+                                break;
                         }
                     } else {
                         Toast.makeText(getContext(), "NOT SUCCESSFUL", Toast.LENGTH_SHORT).show();

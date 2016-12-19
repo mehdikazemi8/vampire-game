@@ -5,6 +5,14 @@
     <string name="title_activity_splash">ترور</string>
     <string name="title_activity_register">ترور</string>
 
+    <string name="toast_finalize_real_purchase">خرید شما نهایی شد.</string>
+    <string name="toast_cant_start_real_purchase">الان نمیشه، لطفا اپ رو ببندید و دوباره باز کنید.</string>
+    <string name="toast_consume_real_purchase">در حال انجام خرید&#8230;</string>
+
+    <string name="toast_add_tower_ok">تبریک، با موفقیت برج رو اضافه کردی</string>
+    <string name="toast_add_tower_not_in_range">فقط می تونی نزدیک خودت برج رو بسازی</string>
+    <string name="toast_add_tower_range_conflict">با یه برج دیگه تداخل داره</string>
+
     <string name="connection_lost_string">به نظر اینترنت نداری، لطفا اینترنتت رو روشن کن تا وارد بازی بشیم.</string>
     <string name="connection_lost_cancel">تلاش مجدد</string>
     <string name="connection_lost_wifi">روشن کردن wifi</string>
