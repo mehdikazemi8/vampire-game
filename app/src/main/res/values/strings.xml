@@ -30,6 +30,8 @@
 
     <string name="toast_validate_form_username">لطفا نام کاربری خود را وارد کنید</string>
     <string name="toast_validate_form_password">لطفا رمز عبور خود را وارد کنید</string>
+    <string name="toast_validate_form_alphanumeric">برای نام کاربری فقط حروف انگلیسی و رقم استفاده کنید</string>
+    <string name="toast_validate_form_choose_role">لطفا نوع شخصیت خود را انتخاب کنید</string>
 
     <string name="toast_register_duplicate_username">نام کاربری تکراری است، لطفا یکی دیگه انتخاب کن.</string>
 
