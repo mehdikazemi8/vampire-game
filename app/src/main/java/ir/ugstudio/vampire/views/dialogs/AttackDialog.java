@@ -33,7 +33,9 @@ import ir.ugstudio.vampire.managers.UserHandler;
 import ir.ugstudio.vampire.models.QuotesResponse;
 import ir.ugstudio.vampire.models.Tower;
 import ir.ugstudio.vampire.models.User;
+import ir.ugstudio.vampire.utils.Consts;
 import ir.ugstudio.vampire.utils.FontHelper;
+import ir.ugstudio.vampire.utils.Utility;
 import ir.ugstudio.vampire.views.custom.CustomTextView;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -152,7 +154,7 @@ public class AttackDialog extends Dialog implements View.OnClickListener {
 
     private void attack() {
         if (messageStr == null && !isSheep) {
-            Toast.makeText(getContext(), getContext().getString(R.string.choose_attack_message), Toast.LENGTH_SHORT).show();
+            Utility.makeToast(getContext(), getContext().getString(R.string.choose_attack_message), Toast.LENGTH_SHORT);
             return;
         }
 
@@ -167,27 +169,36 @@ public class AttackDialog extends Dialog implements View.OnClickListener {
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                Log.d("TAG", "attack " + response.message());
-                if (response.isSuccessful()) {
-                    GetProfile.run(getContext());
 
-                    Log.d("TAG", "xxx " + response.message());
-                    String result = "IOEXception";
-                    try {
-                        result = response.body().string();
-                        Log.d("TAG", "xxx " + result);
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                if (response.isSuccessful()) {
+                    String result = Utility.extractResult(response.body());
+
+                    switch (result) {
+                        case Consts.RESULT_OK:
+                            GetProfile.run(getContext());
+                            Utility.makeToast(getContext(), getContext().getString(R.string.toast_attack_ok), Toast.LENGTH_LONG);
+                            break;
+
+                        case Consts.RESULT_NOT_ALIVE:
+                            Utility.makeToast(getContext(), getContext().getString(R.string.toast_attack_not_alive), Toast.LENGTH_LONG);
+                            break;
+
+                        case Consts.RESULT_NOT_IN_RANGE:
+                            Utility.makeToast(getContext(), getContext().getString(R.string.toast_attack_not_in_range), Toast.LENGTH_LONG);
+                            break;
+
+                        case Consts.RESULT_SAME_ROLE:
+                            Utility.makeToast(getContext(), getContext().getString(R.string.toast_attack_same_role), Toast.LENGTH_LONG);
+                            break;
                     }
-                    Toast.makeText(getContext(), "ایول، یه مقدار از سکه هاش هم به تو رسید", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(getContext(), "NOT SUCCESSFUL", Toast.LENGTH_SHORT).show();
+                    Utility.makeToast(getContext(), getContext().getString(R.string.toast_please_try_again_later), Toast.LENGTH_SHORT);
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Log.d("TAG", "xxx " + t.getMessage());
+                Utility.makeToast(getContext(), getContext().getString(R.string.toast_please_try_again_later), Toast.LENGTH_SHORT);
             }
         });
 
@@ -203,37 +214,36 @@ public class AttackDialog extends Dialog implements View.OnClickListener {
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                Log.d("TAG", "attack " + response.message());
                 if (response.isSuccessful()) {
-                    Log.d("TAG", "xxx " + response.message());
-                    String result = "IOEXception";
-                    try {
-                        result = response.body().string();
-                        Log.d("TAG", "xxx " + result);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    String result = Utility.extractResult(response.body());
 
-                    if (result.equals("ok")) {
-                        GetProfile.run(getContext());
-                        Toast.makeText(getContext(), "ایول، یه مقدار از سکه هاش هم به تو رسید", Toast.LENGTH_SHORT).show();
-                        EventBus.getDefault().post(new RefreshAroundTowerEvent());
-                    } else if (result.equals("not_in_range")) {
-                        Toast.makeText(getContext(), "باید یکم بهش نزدیک تر باشی.", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(getContext(), result, Toast.LENGTH_SHORT).show();
+                    switch (result) {
+                        case Consts.RESULT_OK:
+                            Utility.makeToast(getContext(), getContext().getString(R.string.toast_attack_ok), Toast.LENGTH_LONG);
+                            GetProfile.run(getContext());
+                            EventBus.getDefault().post(new RefreshAroundTowerEvent());
+                            break;
+
+                        case Consts.RESULT_NOT_ALIVE:
+                            Utility.makeToast(getContext(), getContext().getString(R.string.toast_attack_not_alive), Toast.LENGTH_LONG);
+                            break;
+
+                        case Consts.RESULT_NOT_IN_RANGE:
+                            Utility.makeToast(getContext(), getContext().getString(R.string.toast_attack_not_in_range), Toast.LENGTH_LONG);
+                            break;
+
+                        case Consts.RESULT_SAME_ROLE:
+                            Utility.makeToast(getContext(), getContext().getString(R.string.toast_attack_same_role), Toast.LENGTH_LONG);
+                            break;
                     }
                 } else {
-                    Toast.makeText(getContext(), "NOT SUCCESSFUL", Toast.LENGTH_SHORT).show();
-
-                    // todo, as soon as server handles this, remove next line
-                    EventBus.getDefault().post(new RefreshAroundTowerEvent());
+                    Utility.makeToast(getContext(), getContext().getString(R.string.toast_please_try_again_later), Toast.LENGTH_SHORT);
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Log.d("TAG", "xxx " + t.getMessage());
+                Utility.makeToast(getContext(), getContext().getString(R.string.toast_please_try_again_later), Toast.LENGTH_SHORT);
             }
         });
 

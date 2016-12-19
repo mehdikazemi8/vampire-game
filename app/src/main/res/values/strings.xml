@@ -35,6 +35,11 @@
 
     <string name="toast_register_duplicate_username">نام کاربری تکراری است، لطفا یکی دیگه انتخاب کن.</string>
 
+    <string name="toast_attack_ok">ایول، یه مقدار از سکه هاش هم به تو رسید.</string>
+    <string name="toast_attack_not_alive">این بدبخت که زنده نیست</string>
+    <string name="toast_attack_not_in_range">باید بهش نزدیکتر بشی تا بتونی ترورش کنی</string>
+    <string name="toast_attack_same_role">خودیا رو می خوای ترور کنی؟ :(</string>
+
     <string name="connection_lost_string">به نظر اینترنت نداری، لطفا اینترنتت رو روشن کن تا وارد بازی بشیم.</string>
     <string name="connection_lost_cancel">تلاش مجدد</string>
     <string name="connection_lost_wifi">روشن کردن wifi</string>
