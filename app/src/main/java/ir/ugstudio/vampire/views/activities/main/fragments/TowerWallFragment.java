@@ -14,8 +14,6 @@ import android.widget.Toast;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
-import java.io.IOException;
-
 import ir.ugstudio.vampire.R;
 import ir.ugstudio.vampire.VampireApp;
 import ir.ugstudio.vampire.events.FCMNewMessage;
@@ -24,6 +22,7 @@ import ir.ugstudio.vampire.managers.CacheHandler;
 import ir.ugstudio.vampire.managers.UserHandler;
 import ir.ugstudio.vampire.models.Tower;
 import ir.ugstudio.vampire.models.TowerMessage;
+import ir.ugstudio.vampire.utils.Utility;
 import ir.ugstudio.vampire.views.BaseFragment;
 import ir.ugstudio.vampire.views.activities.main.adapters.MessageViewAdapter;
 import ir.ugstudio.vampire.views.custom.CustomButton;
@@ -99,7 +98,7 @@ public class TowerWallFragment extends BaseFragment implements View.OnClickListe
 
     private boolean hasEnteredMessage() {
         if (message.getText().toString().trim().length() == 0) {
-            Toast.makeText(getContext(), getContext().getString(R.string.toast_enter_message), Toast.LENGTH_SHORT).show();
+            Utility.makeToast(getActivity(), getString(R.string.toast_enter_message), Toast.LENGTH_SHORT);
             return false;
         }
         return true;
@@ -122,24 +121,16 @@ public class TowerWallFragment extends BaseFragment implements View.OnClickListe
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
-                    String result = "IOEXception";
-                    try {
-                        result = response.body().string();
-                        Log.d("TAG", "xxx " + result);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    Toast.makeText(getContext(), result, Toast.LENGTH_SHORT).show();
                     message.setText("");
                     updateWallMessages(messageStr);
                 } else {
-                    Toast.makeText(getContext(), "NOT SUCCESSFUL", Toast.LENGTH_SHORT).show();
+                    Utility.makeToast(getActivity(), getString(R.string.toast_please_try_again_later), Toast.LENGTH_SHORT);
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Log.d("TAG", "yyy " + t.getMessage());
+                Utility.makeToast(getActivity(), getString(R.string.toast_please_try_again_later), Toast.LENGTH_SHORT);
             }
         });
     }
