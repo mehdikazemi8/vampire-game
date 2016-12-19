@@ -1154,7 +1154,7 @@ public class MapFragment extends BaseFragment
 
     private void turnOnGPS() {
         AlertDialog dialog = new AlertDialog.Builder(getActivity())
-                .setMessage("لطفا GPS خود را روشن کنید.\nوقتی GPS روشن نباشه نمی تونی بازی کنی.")
+                .setMessage("لطفا GPS خود را روشن کنید.\nوقتی GPS روشن نباشه واقعا نمی تونی بازی کنی. :(")
                 .setPositiveButton("باشه", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -1165,9 +1165,10 @@ public class MapFragment extends BaseFragment
                 .setNegativeButton("بی‌خیال", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-
+                        getActivity().finish();
                     }
                 }).show();
+        dialog.setCancelable(false);
         FontHelper.setKoodakFor(getActivity(), (TextView) dialog.findViewById(android.R.id.message));
     }
 
