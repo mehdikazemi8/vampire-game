@@ -197,6 +197,10 @@ public class TowerDialog extends Dialog implements View.OnClickListener {
                             Utility.makeToast(getContext(), getContext().getString(R.string.toast_steal_tower_not_in_range), Toast.LENGTH_LONG);
                             break;
 
+                        case Consts.RESULT_NO_COIN:
+                            Utility.makeToast(getContext(), getContext().getString(R.string.toast_steal_tower_no_coin), Toast.LENGTH_LONG);
+                            break;
+
                         case Consts.RESULT_SAME_ROLE:
                             break;
                     }

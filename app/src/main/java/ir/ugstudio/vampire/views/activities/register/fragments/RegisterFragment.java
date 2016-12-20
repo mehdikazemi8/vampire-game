@@ -127,16 +127,16 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
 
     private boolean validForm() {
         if (username.getText().toString().trim().length() == 0) {
-            Utility.makeToast(getActivity(), getString(R.string.toast_validate_form_username), Toast.LENGTH_SHORT);
+            Utility.makeToast(getActivity(), getString(R.string.toast_validate_form_username), Toast.LENGTH_LONG);
             return false;
         } else if (!validUsername(username.getText().toString().trim())) {
-            Utility.makeToast(getActivity(), getString(R.string.toast_validate_form_alphanumeric), Toast.LENGTH_SHORT);
+            Utility.makeToast(getActivity(), getString(R.string.toast_validate_form_alphanumeric), Toast.LENGTH_LONG);
             return false;
         } else if (password.getText().toString().trim().length() == 0) {
-            Utility.makeToast(getActivity(), getString(R.string.toast_validate_form_password), Toast.LENGTH_SHORT);
+            Utility.makeToast(getActivity(), getString(R.string.toast_validate_form_password), Toast.LENGTH_LONG);
             return false;
         } else if (avatarInt == -1) {
-            Utility.makeToast(getActivity(), getString(R.string.toast_validate_form_choose_role), Toast.LENGTH_SHORT);
+            Utility.makeToast(getActivity(), getString(R.string.toast_validate_form_choose_role), Toast.LENGTH_LONG);
             return false;
         }
         return true;

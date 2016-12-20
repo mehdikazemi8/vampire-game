@@ -154,7 +154,7 @@ public class AttackDialog extends Dialog implements View.OnClickListener {
 
     private void attack() {
         if (messageStr == null && !isSheep) {
-            Utility.makeToast(getContext(), getContext().getString(R.string.choose_attack_message), Toast.LENGTH_SHORT);
+            Utility.makeToast(getContext(), getContext().getString(R.string.choose_attack_message), Toast.LENGTH_LONG);
             return;
         }
 

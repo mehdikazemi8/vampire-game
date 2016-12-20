@@ -61,10 +61,10 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
 
     private boolean validForm() {
         if (username.getText().toString().trim().length() == 0) {
-            Utility.makeToast(getActivity(), getString(R.string.toast_validate_form_username), Toast.LENGTH_SHORT);
+            Utility.makeToast(getActivity(), getString(R.string.toast_validate_form_username), Toast.LENGTH_LONG);
             return false;
         } else if (password.getText().toString().trim().length() == 0) {
-            Utility.makeToast(getActivity(), getString(R.string.toast_validate_form_password), Toast.LENGTH_SHORT);
+            Utility.makeToast(getActivity(), getString(R.string.toast_validate_form_password), Toast.LENGTH_LONG);
             return false;
         }
         return true;
@@ -85,7 +85,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                 if (response.isSuccessful()) {
                     startMainActivity(response.body());
                 } else {
-                    Utility.makeToast(getActivity(), getString(R.string.toast_login_401), Toast.LENGTH_SHORT);
+                    Utility.makeToast(getActivity(), getString(R.string.toast_login_401), Toast.LENGTH_LONG);
                 }
             }
 

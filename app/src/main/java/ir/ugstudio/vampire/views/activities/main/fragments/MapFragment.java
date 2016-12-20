@@ -955,7 +955,7 @@ public class MapFragment extends BaseFragment
                                 break;
                         }
                     } else {
-                        Utility.makeToast(getActivity(), getString(R.string.toast_please_try_again_later), Toast.LENGTH_LONG);
+                        Utility.makeToast(getActivity(), getString(R.string.toast_please_try_again_later), Toast.LENGTH_SHORT);
                     }
                 }
 
@@ -964,7 +964,7 @@ public class MapFragment extends BaseFragment
                     revertButtonsState(true, false);
                     clearGoogleMap();
 
-                    Utility.makeToast(getActivity(), getString(R.string.toast_please_try_again_later), Toast.LENGTH_LONG);
+                    Utility.makeToast(getActivity(), getString(R.string.toast_please_try_again_later), Toast.LENGTH_SHORT);
                 }
             });
         }

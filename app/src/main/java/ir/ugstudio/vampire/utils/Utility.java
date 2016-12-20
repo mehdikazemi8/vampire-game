@@ -19,7 +19,7 @@ public class Utility {
                 new int[]{R.attr.actionBarSize}
         );
         int height = (int) styledAttributes.getDimension(0, 0) + 5;
-        toast.setGravity(Gravity.TOP, 0, height);
+        toast.setGravity(Gravity.TOP, 0, height * 2);
         toast.show();
     }
 

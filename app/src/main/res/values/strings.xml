@@ -56,6 +56,7 @@
 
     <string name="toast_steal_tower_ok">به سلامتی، سکه‌های این برج به خزانه اضافه شد.</string>
     <string name="toast_steal_tower_not_in_range">یه خورده باید نزدیک تر بشی تا بتونی سکه‌ها رو غارت کنی :(</string>
+    <string name="toast_steal_tower_no_coin">سکه ای در کار نیست که غارت کنی :(</string>
 
     <string name="choose_attack_message">لطفا یکی از پیام ها رو هم انتخاب کن</string>
 

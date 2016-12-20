@@ -115,7 +115,7 @@ public class StoreFragment extends BaseFragment implements View.OnClickListener 
                             break;
 
                         case Consts.RESULT_NOT_ENOUGH_MONEY:
-                            Utility.makeToast(getActivity(), getString(R.string.toast_virtual_purchase_not_enough_money), Toast.LENGTH_SHORT);
+                            Utility.makeToast(getActivity(), getString(R.string.toast_virtual_purchase_not_enough_money), Toast.LENGTH_LONG);
                             break;
                     }
                 } else {

@@ -92,7 +92,10 @@ public class RanklistFragment extends BaseFragment {
             progressbar.setVisibility(View.VISIBLE);
 
         players = new ArrayList<>();
-        ((RankViewAdapter) ranklist.getAdapter()).update(players);
+        if (ranklist != null) {
+            // why the ranklist maybe null? !!
+            ((RankViewAdapter) ranklist.getAdapter()).update(players);
+        }
 
         getRanklist();
     }
