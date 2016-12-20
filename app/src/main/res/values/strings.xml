@@ -50,6 +50,10 @@
     <string name="toast_have_no_tower_to_collect_coin">برجی نداری که بخوای سکه هاش رو جمع کنی، اول یه برج بساز.</string>
     <string name="toast_have_no_tower_to_watch">اول باید برج بسازی بعد می تونی مدیریتشون کنی.</string>
 
+    <string name="toast_join_tower_ok">به سلامتی، تبریک، الان یکی از مالکانِ برج هستی.</string>
+    <string name="toast_join_tower_not_in_range">یه خورده باید به برج نزدیکتر بشی</string>
+    <string name="toast_join_tower_not_my_role">این برجِ دشمنانِ توعه، نمی تونی عضو این بشی</string>
+
     <string name="choose_attack_message">لطفا یکی از پیام ها رو هم انتخاب کن</string>
 
     <string name="btn_save">ذخیره</string>

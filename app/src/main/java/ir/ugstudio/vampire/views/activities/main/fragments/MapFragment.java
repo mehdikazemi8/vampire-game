@@ -836,11 +836,6 @@ public class MapFragment extends BaseFragment
             towersToWatch.add(tower);
         }
 
-//        if (towersToWatch.isEmpty()) {
-//            Toast.makeText(getActivity(), "اول باید برج بسازی بعد می تونی مدیریت کنیشون", Toast.LENGTH_LONG).show();
-//            return;
-//        }
-
         clearGoogleMap();
         watchMyTowersMode = true;
         showNextTowerToWatch();
@@ -939,12 +934,7 @@ public class MapFragment extends BaseFragment
                     clearGoogleMap();
 
                     if (response.isSuccessful()) {
-                        String result = "IOEXception";
-                        try {
-                            result = response.body().string();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+                        String result = Utility.extractResult(response.body());
 
                         switch (result) {
                             case Consts.RESULT_OK:

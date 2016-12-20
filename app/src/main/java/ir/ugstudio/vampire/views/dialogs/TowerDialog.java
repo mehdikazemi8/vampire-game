@@ -1,7 +1,9 @@
 package ir.ugstudio.vampire.views.dialogs;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -9,6 +11,7 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.greenrobot.eventbus.EventBus;
@@ -19,9 +22,12 @@ import ir.ugstudio.vampire.R;
 import ir.ugstudio.vampire.VampireApp;
 import ir.ugstudio.vampire.async.GetProfile;
 import ir.ugstudio.vampire.events.OpenTowerWallFragment;
+import ir.ugstudio.vampire.events.ShowTabEvent;
 import ir.ugstudio.vampire.managers.CacheHandler;
 import ir.ugstudio.vampire.models.Tower;
 import ir.ugstudio.vampire.utils.Consts;
+import ir.ugstudio.vampire.utils.FontHelper;
+import ir.ugstudio.vampire.utils.Utility;
 import ir.ugstudio.vampire.views.activities.main.adapters.OwnerViewAdapter;
 import ir.ugstudio.vampire.views.custom.CustomButton;
 import ir.ugstudio.vampire.views.custom.CustomTextView;
@@ -119,24 +125,55 @@ public class TowerDialog extends Dialog implements View.OnClickListener {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
-                    String result = "IOEXception";
-                    try {
-                        result = response.body().string();
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                    String result = Utility.extractResult(response.body());
+
+                    switch (result) {
+                        case Consts.RESULT_OK:
+                            Utility.makeToast(getContext(), getContext().getString(R.string.toast_join_tower_ok), Toast.LENGTH_LONG);
+                            GetProfile.run(getContext());
+                            break;
+
+                        case Consts.RESULT_NOT_MY_ROLE:
+                            Utility.makeToast(getContext(), getContext().getString(R.string.toast_join_tower_not_my_role), Toast.LENGTH_LONG);
+                            break;
+
+                        case Consts.RESULT_NOT_IN_RANGE:
+                            Utility.makeToast(getContext(), getContext().getString(R.string.toast_join_tower_not_in_range), Toast.LENGTH_LONG);
+                            break;
+
+                        case Consts.RESULT_NOT_ENOUGH_MONEY:
+                            redirectToStore();
+                            break;
                     }
-                    Toast.makeText(getContext(), result, Toast.LENGTH_SHORT).show();
-                    GetProfile.run(getContext());
                 } else {
-                    Toast.makeText(getContext(), "NOT SUCCESSFUL", Toast.LENGTH_SHORT).show();
+                    Utility.makeToast(getContext(), getContext().getString(R.string.toast_please_try_again_later), Toast.LENGTH_SHORT);
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+                Utility.makeToast(getContext(), getContext().getString(R.string.toast_please_try_again_later), Toast.LENGTH_SHORT);
             }
         });
+    }
+
+    private void redirectToStore() {
+        AlertDialog dialog = new AlertDialog.Builder(getContext())
+                .setMessage("برای عضو شدن توی یه برج نیازمند ۳۰۰۰ سکه هستی\nمتاسفانه سکه\u200Cي کافی برای این کار نداری، دوس داری سکه خریداری کنی؟")
+                .setPositiveButton("بله", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        EventBus.getDefault().post(new ShowTabEvent(1));
+                        dismiss();
+                    }
+                })
+                .setNegativeButton("خیر", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                }).show();
+        FontHelper.setKoodakFor(getContext(), (TextView) dialog.findViewById(android.R.id.message));
     }
 
     private void stealTower() {
