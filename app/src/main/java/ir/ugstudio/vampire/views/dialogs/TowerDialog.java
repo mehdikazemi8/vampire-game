@@ -82,11 +82,6 @@ public class TowerDialog extends Dialog implements View.OnClickListener {
         stealFromTower.setOnClickListener(this);
         showTowerWall.setOnClickListener(this);
 
-        Log.d("TAG", "configurexxx " + tower.get_id());
-        for (String towerID : CacheHandler.getUser().getTowers()) {
-            Log.d("TAG", "configurexxx " + towerID);
-        }
-
         if (CacheHandler.getUser().getRole().equals(tower.getRole())) {
             if (CacheHandler.amIOwnerOfThisTower(tower.get_id())) {
                 showTowerWall.setVisibility(View.VISIBLE);
@@ -129,6 +124,10 @@ public class TowerDialog extends Dialog implements View.OnClickListener {
                         case Consts.RESULT_OK:
                             Utility.makeToast(getContext(), getContext().getString(R.string.toast_join_tower_ok), Toast.LENGTH_LONG);
                             GetProfile.run(getContext());
+                            tower.getOwners().add(CacheHandler.getUser());
+                            adapter.notifyDataSetChanged();
+                            joinTowerOwners.setVisibility(View.GONE);
+                            showTowerWall.setVisibility(View.VISIBLE);
                             break;
 
                         case Consts.RESULT_NOT_MY_ROLE:
