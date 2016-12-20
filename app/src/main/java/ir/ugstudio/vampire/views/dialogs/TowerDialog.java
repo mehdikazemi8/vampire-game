@@ -16,8 +16,6 @@ import android.widget.Toast;
 
 import org.greenrobot.eventbus.EventBus;
 
-import java.io.IOException;
-
 import ir.ugstudio.vampire.R;
 import ir.ugstudio.vampire.VampireApp;
 import ir.ugstudio.vampire.async.GetProfile;
@@ -186,21 +184,30 @@ public class TowerDialog extends Dialog implements View.OnClickListener {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
-                    String result = "IOEXception";
-                    try {
-                        result = response.body().string();
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                    String result = Utility.extractResult(response.body());
+
+                    switch (result) {
+                        case Consts.RESULT_OK:
+                            Utility.makeToast(getContext(), getContext().getString(R.string.toast_steal_tower_ok), Toast.LENGTH_LONG);
+                            GetProfile.run(getContext());
+                            coinCount.setText("0");
+                            break;
+
+                        case Consts.RESULT_NOT_IN_RANGE:
+                            Utility.makeToast(getContext(), getContext().getString(R.string.toast_steal_tower_not_in_range), Toast.LENGTH_LONG);
+                            break;
+
+                        case Consts.RESULT_SAME_ROLE:
+                            break;
                     }
-                    Toast.makeText(getContext(), result, Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(getContext(), "NOT SUCCESSFUL", Toast.LENGTH_SHORT).show();
+                    Utility.makeToast(getContext(), getContext().getString(R.string.toast_please_try_again_later), Toast.LENGTH_SHORT);
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+                Utility.makeToast(getContext(), getContext().getString(R.string.toast_please_try_again_later), Toast.LENGTH_SHORT);
             }
         });
     }
