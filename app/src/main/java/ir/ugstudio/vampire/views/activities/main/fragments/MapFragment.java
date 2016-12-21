@@ -40,7 +40,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -86,6 +85,9 @@ public class MapFragment extends BaseFragment
     private final int MAX_ZOOM = 16;
     private final int MIN_ZOOM_HEAL_MODE = 15;
     private final int MAX_ZOOM_HEAL_MODE = 16;
+    private final float SHOW_IRAN_ZOOM_LEVEL = 4.75f;
+    private final LatLng CENTER_OF_IRAN = new LatLng(32.418920, 53.344186);
+
     boolean addingTowerMode = false;
     boolean healMode = false;
     boolean collectCoinsMode = false;
@@ -697,8 +699,13 @@ public class MapFragment extends BaseFragment
 
         Log.d("TAG", "handleAddTower " + googleMap.getCameraPosition().target);
 
-        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
-                new LatLng(CacheHandler.getLastLocation().getLatitude(), CacheHandler.getLastLocation().getLongitude()), MIN_ZOOM));
+        if (VampireLocationManager.isGPSEnabled(getActivity())) {
+            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
+                    new LatLng(CacheHandler.getLastLocation().getLatitude(), CacheHandler.getLastLocation().getLongitude()), MIN_ZOOM));
+        } else {
+            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
+                    new LatLng(CENTER_OF_IRAN.latitude, CENTER_OF_IRAN.longitude), SHOW_IRAN_ZOOM_LEVEL));
+        }
 
         addingTowerMode = true;
         for (Marker marker : markers) {
@@ -947,7 +954,11 @@ public class MapFragment extends BaseFragment
                                 break;
 
                             case Consts.RESULT_NOT_IN_RANGE:
-                                Utility.makeToast(getActivity(), getString(R.string.toast_add_tower_not_in_range), Toast.LENGTH_LONG);
+                                if(VampireLocationManager.isGPSEnabled(getActivity())) {
+                                    Utility.makeToast(getActivity(), getString(R.string.toast_add_tower_not_in_range), Toast.LENGTH_LONG);
+                                } else {
+                                    Utility.makeToast(getActivity(), getString(R.string.toast_add_tower_not_in_range_gps_disabled), Toast.LENGTH_LONG);
+                                }
                                 break;
 
                             case Consts.RESULT_RANGE_CONFLICT:
@@ -985,6 +996,7 @@ public class MapFragment extends BaseFragment
 
     @Override
     public void onCameraMove() {
+        Log.d("TAG", "onCameraMove");
         showTargetOfCamera();
     }
 
@@ -1157,7 +1169,7 @@ public class MapFragment extends BaseFragment
 
     private void turnOnGPS() {
         AlertDialog dialog = new AlertDialog.Builder(getActivity())
-                .setMessage("لطفا GPS خود را روشن کنید.\nوقتی GPS روشن نباشه واقعا نمی تونی بازی کنی. :(")
+                .setMessage("لطفا GPS خود را روشن کنید.\nوقتی GPS روشن نباشه نمی تونی بازی کنی. :(")
                 .setPositiveButton("باشه", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -1168,7 +1180,10 @@ public class MapFragment extends BaseFragment
                 .setNegativeButton("بی‌خیال", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        getActivity().finish();
+                        if (googleMap != null) {
+                            googleMap.setMinZoomPreference(SHOW_IRAN_ZOOM_LEVEL);
+                            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(CENTER_OF_IRAN, SHOW_IRAN_ZOOM_LEVEL));
+                        }
                     }
                 }).show();
         dialog.setCancelable(false);
@@ -1178,9 +1193,7 @@ public class MapFragment extends BaseFragment
     @Override
     public void onBringToFront() {
         super.onBringToFront();
-        Log.d("TAG", "onBringToFront MapFragment " + VampireLocationManager.checkGPS(getActivity()));
-
-        if (!VampireLocationManager.checkGPS(getActivity())) {
+        if (!VampireLocationManager.isGPSEnabled(getActivity())) {
             turnOnGPS();
         }
     }

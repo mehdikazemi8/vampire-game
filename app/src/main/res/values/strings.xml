@@ -11,6 +11,7 @@
 
     <string name="toast_add_tower_ok">تبریک، با موفقیت برج رو اضافه کردی</string>
     <string name="toast_add_tower_not_in_range">فقط می تونی نزدیک خودت برج رو بسازی</string>
+    <string name="toast_add_tower_not_in_range_gps_disabled">لطفا GPS رو روشن کن و برج رو نزدیک خودت بساز</string>
     <string name="toast_add_tower_range_conflict">با یه برج دیگه تداخل داره</string>
 
     <string name="toast_please_try_again_later">مشکلی پیش اومده، لطفا چند لحظه دیگه دوباره امتحان کن</string>
