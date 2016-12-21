@@ -30,6 +30,8 @@ import ir.ugstudio.vampire.cafeutil.IabHelper;
 import ir.ugstudio.vampire.cafeutil.IabResult;
 import ir.ugstudio.vampire.cafeutil.Inventory;
 import ir.ugstudio.vampire.cafeutil.Purchase;
+import ir.ugstudio.vampire.events.CloseIntroductionFragment;
+import ir.ugstudio.vampire.events.OpenIntroductionFragment;
 import ir.ugstudio.vampire.events.OpenTowerWallFragment;
 import ir.ugstudio.vampire.events.ShowTabEvent;
 import ir.ugstudio.vampire.events.StartRealPurchase;
@@ -46,6 +48,7 @@ import ir.ugstudio.vampire.views.activities.main.fragments.RanklistFragment;
 import ir.ugstudio.vampire.views.activities.main.fragments.SettingsFragment;
 import ir.ugstudio.vampire.views.activities.main.fragments.StoreFragment;
 import ir.ugstudio.vampire.views.activities.main.fragments.TowerWallFragment;
+import ir.ugstudio.vampire.views.intro.IntroductionFragment;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -358,6 +361,13 @@ public class MainActivity extends FragmentActivity {
             return;
         }
 
+        if (getSupportFragmentManager().findFragmentByTag(Consts.FRG_INTRO) != null) {
+            getSupportFragmentManager().popBackStack();
+            return;
+        }
+
+
+
         confirmExit();
     }
 
@@ -377,5 +387,22 @@ public class MainActivity extends FragmentActivity {
                     }
                 }).show();
         FontHelper.setKoodakFor(MainActivity.this, (TextView) dialog.findViewById(android.R.id.message));
+    }
+
+    @Subscribe
+    public void onEvent(OpenIntroductionFragment event) {
+        IntroductionFragment fragment = IntroductionFragment.getInstance();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.fragment_holder, fragment, Consts.FRG_INTRO)
+                .addToBackStack(null)
+                .commit();
+    }
+
+    @Subscribe
+    public void onEvent(CloseIntroductionFragment event) {
+        if (getSupportFragmentManager().findFragmentByTag(Consts.FRG_INTRO) != null) {
+            getSupportFragmentManager().popBackStack();
+        }
     }
 }

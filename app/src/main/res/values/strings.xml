@@ -114,6 +114,7 @@
     <string name="icon.settings">E</string>
     <string name="icon.coin">F</string>
     <string name="icon.person">G</string>
+    <string name="icon.info">H</string>
 
     <string-array name="player_type_keys">
         <item>نوع شخصیت</item>

@@ -96,6 +96,20 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
+        <ir.ugstudio.vampire.views.custom.IconButton
+            android:id="@+id/show_intro"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_margin="@dimen/space.medium"
+            android:background="@color/white_smoke"
+            android:minHeight="0dp"
+            android:minWidth="0dp"
+            android:padding="@dimen/space.medium"
+            android:text="@string/icon.info"
+            android:textSize="@dimen/text.size.large" />
+
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/add_tower"
             android:layout_width="wrap_content"

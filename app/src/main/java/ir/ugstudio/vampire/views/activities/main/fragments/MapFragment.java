@@ -51,6 +51,7 @@ import ir.ugstudio.vampire.async.GetPlaces;
 import ir.ugstudio.vampire.async.GetProfile;
 import ir.ugstudio.vampire.events.FinishHealMode;
 import ir.ugstudio.vampire.events.GetProfileEvent;
+import ir.ugstudio.vampire.events.OpenIntroductionFragment;
 import ir.ugstudio.vampire.events.RefreshAroundTowerEvent;
 import ir.ugstudio.vampire.events.ShowTabEvent;
 import ir.ugstudio.vampire.listeners.OnCompleteListener;
@@ -67,6 +68,7 @@ import ir.ugstudio.vampire.utils.FontHelper;
 import ir.ugstudio.vampire.utils.Utility;
 import ir.ugstudio.vampire.utils.VampireLocationManager;
 import ir.ugstudio.vampire.views.BaseFragment;
+import ir.ugstudio.vampire.views.custom.IconButton;
 import ir.ugstudio.vampire.views.dialogs.AttackDialog;
 import ir.ugstudio.vampire.views.dialogs.HealDialog;
 import ir.ugstudio.vampire.views.dialogs.TowerDialog;
@@ -118,6 +120,7 @@ public class MapFragment extends BaseFragment
     private FloatingActionButton addTower;
     private FloatingActionButton watchMyTowers;
     private FloatingActionButton collectCoinFromMyTowers;
+    private IconButton showIntro;
 
     private TextView coinIcon;
     private TextView scoreIcon;
@@ -187,6 +190,8 @@ public class MapFragment extends BaseFragment
         coinIcon = (TextView) view.findViewById(R.id.coin_icon);
         scoreIcon = (TextView) view.findViewById(R.id.score_icon);
         rankIcon = (TextView) view.findViewById(R.id.rank_icon);
+
+        showIntro = (IconButton) view.findViewById(R.id.show_intro);
     }
 
     private void updateView(User user) {
@@ -209,6 +214,7 @@ public class MapFragment extends BaseFragment
         watchMyTowers.setOnClickListener(this);
         collectCoinFromMyTowers.setOnClickListener(this);
         cancelButton.setOnClickListener(this);
+        showIntro.setOnClickListener(this);
     }
 
     @Override
@@ -819,6 +825,10 @@ public class MapFragment extends BaseFragment
             case R.id.cancel_button:
                 actionCanceled();
                 break;
+
+            case R.id.show_intro:
+                EventBus.getDefault().post(new OpenIntroductionFragment());
+                break;
         }
     }
 
@@ -954,7 +964,7 @@ public class MapFragment extends BaseFragment
                                 break;
 
                             case Consts.RESULT_NOT_IN_RANGE:
-                                if(VampireLocationManager.isGPSEnabled(getActivity())) {
+                                if (VampireLocationManager.isGPSEnabled(getActivity())) {
                                     Utility.makeToast(getActivity(), getString(R.string.toast_add_tower_not_in_range), Toast.LENGTH_LONG);
                                 } else {
                                     Utility.makeToast(getActivity(), getString(R.string.toast_add_tower_not_in_range_gps_disabled), Toast.LENGTH_LONG);
