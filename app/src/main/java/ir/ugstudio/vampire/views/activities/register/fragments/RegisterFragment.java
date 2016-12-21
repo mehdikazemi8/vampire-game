@@ -17,10 +17,14 @@ import android.widget.Toast;
 import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.viewpagerindicator.CirclePageIndicator;
 
+import org.greenrobot.eventbus.EventBus;
+
 import ir.ugstudio.vampire.R;
 import ir.ugstudio.vampire.VampireApp;
 import ir.ugstudio.vampire.async.GetQuotes;
 import ir.ugstudio.vampire.async.GetStoreItems;
+import ir.ugstudio.vampire.events.OpenIntroductionFragment;
+import ir.ugstudio.vampire.events.OpenTowerWallFragment;
 import ir.ugstudio.vampire.managers.AvatarManager;
 import ir.ugstudio.vampire.managers.CacheHandler;
 import ir.ugstudio.vampire.managers.UserHandler;
@@ -65,6 +69,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
         find(view);
         configure();
         configureViewPager(0);
+        EventBus.getDefault().post(new OpenIntroductionFragment());
     }
 
     private void configureViewPager(int type) {

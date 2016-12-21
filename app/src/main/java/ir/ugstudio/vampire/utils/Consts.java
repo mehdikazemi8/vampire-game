@@ -17,6 +17,7 @@ public class Consts {
     public static String SP_STORE_ITEMS = "SP_STORE_ITEMS";
 
     public static String FRG_WALL = "FRG_WALL";
+    public static String FRG_INTRO = "FRG_INTRO";
 
     public static String VIRTUAL_STORE_HEAL = "heal";
 
