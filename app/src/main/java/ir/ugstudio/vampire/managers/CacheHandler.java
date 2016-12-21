@@ -8,7 +8,13 @@ import ir.ugstudio.vampire.utils.Consts;
 
 public class CacheHandler {
     public static Location getLastLocation() {
-        return CacheManager.get(Consts.CACHE_LAST_LOCATION);
+        Location result = CacheManager.get(Consts.CACHE_LAST_LOCATION);
+        if(result == null) {
+            result = new Location("");
+            result.setLatitude(35.711502);
+            result.setLongitude(51.407023);
+        }
+        return result;
     }
 
     public static void setLastLocation(Location location) {
