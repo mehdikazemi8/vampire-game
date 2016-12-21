@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import com.squareup.picasso.Picasso;
 
 import ir.ugstudio.vampire.R;
+import ir.ugstudio.vampire.views.custom.CustomTextView;
 
 public class IntroPagerAdapter extends PagerAdapter {
 
@@ -18,14 +19,25 @@ public class IntroPagerAdapter extends PagerAdapter {
     private LayoutInflater layoutInflater;
 
     private int[] introPictures = {
-            R.drawable.hunt2000,
-            R.drawable.hunt2001,
-            R.drawable.hunt2002,
-            R.drawable.hunt2003,
-            R.drawable.hunt2004,
-            R.drawable.hunt2005,
-            R.drawable.hunt2006,
-            R.drawable.hunt2007,
+            R.drawable.intro01,
+            R.drawable.intro02,
+            R.drawable.intro03,
+            R.drawable.intro04,
+            R.drawable.intro05,
+            R.drawable.intro06,
+            R.drawable.intro07,
+            R.drawable.intro08
+    };
+
+    private int[] introText = {
+            R.string.intro_text_1,
+            R.string.intro_text_2,
+            R.string.intro_text_3,
+            R.string.intro_text_4,
+            R.string.intro_text_5,
+            R.string.intro_text_6,
+            R.string.intro_text_7,
+            R.string.intro_text_8
     };
 
     public IntroPagerAdapter(Context context) {
@@ -49,9 +61,13 @@ public class IntroPagerAdapter extends PagerAdapter {
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
-        View itemView = layoutInflater.inflate(R.layout.pager_item, container, false);
-        ImageView avatar = (ImageView) itemView.findViewById(R.id.avatar);
+        View itemView = layoutInflater.inflate(R.layout.intro_pager_item, container, false);
+        ImageView avatar = (ImageView) itemView.findViewById(R.id.intro_image);
         Picasso.with(context).load(getResource(position)).into(avatar);
+
+        CustomTextView text = (CustomTextView) itemView.findViewById(R.id.text);
+        text.setText(introText[position]);
+
         container.addView(itemView);
         return itemView;
     }

@@ -47,7 +47,8 @@
 
         <activity
             android:name=".views.activities.splash.SplashActivity"
-            android:label="@string/title_activity_splash">
+            android:label="@string/title_activity_splash"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -56,11 +57,13 @@
 
         <activity
             android:name=".views.activities.main.MainActivity"
-            android:label="@string/title_activity_maps"></activity>
+            android:screenOrientation="portrait"
+            android:label="@string/title_activity_maps"/>
 
         <activity
             android:name=".views.activities.register.RegisterActivity"
-            android:label="@string/title_activity_register"></activity>
+            android:screenOrientation="portrait"
+            android:label="@string/title_activity_register"/>
 
         <service android:name=".services.MyFirebaseInstanceIDService">
             <intent-filter>
