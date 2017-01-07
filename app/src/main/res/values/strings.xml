@@ -161,23 +161,27 @@
 
     <integer-array name="real_hunter_store_icons">
         <item>@drawable/real_hunter_1</item>
+        <item>@drawable/real_hunter_2</item>
+        <item>@drawable/real_hunter_3</item>
     </integer-array>
 
     <integer-array name="real_vampire_store_icons">
         <item>@drawable/real_vampire_1</item>
+        <item>@drawable/real_vampire_2</item>
+        <item>@drawable/real_vampire_3</item>
     </integer-array>
 
     <integer-array name="virtual_hunter_store_icons">
-        <item>@drawable/virtual_hunter_1</item>
+        <item>@drawable/virtual_1</item>
         <item>@drawable/virtual_hunter_2</item>
-        <item>@drawable/virtual_hunter_3</item>
+        <item>@drawable/virtual_3</item>
         <item>@drawable/virtual_hunter_4</item>
     </integer-array>
 
     <integer-array name="virtual_vampire_store_icons">
-        <item>@drawable/virtual_vampire_1</item>
+        <item>@drawable/virtual_1</item>
         <item>@drawable/virtual_vampire_2</item>
-        <item>@drawable/virtual_vampire_3</item>
+        <item>@drawable/virtual_3</item>
         <item>@drawable/virtual_vampire_4</item>
     </integer-array>
 

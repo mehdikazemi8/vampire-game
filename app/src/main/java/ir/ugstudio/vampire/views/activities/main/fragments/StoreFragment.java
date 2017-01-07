@@ -8,7 +8,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.Toast;
 
 import org.greenrobot.eventbus.EventBus;
@@ -39,7 +38,6 @@ import retrofit2.Response;
 
 public class StoreFragment extends BaseFragment implements View.OnClickListener {
 
-    private Button startPurchase;
     private RecyclerView virtualItems;
     private RecyclerView realItems;
     private StoreItemAdapterReal realItemsAdapter;
@@ -66,15 +64,19 @@ public class StoreFragment extends BaseFragment implements View.OnClickListener 
     }
 
     private void find(View view) {
-        startPurchase = (Button) view.findViewById(R.id.start_purchase);
         realItems = (RecyclerView) view.findViewById(R.id.real_items);
         virtualItems = (RecyclerView) view.findViewById(R.id.virtual_items);
     }
 
+    private void configForHorizontal(RecyclerView itemsList) {
+        LinearLayoutManager layoutManager
+                = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        itemsList.setLayoutManager(layoutManager);
+    }
+
     private void configure() {
-        startPurchase.setOnClickListener(this);
-        realItems.setLayoutManager(new LinearLayoutManager(getActivity()));
-        virtualItems.setLayoutManager(new LinearLayoutManager(getActivity()));
+        configForHorizontal(realItems);
+        configForHorizontal(virtualItems);
 
         configureRealItems();
         configureVirtualItems();
@@ -148,9 +150,6 @@ public class StoreFragment extends BaseFragment implements View.OnClickListener 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.start_purchase:
-//                EventBus.getDefault().post(new StartRealPurchase());
-                break;
         }
     }
 
