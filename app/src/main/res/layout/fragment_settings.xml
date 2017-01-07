@@ -1,81 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/gray"
+    android:fillViewport="true">
 
     <LinearLayout
-        android:id="@+id/avatar_section"
-        android:layout_width="@dimen/avatar.size.3xlarge"
-        android:layout_height="@dimen/avatar.size.3xlarge"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="@dimen/space.medium"
-        android:layout_marginTop="@dimen/space.medium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <android.support.v4.view.ViewPager
-            android:id="@id/viewpager_avatars"
-            android:layout_width="@dimen/avatar.size.xlarge"
-            android:layout_height="@dimen/avatar.size.xlarge"
-            android:layout_gravity="center_horizontal" />
-
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center_horizontal"
+            android:id="@+id/avatar_section"
+            android:layout_width="@dimen/avatar.size.3xlarge"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="@dimen/space.medium"
+            android:layout_marginTop="@dimen/space.medium"
             android:orientation="vertical">
+
+            <android.support.v4.view.ViewPager
+                android:id="@id/viewpager_avatars"
+                android:layout_width="@dimen/avatar.size.xlarge"
+                android:layout_height="@dimen/avatar.size.xlarge"
+                android:layout_gravity="center_horizontal" />
 
             <com.viewpagerindicator.CirclePageIndicator
                 android:id="@+id/indicator_avatars"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:paddingTop="@dimen/space.small" />
+                android:padding="@dimen/space.large"
+                app:fillColor="@color/zereshki"
+                app:strokeColor="@color/zereshki" />
 
             <ir.ugstudio.vampire.views.custom.CustomButton
                 android:id="@+id/change_avatar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:text="@string/btn_save" />
+                android:background="@drawable/special_button"
+                android:text="@string/btn_save"
+                android:textSize="@dimen/text.size.3medium"
+                android:textStyle="bold" />
+
         </LinearLayout>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/avatar_section"
-        android:orientation="vertical">
-
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="invisible">
 
-            <ir.ugstudio.vampire.views.custom.CustomButton
-                android:id="@+id/share"
+            <ir.ugstudio.vampire.views.custom.CustomTextView
+                android:id="@+id/username"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/space.medium"
-                android:text="اشتراک گذاری با دوستان" />
+                android:layout_gravity="center_vertical"
+                android:textSize="@dimen/text.size.3medium"
+                android:textStyle="bold" />
 
-            <ir.ugstudio.vampire.views.custom.CustomButton
-                android:id="@+id/rate"
+            <ImageView
+                android:id="@+id/role_avatar"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/space.medium"
-                android:text="نظر دادن" />
+                android:layout_height="wrap_content" />
         </LinearLayout>
 
-        <ir.ugstudio.vampire.views.custom.CustomButton
-            android:id="@+id/logout"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="@string/btn_logout" />
+            android:orientation="vertical">
+
+            <ir.ugstudio.vampire.views.custom.CustomButton
+                android:id="@+id/share"
+                style="@style/settings_action"
+                android:layout_width="wrap_content"
+                android:text="@string/btn_share" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/zereshki_trans1" />
+
+            <ir.ugstudio.vampire.views.custom.CustomButton
+                android:id="@+id/rate"
+                style="@style/settings_action"
+                android:layout_width="match_parent"
+                android:text="@string/btn_rate" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/zereshki_trans1" />
+
+            <ir.ugstudio.vampire.views.custom.CustomButton
+                android:id="@+id/logout"
+                style="@style/settings_action"
+                android:layout_width="match_parent"
+                android:text="@string/btn_logout" />
+
+        </LinearLayout>
 
     </LinearLayout>
 
-</RelativeLayout>
+</ScrollView>

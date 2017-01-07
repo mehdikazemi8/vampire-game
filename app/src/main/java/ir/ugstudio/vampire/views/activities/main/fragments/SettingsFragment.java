@@ -10,7 +10,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
+import com.squareup.picasso.Picasso;
 import com.viewpagerindicator.CirclePageIndicator;
 
 import ir.ugstudio.vampire.R;
@@ -22,6 +24,7 @@ import ir.ugstudio.vampire.managers.CacheHandler;
 import ir.ugstudio.vampire.managers.SharedPrefManager;
 import ir.ugstudio.vampire.views.BaseFragment;
 import ir.ugstudio.vampire.views.custom.CustomButton;
+import ir.ugstudio.vampire.views.custom.CustomTextView;
 import ir.ugstudio.vampire.views.custom.avatar.CustomPagerAdapter;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -30,13 +33,13 @@ import retrofit2.Response;
 
 public class SettingsFragment extends BaseFragment implements View.OnClickListener {
 
+    CustomTextView username;
+    ImageView roleAvatar;
     private ViewPager viewPager;
     private CustomPagerAdapter pagerAdapter;
     private CirclePageIndicator indicator;
     private ProgressDialog progressDialog;
-
     private int avatarInt = -1;
-
     private CustomButton logout;
     private CustomButton rate;
     private CustomButton share;
@@ -66,6 +69,8 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
         share = (CustomButton) view.findViewById(R.id.share);
         rate = (CustomButton) view.findViewById(R.id.rate);
         changeAvatarBtn = (CustomButton) view.findViewById(R.id.change_avatar);
+        username = (CustomTextView) view.findViewById(R.id.username);
+        roleAvatar = (ImageView) view.findViewById(R.id.role_avatar);
 
         viewPager = (ViewPager) view.findViewById(R.id.viewpager_avatars);
         indicator = (CirclePageIndicator) view.findViewById(R.id.indicator_avatars);
@@ -76,6 +81,13 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
         share.setOnClickListener(this);
         rate.setOnClickListener(this);
         changeAvatarBtn.setOnClickListener(this);
+
+        username.setText(CacheHandler.getUser().getUsername());
+        if (CacheHandler.getUser().getRole().equals("hunter")) {
+            Picasso.with(getActivity()).load(R.drawable.role_hunter).into(roleAvatar);
+        } else {
+            Picasso.with(getActivity()).load(R.drawable.role_vampire).into(roleAvatar);
+        }
     }
 
     private void configureViewPager(int type) {

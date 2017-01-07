@@ -4,6 +4,9 @@
     <string name="purchase">خرید</string>
 
     <string name="btn_logout">خروج از حساب کاربری</string>
+    <string name="btn_rate">نظر دادن</string>
+    <string name="btn_share">اشتراک گذاری با دوستان</string>
+
     <string name="title_activity_maps">ترور</string>
     <string name="title_activity_splash">ترور</string>
     <string name="title_activity_register">ترور</string>
