@@ -2,23 +2,43 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
+    android:layout_marginLeft="@dimen/space.large"
+    android:layout_marginRight="@dimen/space.large"
     android:gravity="center"
     android:orientation="vertical"
     android:paddingTop="@dimen/space.medium">
 
-    <ImageView
-        android:id="@+id/item_icon"
-        android:layout_width="@dimen/avatar.size.medium"
-        android:layout_height="@dimen/avatar.size.medium" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <ImageView
+            android:id="@+id/item_icon"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
 
     <ir.ugstudio.vampire.views.custom.CustomTextView
         android:id="@+id/item_title"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:textColor="@color/zereshki" />
 
     <ir.ugstudio.vampire.views.custom.CustomTextView
         android:id="@+id/item_price"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:textColor="@color/zereshki" />
+
+    <ir.ugstudio.vampire.views.custom.CustomButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/space.medium"
+        android:background="@drawable/special_button"
+        android:text="@string/purchase"
+        android:textSize="@dimen/text.size.3medium"
+        android:textStyle="bold" />
 
 </LinearLayout>

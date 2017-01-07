@@ -10,6 +10,7 @@
 
     <dimen name="text.size.small">10sp</dimen>
     <dimen name="text.size.medium">15sp</dimen>
+    <dimen name="text.size.3medium">18sp</dimen>
     <dimen name="text.size.large">20sp</dimen>
 
     <dimen name="avatar.size.small">70dp</dimen>
