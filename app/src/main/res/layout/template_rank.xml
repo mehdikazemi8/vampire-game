@@ -3,37 +3,57 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:padding="@dimen/space.small">
+    android:orientation="vertical">
 
-    <ir.ugstudio.vampire.views.custom.CustomTextView
-        android:id="@+id/score"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:textSize="@dimen/text.size.medium" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="@dimen/space.small">
 
-    <ir.ugstudio.vampire.views.custom.CustomTextView
-        android:id="@+id/username"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:textSize="@dimen/text.size.medium" />
+        <ir.ugstudio.vampire.views.custom.CustomTextView
+            android:id="@+id/score"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_horizontal|bottom"
+            android:textColor="@color/zereshki"
+            android:textSize="@dimen/text.size.3medium" />
 
-    <ImageView
-        android:id="@+id/avatar"
-        android:layout_width="@dimen/avatar.size.small"
-        android:layout_height="@dimen/avatar.size.small" />
+        <ir.ugstudio.vampire.views.custom.CustomTextView
+            android:id="@+id/username"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_horizontal|bottom"
+            android:textColor="@color/zereshki"
+            android:textSize="@dimen/text.size.3medium"
+            android:textStyle="bold" />
 
-    <ir.ugstudio.vampire.views.custom.CustomTextView
-        android:id="@+id/rank"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:gravity="center_vertical"
-        android:paddingLeft="@dimen/space.medium"
-        android:paddingRight="@dimen/space.medium"
-        android:textSize="@dimen/text.size.medium" />
+        <ImageView
+            android:id="@+id/avatar"
+            android:layout_width="@dimen/avatar.size.small"
+            android:layout_height="@dimen/avatar.size.small"
+            android:adjustViewBounds="true" />
+
+        <ir.ugstudio.vampire.views.custom.CustomTextView
+            android:id="@+id/rank"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal|bottom"
+            android:paddingLeft="@dimen/space.medium"
+            android:paddingRight="@dimen/space.medium"
+            android:textColor="@color/zereshki"
+            android:textSize="@dimen/text.size.3medium"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="@dimen/space.medium"
+        android:layout_marginRight="@dimen/space.medium"
+        android:background="@color/zereshki_trans1" />
 
 </LinearLayout>

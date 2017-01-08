@@ -154,6 +154,17 @@
         <item>@drawable/hunt2007</item>
     </integer-array>
 
+    <integer-array name="hunters_mono">
+        <item>@drawable/hunt_mono2000</item>
+        <item>@drawable/hunt_mono2001</item>
+        <item>@drawable/hunt_mono2002</item>
+        <item>@drawable/hunt_mono2003</item>
+        <item>@drawable/hunt_mono2004</item>
+        <item>@drawable/hunt_mono2005</item>
+        <item>@drawable/hunt_mono2006</item>
+        <item>@drawable/hunt_mono2007</item>
+    </integer-array>
+
     <integer-array name="vampires">
         <item>@drawable/vamp1000</item>
         <item>@drawable/vamp1001</item>
@@ -164,6 +175,18 @@
         <item>@drawable/vamp1006</item>
         <item>@drawable/vamp1007</item>
     </integer-array>
+
+    <integer-array name="vampires_mono">
+        <item>@drawable/vamp_mono1000</item>
+        <item>@drawable/vamp_mono1001</item>
+        <item>@drawable/vamp_mono1002</item>
+        <item>@drawable/vamp_mono1003</item>
+        <item>@drawable/vamp_mono1004</item>
+        <item>@drawable/vamp_mono1005</item>
+        <item>@drawable/vamp_mono1006</item>
+        <item>@drawable/vamp_mono1007</item>
+    </integer-array>
+
 
     <integer-array name="real_hunter_store_icons">
         <item>@drawable/real_hunter_1</item>

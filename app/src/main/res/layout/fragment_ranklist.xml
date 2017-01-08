@@ -8,7 +8,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="@dimen/space.small">
+        android:padding="@dimen/space.small"
+        android:visibility="gone">
 
         <ir.ugstudio.vampire.views.custom.CustomTextView
             style="@style/rank_top_of_list"

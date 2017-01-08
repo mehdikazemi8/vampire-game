@@ -8,27 +8,31 @@ import android.graphics.BitmapFactory;
 import ir.ugstudio.vampire.R;
 
 public class AvatarManager {
-    static int[] vampires = null;
-    static int[] hunters = null;
+    private static int[] vampires = null;
+    private static int[] hunters = null;
+    private static int[] vampiresMono = null;
+    private static int[] huntersMono = null;
 
     public static Bitmap getBitmap(Context context, int position) {
         return BitmapFactory.decodeResource(context.getResources(), getResourceId(context, position));
     }
 
-    private static void load(Context context) {
-        TypedArray vampiresTypedArray = context.getResources().obtainTypedArray(R.array.vampires);
-        int lengthVampires = vampiresTypedArray.length();
-        vampires = new int[lengthVampires];
-        for (int i = 0; i < lengthVampires; i++)
-            vampires[i] = vampiresTypedArray.getResourceId(i, 0);
-        vampiresTypedArray.recycle();
-
-        TypedArray huntersTypedArray = context.getResources().obtainTypedArray(R.array.hunters);
-        int length = huntersTypedArray.length();
-        hunters = new int[length];
+    private static int[] load(Context context, int resId) {
+        TypedArray typedArray = context.getResources().obtainTypedArray(resId);
+        int length = typedArray.length();
+        int[] resultArray = new int[length];
         for (int i = 0; i < length; i++)
-            hunters[i] = huntersTypedArray.getResourceId(i, 0);
-        huntersTypedArray.recycle();
+            resultArray[i] = typedArray.getResourceId(i, 0);
+        typedArray.recycle();
+        return resultArray;
+    }
+
+    private static void load(Context context) {
+        vampires = load(context, R.array.vampires);
+        vampiresMono = load(context, R.array.vampires_mono);
+
+        hunters = load(context, R.array.hunters);
+        huntersMono = load(context, R.array.hunters_mono);
     }
 
     public static int getResourceId(Context context, int position) {
@@ -47,6 +51,25 @@ public class AvatarManager {
                 return hunters[position];
             else
                 return hunters[hunters.length - 1];
+        }
+    }
+
+    public static int getResourceIdMono(Context context, int position) {
+        if (vampiresMono == null)
+            load(context);
+
+        if (position < 2000) {
+            position -= 1000;
+            if (0 <= position && position < vampiresMono.length)
+                return vampiresMono[position];
+            else
+                return vampiresMono[vampiresMono.length - 1];
+        } else {
+            position -= 2000;
+            if (0 <= position && position < huntersMono.length)
+                return huntersMono[position];
+            else
+                return huntersMono[huntersMono.length - 1];
         }
     }
 
