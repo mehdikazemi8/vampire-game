@@ -6,21 +6,22 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import ir.ugstudio.vampire.R;
+import ir.ugstudio.vampire.views.custom.CustomTextView;
 
 public class NotificationViewHolder extends RecyclerView.ViewHolder {
-    public TextView created;
-    public TextView message;
-    public TextView username;
-    public TextView lostCoin;
+    public CustomTextView created;
+    public CustomTextView message;
+    public CustomTextView username;
+    public CustomTextView lostCoin;
     public ImageView avatar;
 
     public NotificationViewHolder(View view) {
         super(view);
 
-        created = (TextView) view.findViewById(R.id.created);
-        message = (TextView) view.findViewById(R.id.message);
-        username = (TextView) view.findViewById(R.id.username);
-        lostCoin = (TextView) view.findViewById(R.id.lost_coin);
+        created = (CustomTextView) view.findViewById(R.id.created);
+        message = (CustomTextView) view.findViewById(R.id.message);
+        username = (CustomTextView) view.findViewById(R.id.username);
+        lostCoin = (CustomTextView) view.findViewById(R.id.lost_coin);
         avatar = (ImageView) view.findViewById(R.id.avatar);
     }
 }
