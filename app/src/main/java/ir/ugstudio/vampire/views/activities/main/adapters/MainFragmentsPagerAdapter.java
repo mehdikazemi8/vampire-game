@@ -10,7 +10,8 @@ import ir.ugstudio.vampire.views.activities.main.MainActivity;
 
 public class MainFragmentsPagerAdapter extends FragmentPagerAdapter {
     // TODO must be filled by reading resources (e.g. icon.home, icon.settings)
-    private String tabTitles[] = new String[] { "E", "D", "C", "B", "A" };
+//    private String tabTitles[] = new String[] { "E", "D", "C", "B", "A" };
+    private String tabTitles[] = new String[] { "", "", "", "", "" };
     private Context context = null;
 
     public MainFragmentsPagerAdapter(FragmentManager fm, Context context) {

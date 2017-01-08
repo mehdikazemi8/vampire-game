@@ -13,6 +13,8 @@
             android:id="@+id/sliding_tabs"
             android:layout_width="match_parent"
             android:layout_height="?android:attr/actionBarSize"
+            android:background="@color/white"
+            app:tabIndicatorColor="@color/zereshki"
             app:tabMode="fixed"
             app:tabTextAppearance="@style/MyCustomTabTextAppearance" />
 

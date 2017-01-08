@@ -191,4 +191,12 @@
         <item>@drawable/virtual_vampire_4</item>
     </integer-array>
 
+    <integer-array name="tab_icons">
+        <item>@drawable/tab_settings</item>
+        <item>@drawable/tab_store</item>
+        <item>@drawable/tab_notification</item>
+        <item>@drawable/tab_ranklist</item>
+        <item>@drawable/tab_map</item>
+    </integer-array>
+
 </resources>

@@ -3,6 +3,7 @@ package ir.ugstudio.vampire.views.activities.main;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.TypedArray;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -157,8 +158,24 @@ public class MainActivity extends FragmentActivity {
     }
 
     private void configure() {
-        configureTabLayoutFont();
+//        configureTabLayoutFont();
+        configureTabLayoutIcons();
         configureViewPager();
+    }
+
+    private void configureTabLayoutIcons() {
+        TypedArray tabIconsTypedArray = getResources().obtainTypedArray(R.array.tab_icons);
+        int length = tabIconsTypedArray.length();
+        int[] tabIconIds = new int[length];
+        for (int i = 0; i < length; i++)
+            tabIconIds[i] = tabIconsTypedArray.getResourceId(i, 0);
+        tabIconsTypedArray.recycle();
+
+        for (int i = 0; i < tabLayout.getTabCount(); i++) {
+            View view1 = getLayoutInflater().inflate(R.layout.custom_tab, null);
+            view1.findViewById(R.id.icon).setBackgroundResource(tabIconIds[i]);
+            tabLayout.getTabAt(i).setCustomView(view1);
+        }
     }
 
     private void configureViewPager() {
@@ -365,9 +382,7 @@ public class MainActivity extends FragmentActivity {
             getSupportFragmentManager().popBackStack();
             return;
         }
-
-
-
+        
         confirmExit();
     }
 
