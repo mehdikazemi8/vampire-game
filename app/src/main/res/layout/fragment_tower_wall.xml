@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/pumice"
+    android:background="@color/gray"
     android:clickable="true"
     android:orientation="vertical">
 
@@ -10,7 +10,7 @@
         android:id="@+id/action_bar"
         android:layout_width="match_parent"
         android:layout_height="?android:attr/actionBarSize"
-        android:background="@color/cascade"
+        android:background="@color/white"
         android:orientation="horizontal">
 
         <ImageView
@@ -41,15 +41,19 @@
             android:id="@+id/message"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/space.small"
+            android:layout_marginRight="@dimen/space.small"
             android:layout_weight="5"
             android:background="@drawable/edit_text_border"
             android:hint="@string/enter_message"
-            android:padding="@dimen/space.small" />
+            android:paddingLeft="@dimen/space.small"
+            android:paddingRight="@dimen/space.small" />
 
         <ir.ugstudio.vampire.views.custom.CustomButton
             android:id="@+id/submit_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/special_button"
             android:text="@string/btn_submit_message" />
     </LinearLayout>
 
