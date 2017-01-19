@@ -40,7 +40,7 @@ public class RankViewAdapter extends RecyclerView.Adapter<RankViewHolder> {
         holder.score.setText(String.valueOf(items.get(position).getScore()));
 
         Picasso.with(context).load(
-                AvatarManager.getResourceIdMono(context, items.get(position).getAvatar())
+                AvatarManager.getResourceId(context, items.get(position).getAvatar())
         ).into(holder.avatar);
     }
 
