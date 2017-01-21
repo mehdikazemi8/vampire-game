@@ -6,9 +6,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.greenrobot.eventbus.EventBus;
+
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 import ir.ugstudio.vampire.R;
+import ir.ugstudio.vampire.events.TowerAddEvent;
+import ir.ugstudio.vampire.events.TowerCollectCoinsEvent;
+import ir.ugstudio.vampire.events.TowerWatchEvent;
 import ir.ugstudio.vampire.views.BaseFragment;
 
 public class TowerActionsFragment extends BaseFragment {
@@ -36,5 +42,23 @@ public class TowerActionsFragment extends BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    @OnClick(R.id.add_tower)
+    public void addTower() {
+        getFragmentManager().popBackStack();
+        EventBus.getDefault().post(new TowerAddEvent());
+    }
+
+    @OnClick(R.id.watch_my_towers)
+    public void watchMyTowers() {
+        getFragmentManager().popBackStack();
+        EventBus.getDefault().post(new TowerWatchEvent());
+    }
+
+    @OnClick(R.id.collect_coin_from_my_towers)
+    public void collectCoins() {
+        getFragmentManager().popBackStack();
+        EventBus.getDefault().post(new TowerCollectCoinsEvent());
     }
 }

@@ -54,6 +54,9 @@ import ir.ugstudio.vampire.events.GetProfileEvent;
 import ir.ugstudio.vampire.events.OpenIntroductionFragment;
 import ir.ugstudio.vampire.events.RefreshAroundTowerEvent;
 import ir.ugstudio.vampire.events.ShowTabEvent;
+import ir.ugstudio.vampire.events.TowerAddEvent;
+import ir.ugstudio.vampire.events.TowerCollectCoinsEvent;
+import ir.ugstudio.vampire.events.TowerWatchEvent;
 import ir.ugstudio.vampire.listeners.OnCompleteListener;
 import ir.ugstudio.vampire.managers.AnalyticsManager;
 import ir.ugstudio.vampire.managers.CacheHandler;
@@ -118,9 +121,9 @@ public class MapFragment extends BaseFragment
 
     private FloatingActionButton cancelButton;
     private FloatingActionButton showNextTower;
-    private FloatingActionButton addTower;
-    private FloatingActionButton watchMyTowers;
-    private FloatingActionButton collectCoinFromMyTowers;
+//    private FloatingActionButton addTower;
+//    private FloatingActionButton watchMyTowers;
+//    private FloatingActionButton collectCoinFromMyTowers;
     private FloatingActionButton actionsButton;
     private IconButton showIntro;
 
@@ -185,9 +188,9 @@ public class MapFragment extends BaseFragment
 
         cancelButton = (FloatingActionButton) view.findViewById(R.id.cancel_button);
         showNextTower = (FloatingActionButton) view.findViewById(R.id.show_next_tower);
-        addTower = (FloatingActionButton) view.findViewById(R.id.add_tower);
-        collectCoinFromMyTowers = (FloatingActionButton) view.findViewById(R.id.collect_coin_from_my_towers);
-        watchMyTowers = (FloatingActionButton) view.findViewById(R.id.watch_my_towers);
+//        addTower = (FloatingActionButton) view.findViewById(R.id.add_tower);
+//        collectCoinFromMyTowers = (FloatingActionButton) view.findViewById(R.id.collect_coin_from_my_towers);
+//        watchMyTowers = (FloatingActionButton) view.findViewById(R.id.watch_my_towers);
         actionsButton = (FloatingActionButton) view.findViewById(R.id.actions_button);
 
         coinIcon = (TextView) view.findViewById(R.id.coin_icon);
@@ -213,9 +216,9 @@ public class MapFragment extends BaseFragment
         updateView(CacheHandler.getUser());
 
         showNextTower.setOnClickListener(this);
-        addTower.setOnClickListener(this);
-        watchMyTowers.setOnClickListener(this);
-        collectCoinFromMyTowers.setOnClickListener(this);
+//        addTower.setOnClickListener(this);
+//        watchMyTowers.setOnClickListener(this);
+//        collectCoinFromMyTowers.setOnClickListener(this);
         cancelButton.setOnClickListener(this);
         showIntro.setOnClickListener(this);
         actionsButton.setOnClickListener(this);
@@ -669,17 +672,17 @@ public class MapFragment extends BaseFragment
     private void revertButtonsState(boolean buttonsVisible, boolean isAddTowerMode) {
         Log.d("TAG", "revertButtonsState " + buttonsVisible);
         if (!buttonsVisible) {
-            addTower.setVisibility(View.INVISIBLE);
-            collectCoinFromMyTowers.setVisibility(View.INVISIBLE);
-            watchMyTowers.setVisibility(View.INVISIBLE);
+            actionsButton.setVisibility(View.INVISIBLE);
+//            collectCoinFromMyTowers.setVisibility(View.INVISIBLE);
+//            watchMyTowers.setVisibility(View.INVISIBLE);
 
             cancelButton.setVisibility(View.VISIBLE);
             if (!isAddTowerMode)
                 showNextTower.setVisibility(View.VISIBLE);
         } else {
-            addTower.setVisibility(View.VISIBLE);
-            collectCoinFromMyTowers.setVisibility(View.VISIBLE);
-            watchMyTowers.setVisibility(View.VISIBLE);
+            actionsButton.setVisibility(View.VISIBLE);
+//            collectCoinFromMyTowers.setVisibility(View.VISIBLE);
+//            watchMyTowers.setVisibility(View.VISIBLE);
 
             cancelButton.setVisibility(View.INVISIBLE);
             showNextTower.setVisibility(View.INVISIBLE);
@@ -807,20 +810,17 @@ public class MapFragment extends BaseFragment
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.collect_coin_from_my_towers:
-                AnalyticsManager.logEvent(AnalyticsManager.FAB_TAPPED, "collect_coin");
-                startCollectCoinsMode();
-                break;
-
-            case R.id.watch_my_towers:
-                AnalyticsManager.logEvent(AnalyticsManager.FAB_TAPPED, "watch_towers");
-                startWatchMyTowersMode();
-                break;
-
-            case R.id.add_tower:
-                AnalyticsManager.logEvent(AnalyticsManager.FAB_TAPPED, "add_tower");
-                handleAddTower();
-                break;
+//            case R.id.collect_coin_from_my_towers:
+//                startCollectCoinsMode();
+//                break;
+//
+//            case R.id.watch_my_towers:
+//                startWatchMyTowersMode();
+//                break;
+//
+//            case R.id.add_tower:
+//                handleAddTower();
+//                break;
 
             case R.id.show_next_tower:
                 showNextTowerToWatch();
@@ -1214,6 +1214,24 @@ public class MapFragment extends BaseFragment
         if (!VampireLocationManager.isGPSEnabled(getActivity())) {
             turnOnGPS();
         }
+    }
+
+    @Subscribe
+    public void onEvent(TowerAddEvent event) {
+        handleAddTower();
+        AnalyticsManager.logEvent(AnalyticsManager.FAB_TAPPED, "add_tower");
+    }
+
+    @Subscribe
+    public void onEvent(TowerWatchEvent event) {
+        startWatchMyTowersMode();
+        AnalyticsManager.logEvent(AnalyticsManager.FAB_TAPPED, "watch_towers");
+    }
+
+    @Subscribe
+    public void onEvent(TowerCollectCoinsEvent event) {
+        startCollectCoinsMode();
+        AnalyticsManager.logEvent(AnalyticsManager.FAB_TAPPED, "collect_coin");
     }
 
 }

@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white_trans1"
+    android:clickable="true"
     android:orientation="vertical">
 
     <LinearLayout
@@ -18,8 +19,25 @@
             android:orientation="vertical">
 
             <ir.ugstudio.vampire.views.custom.CustomButton
+                android:id="@+id/collect_coin_from_my_towers"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Collect" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <ir.ugstudio.vampire.views.custom.CustomButton
+                android:id="@+id/watch_my_towers"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:text="Watch" />
 
         </LinearLayout>
@@ -31,22 +49,11 @@
             android:orientation="vertical">
 
             <ir.ugstudio.vampire.views.custom.CustomButton
+                android:id="@+id/add_tower"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Watch" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-            <ir.ugstudio.vampire.views.custom.CustomButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Watch" />
+                android:layout_gravity="center"
+                android:text="Create" />
 
         </LinearLayout>
 
