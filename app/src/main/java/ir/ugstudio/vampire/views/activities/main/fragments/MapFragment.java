@@ -68,6 +68,7 @@ import ir.ugstudio.vampire.utils.FontHelper;
 import ir.ugstudio.vampire.utils.Utility;
 import ir.ugstudio.vampire.utils.VampireLocationManager;
 import ir.ugstudio.vampire.views.BaseFragment;
+import ir.ugstudio.vampire.views.activities.main.MainActivity;
 import ir.ugstudio.vampire.views.custom.IconButton;
 import ir.ugstudio.vampire.views.dialogs.AttackDialog;
 import ir.ugstudio.vampire.views.dialogs.HealDialog;
@@ -120,6 +121,7 @@ public class MapFragment extends BaseFragment
     private FloatingActionButton addTower;
     private FloatingActionButton watchMyTowers;
     private FloatingActionButton collectCoinFromMyTowers;
+    private FloatingActionButton actionsButton;
     private IconButton showIntro;
 
     private TextView coinIcon;
@@ -186,6 +188,7 @@ public class MapFragment extends BaseFragment
         addTower = (FloatingActionButton) view.findViewById(R.id.add_tower);
         collectCoinFromMyTowers = (FloatingActionButton) view.findViewById(R.id.collect_coin_from_my_towers);
         watchMyTowers = (FloatingActionButton) view.findViewById(R.id.watch_my_towers);
+        actionsButton = (FloatingActionButton) view.findViewById(R.id.actions_button);
 
         coinIcon = (TextView) view.findViewById(R.id.coin_icon);
         scoreIcon = (TextView) view.findViewById(R.id.score_icon);
@@ -215,6 +218,7 @@ public class MapFragment extends BaseFragment
         collectCoinFromMyTowers.setOnClickListener(this);
         cancelButton.setOnClickListener(this);
         showIntro.setOnClickListener(this);
+        actionsButton.setOnClickListener(this);
     }
 
     @Override
@@ -828,6 +832,10 @@ public class MapFragment extends BaseFragment
 
             case R.id.show_intro:
                 EventBus.getDefault().post(new OpenIntroductionFragment());
+                break;
+
+            case R.id.actions_button:
+                ((MainActivity) (getActivity())).openActionOptionsFragment();
                 break;
         }
     }

@@ -118,6 +118,15 @@
             android:textSize="@dimen/text.size.large" />
 
         <android.support.design.widget.FloatingActionButton
+            android:id="@+id/actions_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_margin="@dimen/space.medium"
+            android:clickable="true" />
+
+        <android.support.design.widget.FloatingActionButton
             android:id="@+id/add_tower"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -128,6 +137,7 @@
             android:layout_marginTop="@dimen/space.small"
             android:clickable="true"
             android:src="@drawable/tower_add"
+            android:visibility="invisible"
             app:backgroundTint="@android:color/black" />
 
         <android.support.design.widget.FloatingActionButton
@@ -151,6 +161,7 @@
             android:layout_margin="@dimen/space.small"
             android:clickable="true"
             android:src="@drawable/tower_eye"
+            android:visibility="invisible"
             app:backgroundTint="@android:color/black" />
 
         <android.support.design.widget.FloatingActionButton
@@ -162,6 +173,7 @@
             android:layout_margin="@dimen/space.small"
             android:clickable="true"
             android:src="@drawable/tower_coin"
+            android:visibility="invisible"
             app:backgroundTint="@android:color/black" />
 
         <android.support.design.widget.FloatingActionButton

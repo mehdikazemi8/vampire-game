@@ -36,6 +36,7 @@ import ir.ugstudio.vampire.events.OpenIntroductionFragment;
 import ir.ugstudio.vampire.events.OpenTowerWallFragment;
 import ir.ugstudio.vampire.events.ShowTabEvent;
 import ir.ugstudio.vampire.events.StartRealPurchase;
+import ir.ugstudio.vampire.interfaces.MainActivityActions;
 import ir.ugstudio.vampire.managers.UserHandler;
 import ir.ugstudio.vampire.models.StoreItemReal;
 import ir.ugstudio.vampire.utils.Consts;
@@ -43,11 +44,13 @@ import ir.ugstudio.vampire.utils.FontHelper;
 import ir.ugstudio.vampire.utils.Utility;
 import ir.ugstudio.vampire.views.BaseFragment;
 import ir.ugstudio.vampire.views.activities.main.adapters.MainFragmentsPagerAdapter;
+import ir.ugstudio.vampire.views.activities.main.fragments.ActionOptionsFragment;
 import ir.ugstudio.vampire.views.activities.main.fragments.MapFragment;
 import ir.ugstudio.vampire.views.activities.main.fragments.NotificationsFragment;
 import ir.ugstudio.vampire.views.activities.main.fragments.RanklistFragment;
 import ir.ugstudio.vampire.views.activities.main.fragments.SettingsFragment;
 import ir.ugstudio.vampire.views.activities.main.fragments.StoreFragment;
+import ir.ugstudio.vampire.views.activities.main.fragments.TowerActionsFragment;
 import ir.ugstudio.vampire.views.activities.main.fragments.TowerWallFragment;
 import ir.ugstudio.vampire.views.intro.IntroductionFragment;
 import okhttp3.ResponseBody;
@@ -55,7 +58,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends FragmentActivity {
+public class MainActivity extends FragmentActivity implements MainActivityActions {
 
     public static final int NUMBER_OF_FRAGMENTS = 5;
     // Debug tag, for logging
@@ -371,19 +374,11 @@ public class MainActivity extends FragmentActivity {
 
     @Override
     public void onBackPressed() {
-//        super.onBackPressed();
-
-        if (getSupportFragmentManager().findFragmentByTag(Consts.FRG_WALL) != null) {
+        if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
             getSupportFragmentManager().popBackStack();
-            return;
+        } else {
+            confirmExit();
         }
-
-        if (getSupportFragmentManager().findFragmentByTag(Consts.FRG_INTRO) != null) {
-            getSupportFragmentManager().popBackStack();
-            return;
-        }
-
-        confirmExit();
     }
 
     private void confirmExit() {
@@ -416,8 +411,39 @@ public class MainActivity extends FragmentActivity {
 
     @Subscribe
     public void onEvent(CloseIntroductionFragment event) {
-        if (getSupportFragmentManager().findFragmentByTag(Consts.FRG_INTRO) != null) {
+        popFragment(Consts.FRG_INTRO);
+    }
+
+    private void popFragment(String tag) {
+        if (getSupportFragmentManager().findFragmentByTag(tag) != null) {
             getSupportFragmentManager().popBackStack();
         }
+    }
+
+    @Override
+    public void openActionOptionsFragment() {
+        Log.d("TAG", "openActionOptionsFragment");
+        ActionOptionsFragment fragment = ActionOptionsFragment.getInstance();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.fragment_holder_whole_page, fragment, Consts.FRG_ACTION_OPTIONS)
+                .addToBackStack(null)
+                .commit();
+    }
+
+    @Override
+    public void openTowerOptionsFragment() {
+        popFragment(Consts.FRG_ACTION_OPTIONS);
+        TowerActionsFragment fragment = TowerActionsFragment.getInstance();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.fragment_holder_whole_page, fragment, Consts.FRG_TOWER_ACTIONS)
+                .addToBackStack(null)
+                .commit();
+    }
+
+    @Override
+    public void openMissionOptionsFragment() {
+
     }
 }
