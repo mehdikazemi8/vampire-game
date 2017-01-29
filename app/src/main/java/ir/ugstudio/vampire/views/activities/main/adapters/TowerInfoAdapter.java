@@ -2,13 +2,17 @@ package ir.ugstudio.vampire.views.activities.main.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.List;
 
 import ir.ugstudio.vampire.R;
+import ir.ugstudio.vampire.events.OpenTowerWallFragment;
 import ir.ugstudio.vampire.models.Tower;
 
 public class TowerInfoAdapter extends RecyclerView.Adapter<TowerInfoViewHolder> {
@@ -27,8 +31,16 @@ public class TowerInfoAdapter extends RecyclerView.Adapter<TowerInfoViewHolder> 
     }
 
     @Override
-    public void onBindViewHolder(TowerInfoViewHolder holder, int position) {
+    public void onBindViewHolder(TowerInfoViewHolder holder, final int position) {
         holder.towerOwnersCount.setText(String.valueOf(items.get(position).getOwners().size()));
+
+        holder.rootView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("TAG", "rootView");
+                EventBus.getDefault().post(new OpenTowerWallFragment(items.get(position)));
+            }
+        });
     }
 
     @Override
