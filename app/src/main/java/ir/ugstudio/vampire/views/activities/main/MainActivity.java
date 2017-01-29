@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Typeface;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -40,6 +41,9 @@ import ir.ugstudio.vampire.interfaces.MainActivityActions;
 import ir.ugstudio.vampire.managers.CacheHandler;
 import ir.ugstudio.vampire.managers.UserHandler;
 import ir.ugstudio.vampire.models.StoreItemReal;
+import ir.ugstudio.vampire.models.nearest.NearestBaseObject;
+import ir.ugstudio.vampire.models.nearest.NearestPlayer;
+import ir.ugstudio.vampire.models.nearest.NearestSheep;
 import ir.ugstudio.vampire.models.nearest.NearestTower;
 import ir.ugstudio.vampire.utils.Consts;
 import ir.ugstudio.vampire.utils.FontHelper;
@@ -149,24 +153,44 @@ public class MainActivity extends FragmentActivity implements MainActivityAction
         testGetNearestAPI();
     }
 
+    private void testResponseNearest(NearestBaseObject object) {
+        Log.d("TAG", "testResponseNearest " + (object instanceof NearestSheep));
+        Log.d("TAG", "testResponseNearest " + (object instanceof NearestTower));
+        Log.d("TAG", "testResponseNearest " + (object instanceof NearestPlayer));
+    }
+
     private void testGetNearestAPI() {
         Log.d("TAG", "testGetNearestAPI " + CacheHandler.getUser().getToken());
 
+        Location lastLocation = CacheHandler.getLastLocation();
+        if (lastLocation == null) {
+            return;
+        }
+
         Call<NearestTower> call = VampireApp.createMapApi().getNearestTower(
                 CacheHandler.getUser().getToken(),
-                "tower"
+                "tower",
+                lastLocation.getLatitude(),
+                lastLocation.getLongitude()
         );
         call.enqueue(new Callback<NearestTower>() {
             @Override
             public void onResponse(Call<NearestTower> call, Response<NearestTower> response) {
                 Log.d("TAG", "onResponse " + response.message());
-                Log.d("TAG", "onResponse " + response.body().getDistance());
-                Log.d("TAG", "onResponse " + response.body().getDirection());
+                if (response.isSuccessful()) {
+                    Log.d("TAG", "onResponse " + response.body().getDistance());
+                    Log.d("TAG", "onResponse " + response.body().getDirection());
+                    Log.d("TAG", "onResponse " + response.body().getTarget().getId());
+                    Log.d("TAG", "onResponse " + response.body().getTarget().getCoin());
+                    Log.d("TAG", "onResponse " + response.body().getTarget().getName());
+                    Log.d("TAG", "onResponse " + response.body().getTarget().getAvatar());
+                    testResponseNearest(response.body());
+                }
             }
 
             @Override
             public void onFailure(Call<NearestTower> call, Throwable t) {
-
+                Log.d("TAG", "onResponse onFailure " + t.getMessage());
             }
         });
     }

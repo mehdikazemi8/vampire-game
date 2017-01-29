@@ -110,20 +110,26 @@ public interface MapApi {
     @POST("getnearest")
     Call<NearestTower> getNearestTower(
             @Field("token") String token,
-            @Field("targetType") String targetType
+            @Field("targetType") String targetType,
+            @Field("lat") Double lat,
+            @Field("lng") Double lng
     );
 
     @FormUrlEncoded
     @POST("getnearest")
     Call<NearestSheep> getNearestSheep(
             @Field("token") String token,
-            @Field("targetType") String targetType
+            @Field("targetType") String targetType,
+            @Field("lat") Double lat,
+            @Field("lng") Double lng
     );
 
     @FormUrlEncoded
     @POST("getnearest")
     Call<NearestPlayer> getNearestPlayer(
             @Field("token") String token,
-            @Field("targetType") String targetType
+            @Field("targetType") String targetType,
+            @Field("lat") Double lat,
+            @Field("lng") Double lng
     );
 }

@@ -1,18 +1,9 @@
 package ir.ugstudio.vampire.models.nearest;
 
-import ir.ugstudio.vampire.models.User;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-public class NearestPlayer {
-    private User target;
-
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class NearestPlayer extends NearestBaseObject {
     public NearestPlayer() {
-    }
-
-    public User getTarget() {
-        return target;
-    }
-
-    public void setTarget(User target) {
-        this.target = target;
     }
 }

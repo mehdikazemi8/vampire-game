@@ -98,6 +98,8 @@ public class MapFragment extends BaseFragment
     boolean healMode = false;
     boolean collectCoinsMode = false;
     boolean watchMyTowersMode = false;
+    boolean missionMode = false;
+
     private GoogleMap googleMap;
     private GoogleApiClient mGoogleApiClient = null;
     private Queue<Tower> towersToCollectCoin = new LinkedList<>();

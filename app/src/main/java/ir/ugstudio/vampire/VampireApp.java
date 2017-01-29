@@ -8,6 +8,7 @@ import ir.ugstudio.vampire.api.MapApi;
 import ir.ugstudio.vampire.api.UserApi;
 import ir.ugstudio.vampire.utils.Config;
 import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.jackson.JacksonConverterFactory;
 
 public class VampireApp extends Application {
@@ -18,7 +19,7 @@ public class VampireApp extends Application {
 
     private static Retrofit getRetrofit() {
         return new Retrofit.Builder().baseUrl(Config.BASE_URL)
-                .addConverterFactory(JacksonConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
                 .build();
     }
 

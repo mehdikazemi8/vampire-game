@@ -72,6 +72,7 @@ public class MissionOptionsFragment extends BaseFragment {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
 
+
                     }
                 })
                 .setNegativeButton("فعلا نه", new DialogInterface.OnClickListener() {

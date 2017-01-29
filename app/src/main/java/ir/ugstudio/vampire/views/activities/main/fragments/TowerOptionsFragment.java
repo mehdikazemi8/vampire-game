@@ -62,17 +62,20 @@ public class TowerOptionsFragment extends BaseFragment {
     @OnClick(R.id.add_tower)
     public void addTower() {
         getFragmentManager().popBackStack();
+        getFragmentManager().popBackStack();
         EventBus.getDefault().post(new TowerAddEvent());
     }
 
     @OnClick(R.id.watch_my_towers)
     public void watchMyTowers() {
         getFragmentManager().popBackStack();
+        getFragmentManager().popBackStack();
         EventBus.getDefault().post(new TowerWatchEvent());
     }
 
     @OnClick(R.id.collect_coin_from_my_towers)
     public void collectCoins() {
+        getFragmentManager().popBackStack();
         getFragmentManager().popBackStack();
         EventBus.getDefault().post(new TowerCollectCoinsEvent());
     }
