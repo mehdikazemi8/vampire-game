@@ -37,8 +37,10 @@ import ir.ugstudio.vampire.events.OpenTowerWallFragment;
 import ir.ugstudio.vampire.events.ShowTabEvent;
 import ir.ugstudio.vampire.events.StartRealPurchase;
 import ir.ugstudio.vampire.interfaces.MainActivityActions;
+import ir.ugstudio.vampire.managers.CacheHandler;
 import ir.ugstudio.vampire.managers.UserHandler;
 import ir.ugstudio.vampire.models.StoreItemReal;
+import ir.ugstudio.vampire.models.nearest.NearestTower;
 import ir.ugstudio.vampire.utils.Consts;
 import ir.ugstudio.vampire.utils.FontHelper;
 import ir.ugstudio.vampire.utils.Utility;
@@ -143,6 +145,30 @@ public class MainActivity extends FragmentActivity implements MainActivityAction
         SendFCMIdToServer.run(FirebaseInstanceId.getInstance().getToken());
 
         configureInAppPurchase();
+
+        testGetNearestAPI();
+    }
+
+    private void testGetNearestAPI() {
+        Log.d("TAG", "testGetNearestAPI " + CacheHandler.getUser().getToken());
+
+        Call<NearestTower> call = VampireApp.createMapApi().getNearestTower(
+                CacheHandler.getUser().getToken(),
+                "tower"
+        );
+        call.enqueue(new Callback<NearestTower>() {
+            @Override
+            public void onResponse(Call<NearestTower> call, Response<NearestTower> response) {
+                Log.d("TAG", "onResponse " + response.message());
+                Log.d("TAG", "onResponse " + response.body().getDistance());
+                Log.d("TAG", "onResponse " + response.body().getDirection());
+            }
+
+            @Override
+            public void onFailure(Call<NearestTower> call, Throwable t) {
+
+            }
+        });
     }
 
     private void setFragments() {
