@@ -47,13 +47,16 @@ import java.util.Queue;
 
 import ir.ugstudio.vampire.R;
 import ir.ugstudio.vampire.VampireApp;
+import ir.ugstudio.vampire.async.GetNearest;
 import ir.ugstudio.vampire.async.GetPlaces;
 import ir.ugstudio.vampire.async.GetProfile;
 import ir.ugstudio.vampire.events.FinishHealMode;
 import ir.ugstudio.vampire.events.GetProfileEvent;
+import ir.ugstudio.vampire.events.NearestResponseEvent;
 import ir.ugstudio.vampire.events.OpenIntroductionFragment;
 import ir.ugstudio.vampire.events.RefreshAroundTowerEvent;
 import ir.ugstudio.vampire.events.ShowTabEvent;
+import ir.ugstudio.vampire.events.StartNearestMissionEvent;
 import ir.ugstudio.vampire.events.TowerAddEvent;
 import ir.ugstudio.vampire.events.TowerCollectCoinsEvent;
 import ir.ugstudio.vampire.events.TowerWatchEvent;
@@ -123,7 +126,7 @@ public class MapFragment extends BaseFragment
 
     private FloatingActionButton cancelButton;
     private FloatingActionButton showNextTower;
-//    private FloatingActionButton addTower;
+    //    private FloatingActionButton addTower;
 //    private FloatingActionButton watchMyTowers;
 //    private FloatingActionButton collectCoinFromMyTowers;
     private FloatingActionButton actionsButton;
@@ -1024,6 +1027,26 @@ public class MapFragment extends BaseFragment
     public void onEvent(PlacesResponse response) {
         Log.d("TAG", "onEvent PlacesResponse " + response.getPlaces().size());
         startHealMode(response.getPlaces());
+    }
+
+    @Subscribe
+    public void onEvent(StartNearestMissionEvent event) {
+        getActivity().getSupportFragmentManager().popBackStack();
+        getActivity().getSupportFragmentManager().popBackStack();
+
+        GetNearest.run(event.getTargetType());
+    }
+
+    @Subscribe
+    public void onEvent(NearestResponseEvent event) {
+        Log.d("TAG", "NearestResponseEvent " + event.getFoundNearest());
+        if (event.getFoundNearest()) {
+            Log.d("TAG", "NearestResponseEvent " + event.getNearestObject().getTarget().getType());
+            String msg = "" + event.getNearestObject().getDistance() + " " + event.getNearestObject().getDirection();
+            Utility.makeToast(getActivity(), msg, Toast.LENGTH_LONG);
+        } else {
+            Utility.makeToast(getActivity(), "Not Found", Toast.LENGTH_LONG);
+        }
     }
 
     private void finishHealMode() {

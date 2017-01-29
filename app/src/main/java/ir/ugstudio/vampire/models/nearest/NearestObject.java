@@ -1,19 +1,16 @@
 package ir.ugstudio.vampire.models.nearest;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.google.gson.annotations.SerializedName;
 
 import ir.ugstudio.vampire.models.BaseModel;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class NearestBaseObject extends BaseModel {
+public class NearestObject extends BaseModel {
     private Double distance;
+    private Double direction;
     private NearestTarget target;
 
-    @SerializedName("radian")
-    private Double direction;
-
-    public NearestBaseObject() {
+    public NearestObject() {
     }
 
     public Double getDistance() {

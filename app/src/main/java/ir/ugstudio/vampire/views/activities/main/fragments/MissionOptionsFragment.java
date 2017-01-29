@@ -10,10 +10,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import org.greenrobot.eventbus.EventBus;
+
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import ir.ugstudio.vampire.R;
+import ir.ugstudio.vampire.events.StartNearestMissionEvent;
 import ir.ugstudio.vampire.utils.FontHelper;
 import ir.ugstudio.vampire.views.BaseFragment;
 
@@ -51,28 +54,33 @@ public class MissionOptionsFragment extends BaseFragment {
         Log.d("TAG", "aaa" + (R.id.mission_tower == view.getId()));
         Log.d("TAG", "aaa" + (R.id.mission_player == view.getId()));
 
+        String targetType = null;
+
         String message = "";
         switch (view.getId()) {
             case R.id.mission_sheep:
                 message = "برای پیدا کردن یک گوسفند که تو نزدیکیات هست باید ۵۰ سکه بپردازی";
+                targetType = "sheep";
                 break;
 
             case R.id.mission_tower:
                 message = "برای پیدا کردن یک برج باید ۲۰۰ سکه بپردازی";
+                targetType = "tower";
                 break;
 
             case R.id.mission_player:
                 message = "برای پیدا کردن یک خون آشام باید ۱۰۰ سکه بپردازی";
+                targetType = "player";
                 break;
         }
 
+        final String finalTargetType = targetType;
         AlertDialog dialog = new AlertDialog.Builder(getActivity())
                 .setMessage(message)
                 .setPositiveButton("حله بریم", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-
-
+                        EventBus.getDefault().post(new StartNearestMissionEvent(finalTargetType));
                     }
                 })
                 .setNegativeButton("فعلا نه", new DialogInterface.OnClickListener() {

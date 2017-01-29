@@ -4,9 +4,7 @@ import ir.ugstudio.vampire.models.MapResponse;
 import ir.ugstudio.vampire.models.PlacesResponse;
 import ir.ugstudio.vampire.models.QuotesResponse;
 import ir.ugstudio.vampire.models.Tower;
-import ir.ugstudio.vampire.models.nearest.NearestPlayer;
-import ir.ugstudio.vampire.models.nearest.NearestSheep;
-import ir.ugstudio.vampire.models.nearest.NearestTower;
+import ir.ugstudio.vampire.models.nearest.NearestObject;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -108,25 +106,7 @@ public interface MapApi {
 
     @FormUrlEncoded
     @POST("getnearest")
-    Call<NearestTower> getNearestTower(
-            @Field("token") String token,
-            @Field("targetType") String targetType,
-            @Field("lat") Double lat,
-            @Field("lng") Double lng
-    );
-
-    @FormUrlEncoded
-    @POST("getnearest")
-    Call<NearestSheep> getNearestSheep(
-            @Field("token") String token,
-            @Field("targetType") String targetType,
-            @Field("lat") Double lat,
-            @Field("lng") Double lng
-    );
-
-    @FormUrlEncoded
-    @POST("getnearest")
-    Call<NearestPlayer> getNearestPlayer(
+    Call<NearestObject> getNearestObject(
             @Field("token") String token,
             @Field("targetType") String targetType,
             @Field("lat") Double lat,

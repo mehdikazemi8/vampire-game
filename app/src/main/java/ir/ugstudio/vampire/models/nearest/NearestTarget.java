@@ -7,6 +7,7 @@ import ir.ugstudio.vampire.models.BaseModel;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class NearestTarget extends BaseModel {
+    private String type;
     private String name;
     private Integer avatar;
     private Integer coin;
@@ -15,6 +16,14 @@ public class NearestTarget extends BaseModel {
     private String id;
 
     public NearestTarget() {
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getId() {
