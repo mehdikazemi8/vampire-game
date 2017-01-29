@@ -44,13 +44,14 @@ import ir.ugstudio.vampire.utils.FontHelper;
 import ir.ugstudio.vampire.utils.Utility;
 import ir.ugstudio.vampire.views.BaseFragment;
 import ir.ugstudio.vampire.views.activities.main.adapters.MainFragmentsPagerAdapter;
-import ir.ugstudio.vampire.views.activities.main.fragments.ActionOptionsFragment;
+import ir.ugstudio.vampire.views.activities.main.fragments.ActionsFragment;
 import ir.ugstudio.vampire.views.activities.main.fragments.MapFragment;
+import ir.ugstudio.vampire.views.activities.main.fragments.MissionOptionsFragment;
 import ir.ugstudio.vampire.views.activities.main.fragments.NotificationsFragment;
 import ir.ugstudio.vampire.views.activities.main.fragments.RanklistFragment;
 import ir.ugstudio.vampire.views.activities.main.fragments.SettingsFragment;
 import ir.ugstudio.vampire.views.activities.main.fragments.StoreFragment;
-import ir.ugstudio.vampire.views.activities.main.fragments.TowerActionsFragment;
+import ir.ugstudio.vampire.views.activities.main.fragments.TowerOptionsFragment;
 import ir.ugstudio.vampire.views.activities.main.fragments.TowerWallFragment;
 import ir.ugstudio.vampire.views.intro.IntroductionFragment;
 import okhttp3.ResponseBody;
@@ -421,29 +422,34 @@ public class MainActivity extends FragmentActivity implements MainActivityAction
     }
 
     @Override
-    public void openActionOptionsFragment() {
-        Log.d("TAG", "openActionOptionsFragment");
-        ActionOptionsFragment fragment = ActionOptionsFragment.getInstance();
+    public void openActionsFragment() {
+        Log.d("TAG", "openActionsFragment");
+        ActionsFragment fragment = ActionsFragment.getInstance();
         getSupportFragmentManager()
                 .beginTransaction()
-                .add(R.id.fragment_holder_whole_page, fragment, Consts.FRG_ACTION_OPTIONS)
+                .add(R.id.fragment_holder_whole_page, fragment, Consts.FRG_ACTIONS)
                 .addToBackStack(null)
                 .commit();
     }
 
     @Override
     public void openTowerOptionsFragment() {
-        popFragment(Consts.FRG_ACTION_OPTIONS);
-        TowerActionsFragment fragment = TowerActionsFragment.getInstance();
+//        popFragment(Consts.FRG_ACTIONS);
+        TowerOptionsFragment fragment = TowerOptionsFragment.getInstance();
         getSupportFragmentManager()
                 .beginTransaction()
-                .add(R.id.fragment_holder_whole_page, fragment, Consts.FRG_TOWER_ACTIONS)
+                .add(R.id.fragment_holder_whole_page, fragment, Consts.FRG_TOWER_OPTIONS)
                 .addToBackStack(null)
                 .commit();
     }
 
     @Override
     public void openMissionOptionsFragment() {
-
+        MissionOptionsFragment fragment = MissionOptionsFragment.getInstance();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.fragment_holder, fragment, Consts.FRG_MISSION_OPTIONS)
+                .addToBackStack(null)
+                .commit();
     }
 }

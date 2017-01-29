@@ -1,7 +1,7 @@
 package ir.ugstudio.vampire.interfaces;
 
 public interface MainActivityActions {
-    public void openActionOptionsFragment();
+    public void openActionsFragment();
 
     public void openTowerOptionsFragment();
 

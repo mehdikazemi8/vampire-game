@@ -13,18 +13,18 @@ import ir.ugstudio.vampire.R;
 import ir.ugstudio.vampire.views.BaseFragment;
 import ir.ugstudio.vampire.views.activities.main.MainActivity;
 
-public class ActionOptionsFragment extends BaseFragment {
+public class ActionsFragment extends BaseFragment {
 
     private Unbinder unbinder;
 
-    public static ActionOptionsFragment getInstance() {
-        return new ActionOptionsFragment();
+    public static ActionsFragment getInstance() {
+        return new ActionsFragment();
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_action_options, container, false);
+        View view = inflater.inflate(R.layout.fragment_actions, container, false);
         unbinder = ButterKnife.bind(this, view);
         return view;
     }

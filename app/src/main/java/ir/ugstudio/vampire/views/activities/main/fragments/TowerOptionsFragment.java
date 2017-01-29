@@ -22,7 +22,7 @@ import ir.ugstudio.vampire.managers.CacheHandler;
 import ir.ugstudio.vampire.views.BaseFragment;
 import ir.ugstudio.vampire.views.activities.main.adapters.TowerInfoAdapter;
 
-public class TowerActionsFragment extends BaseFragment {
+public class TowerOptionsFragment extends BaseFragment {
 
     @BindView(R.id.user_towers)
     RecyclerView userTowers;
@@ -30,14 +30,14 @@ public class TowerActionsFragment extends BaseFragment {
     private TowerInfoAdapter adapter;
     private Unbinder unbinder;
 
-    public static TowerActionsFragment getInstance() {
-        return new TowerActionsFragment();
+    public static TowerOptionsFragment getInstance() {
+        return new TowerOptionsFragment();
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_tower_actions, container, false);
+        View view = inflater.inflate(R.layout.fragment_tower_options, container, false);
         unbinder = ButterKnife.bind(this, view);
         return view;
     }

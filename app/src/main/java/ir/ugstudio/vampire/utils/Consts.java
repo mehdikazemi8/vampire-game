@@ -18,8 +18,9 @@ public class Consts {
 
     public static String FRG_WALL = "FRG_WALL";
     public static String FRG_INTRO = "FRG_INTRO";
-    public static String FRG_ACTION_OPTIONS = "FRG_ACTION_OPTIONS";
-    public static String FRG_TOWER_ACTIONS = "FRG_TOWER_ACTIONS";
+    public static String FRG_ACTIONS = "FRG_ACTIONS";
+    public static String FRG_TOWER_OPTIONS = "FRG_TOWER_OPTIONS";
+    public static String FRG_MISSION_OPTIONS = "FRG_MISSION_OPTIONS";
 
     public static String VIRTUAL_STORE_HEAL = "heal";
 

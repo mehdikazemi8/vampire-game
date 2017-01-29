@@ -835,7 +835,7 @@ public class MapFragment extends BaseFragment
                 break;
 
             case R.id.actions_button:
-                ((MainActivity) (getActivity())).openActionOptionsFragment();
+                ((MainActivity) (getActivity())).openActionsFragment();
                 break;
         }
     }
