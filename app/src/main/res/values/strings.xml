@@ -119,6 +119,7 @@
     <string name="desc.avatar">avatar</string>
 
     <string name="template_notification_message" formatted="false">&#160; ازت %d سکه دزدید و گفت: &#160;</string>
+    <string name="template_nearest_distance" formatted="false">فاصله: %d متر</string>
 
     <string name="message_share" formatted="false">ببین پاشو بیا این اپلیکیشن رو دانلود کن \n وقتی وارد شدی هم این کد رو بزن \n کد من : %s </string>
 

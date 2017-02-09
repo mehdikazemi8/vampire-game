@@ -48,6 +48,7 @@ import java.util.Queue;
 
 import ir.ugstudio.vampire.R;
 import ir.ugstudio.vampire.VampireApp;
+import ir.ugstudio.vampire.async.GetDirection;
 import ir.ugstudio.vampire.async.GetNearest;
 import ir.ugstudio.vampire.async.GetPlaces;
 import ir.ugstudio.vampire.async.GetProfile;
@@ -544,6 +545,10 @@ public class MapFragment extends BaseFragment
 
             }
         });
+
+        if (missionMode) {
+            GetDirection.run(getActivity());
+        }
     }
 
     private void refreshMap(MapResponse response) {
@@ -837,6 +842,22 @@ public class MapFragment extends BaseFragment
         revertButtonsState(true, false);
         clearGoogleMap();
         requestForMap(CacheHandler.getLastLocation().getLatitude(), CacheHandler.getLastLocation().getLongitude(), true);
+    }
+
+    private void startMissionMode() {
+        missionMode = true;
+        openMissionInfoFragment();
+    }
+
+    private void openMissionInfoFragment() {
+        MissionInfoFragment fragment = MissionInfoFragment.getInstance();
+        getActivity().getSupportFragmentManager().beginTransaction()
+                .add(R.id.mission_fragment_holder, fragment, fragment.getClass().getCanonicalName())
+                .commit();
+    }
+
+    private void finishMissionMode() {
+        missionMode = false;
     }
 
     private void startWatchMyTowersMode() {
@@ -1239,6 +1260,8 @@ public class MapFragment extends BaseFragment
             degrees *= -1;
             arrow.setVisibility(View.VISIBLE);
             arrow.setRotation(degrees);
+
+            startMissionMode();
 
         } else {
             Utility.makeToast(getActivity(), "Not Found", Toast.LENGTH_LONG);

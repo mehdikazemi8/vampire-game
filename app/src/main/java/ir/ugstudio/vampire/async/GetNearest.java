@@ -11,7 +11,6 @@ import ir.ugstudio.vampire.events.NearestResponseEvent;
 import ir.ugstudio.vampire.managers.CacheHandler;
 import ir.ugstudio.vampire.managers.SharedPrefHandler;
 import ir.ugstudio.vampire.models.nearest.NearestObject;
-import ir.ugstudio.vampire.views.activities.main.MainActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -29,6 +28,7 @@ public class GetNearest {
                 lastLocation.getLatitude(),
                 lastLocation.getLongitude()
         );
+
         call.enqueue(new Callback<NearestObject>() {
             @Override
             public void onResponse(Call<NearestObject> call, Response<NearestObject> response) {
@@ -38,7 +38,7 @@ public class GetNearest {
                     Log.d("TAG", "onResponse " + response.body().getDirection());
                     Log.d("TAG", "onResponse " + response.body().getTarget().getId());
                     Log.d("TAG", "onResponse " + response.body().getTarget().getCoin());
-                    Log.d("TAG", "onResponse " + response.body().getTarget().getName());
+                    Log.d("TAG", "onResponse " + response.body().getTarget().getUsername());
                     Log.d("TAG", "onResponse " + response.body().getTarget().getAvatar());
 
                     response.body().getTarget().setType(targetType);

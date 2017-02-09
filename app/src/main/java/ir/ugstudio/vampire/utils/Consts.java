@@ -34,4 +34,8 @@ public class Consts {
     public static final String FRG_ACTIONS = "FRG_ACTIONS";
     public static final String FRG_TOWER_OPTIONS = "FRG_TOWER_OPTIONS";
     public static final String FRG_MISSION_OPTIONS = "FRG_MISSION_OPTIONS";
+
+    public static final String TARGET_TYPE_PLAYER = "player";
+    public static final String TARGET_TYPE_SHEEP = "sheep";
+    public static final String TARGET_TYPE_TOWER = "tower";
 }

@@ -112,4 +112,14 @@ public interface MapApi {
             @Field("lat") Double lat,
             @Field("lng") Double lng
     );
+
+    @FormUrlEncoded
+    @POST("getdirection")
+    Call<NearestObject> getDirection(
+            @Field("token") String token,
+            @Field("targetType") String targetType,
+            @Field("targetId") String targetId,
+            @Field("lat") double lat,
+            @Field("lng") double lng
+    );
 }

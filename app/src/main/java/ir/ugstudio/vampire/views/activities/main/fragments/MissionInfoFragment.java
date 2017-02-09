@@ -1,0 +1,104 @@
+package ir.ugstudio.vampire.views.activities.main.fragments;
+
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+
+import com.squareup.picasso.Picasso;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
+import ir.ugstudio.vampire.R;
+import ir.ugstudio.vampire.events.DirectionResponseEvent;
+import ir.ugstudio.vampire.managers.AvatarManager;
+import ir.ugstudio.vampire.managers.SharedPrefHandler;
+import ir.ugstudio.vampire.models.nearest.NearestObject;
+import ir.ugstudio.vampire.utils.Consts;
+import ir.ugstudio.vampire.views.BaseFragment;
+import ir.ugstudio.vampire.views.custom.CustomTextView;
+
+public class MissionInfoFragment extends BaseFragment {
+
+    @BindView(R.id.username)
+    CustomTextView username;
+    @BindView(R.id.coin)
+    CustomTextView coin;
+    @BindView(R.id.distance)
+    CustomTextView distance;
+    @BindView(R.id.avatar)
+    ImageView avatar;
+
+    private Unbinder unbinder;
+
+    public static MissionInfoFragment getInstance() {
+        return new MissionInfoFragment();
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_mission_info, container, false);
+        unbinder = ButterKnife.bind(this, view);
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        updateViewsData();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe
+    public void onEvent(DirectionResponseEvent event) {
+        updateViewsData();
+    }
+
+    private void updateViewsData() {
+        NearestObject nearestObject = SharedPrefHandler.readMissionObject(getActivity());
+        Log.d("TAG", "updateViewsData " + nearestObject.serialize());
+
+        if (nearestObject == null) {
+            return;
+        }
+
+        // todo, optimize this
+        coin.setText(String.valueOf(nearestObject.getTarget().getCoin()));
+        distance.setText(String.format(getString(R.string.template_nearest_distance), nearestObject.getDistance().intValue()));
+
+        if (nearestObject.getTarget().getType().equals(Consts.TARGET_TYPE_PLAYER)) {
+            username.setText(nearestObject.getTarget().getUsername());
+            Picasso.with(getActivity()).load(AvatarManager.getResourceId(getActivity(), nearestObject.getTarget().getAvatar())).into(avatar);
+        } else if (nearestObject.getTarget().getType().equals(Consts.TARGET_TYPE_SHEEP)) {
+            Picasso.with(getActivity()).load(R.drawable.sheep_large).into(avatar);
+        } else {
+            Picasso.with(getActivity()).load(R.drawable.tower).into(avatar);
+        }
+    }
+}

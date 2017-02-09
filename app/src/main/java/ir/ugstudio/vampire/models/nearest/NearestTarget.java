@@ -8,7 +8,7 @@ import ir.ugstudio.vampire.models.BaseModel;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class NearestTarget extends BaseModel {
     private String type;
-    private String name;
+    private String username;
     private Integer avatar;
     private Integer coin;
 
@@ -34,12 +34,12 @@ public class NearestTarget extends BaseModel {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getUsername() {
+        return username;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public Integer getAvatar() {
