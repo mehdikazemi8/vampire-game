@@ -1,5 +1,6 @@
 package ir.ugstudio.vampire.async;
 
+import android.content.Context;
 import android.location.Location;
 import android.util.Log;
 
@@ -8,13 +9,15 @@ import org.greenrobot.eventbus.EventBus;
 import ir.ugstudio.vampire.VampireApp;
 import ir.ugstudio.vampire.events.NearestResponseEvent;
 import ir.ugstudio.vampire.managers.CacheHandler;
+import ir.ugstudio.vampire.managers.SharedPrefHandler;
 import ir.ugstudio.vampire.models.nearest.NearestObject;
+import ir.ugstudio.vampire.views.activities.main.MainActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class GetNearest {
-    public static void run(final String targetType) {
+    public static void run(final Context context, final String targetType) {
         Location lastLocation = CacheHandler.getLastLocation();
         if (lastLocation == null) {
             return;
@@ -39,6 +42,8 @@ public class GetNearest {
                     Log.d("TAG", "onResponse " + response.body().getTarget().getAvatar());
 
                     response.body().getTarget().setType(targetType);
+
+                    SharedPrefHandler.writeMissionObject(context, response.body());
                 }
 
                 EventBus.getDefault().post(new NearestResponseEvent(response.body(), response.isSuccessful()));

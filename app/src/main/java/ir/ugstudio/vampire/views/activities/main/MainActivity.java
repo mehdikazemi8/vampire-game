@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Typeface;
-import android.location.Location;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -38,10 +37,9 @@ import ir.ugstudio.vampire.events.OpenTowerWallFragment;
 import ir.ugstudio.vampire.events.ShowTabEvent;
 import ir.ugstudio.vampire.events.StartRealPurchase;
 import ir.ugstudio.vampire.interfaces.MainActivityActions;
-import ir.ugstudio.vampire.managers.CacheHandler;
+import ir.ugstudio.vampire.managers.SharedPrefHandler;
 import ir.ugstudio.vampire.managers.UserHandler;
 import ir.ugstudio.vampire.models.StoreItemReal;
-import ir.ugstudio.vampire.models.nearest.NearestObject;
 import ir.ugstudio.vampire.utils.Consts;
 import ir.ugstudio.vampire.utils.FontHelper;
 import ir.ugstudio.vampire.utils.Utility;
@@ -249,6 +247,22 @@ public class MainActivity extends FragmentActivity implements MainActivityAction
         }
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mHelper != null) mHelper.dispose();
+        mHelper = null;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+            getSupportFragmentManager().popBackStack();
+        } else {
+            confirmExit();
+        }
+    }
+
     private void configureInAppPurchase() {
         // TODO
         String base64EncodedPublicKey = "MIHNMA0GCSqGSIb3DQEBAQUAA4G7ADCBtwKBrwDc/CHiRKlKgfAcz7F2SgSyYOnH7RTbLT8yD/99DMKMVP+dF8Tr2nuYSR+G/buK6UiR+ST+nQFE8KYGNMSEaCd5ONTIXwx6YKb8ORLFNdRmUxR6wf60BnRsfYSm7uP2VhIMtFyH2MAJXLFVA31T7WAjvufg5vvZR4iq7yih8RWvVtgfVY8QVh0hzPh25LqiXuS/Ysymfe1R+fsNuchXwd2ZPSVmR1FTVpyVbX8oN3sCAwEAAQ==";
@@ -269,40 +283,6 @@ public class MainActivity extends FragmentActivity implements MainActivityAction
                 mHelper.queryInventoryAsync(mGotInventoryListener);
             }
         });
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if (mHelper != null) mHelper.dispose();
-        mHelper = null;
-    }
-
-    @Subscribe
-    public void onEvent(StartRealPurchase event) {
-        if (mHelper != null) {
-            startRealPurchase(event.getItem());
-        } else {
-            Utility.makeToast(this, getString(R.string.toast_cant_start_real_purchase), Toast.LENGTH_SHORT);
-        }
-    }
-
-    @Subscribe
-    public void onEvent(ShowTabEvent event) {
-        viewPager.setCurrentItem(event.getTabIndex());
-    }
-
-    @Subscribe
-    public void onEvent(OpenTowerWallFragment event) {
-        TowerWallFragment fragment = TowerWallFragment.getInstance();
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("tower", event.getTower());
-        fragment.setArguments(bundle);
-        getSupportFragmentManager()
-                .beginTransaction()
-                .add(R.id.fragment_holder, fragment, Consts.FRG_WALL)
-                .addToBackStack(null)
-                .commit();
     }
 
     private void startRealPurchase(StoreItemReal item) {
@@ -378,15 +358,6 @@ public class MainActivity extends FragmentActivity implements MainActivityAction
         });
     }
 
-    @Override
-    public void onBackPressed() {
-        if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
-            getSupportFragmentManager().popBackStack();
-        } else {
-            confirmExit();
-        }
-    }
-
     private void confirmExit() {
         AlertDialog dialog = new AlertDialog.Builder(MainActivity.this)
                 .setMessage("مطمئنی می خوای خارج بشی؟")
@@ -403,21 +374,6 @@ public class MainActivity extends FragmentActivity implements MainActivityAction
                     }
                 }).show();
         FontHelper.setKoodakFor(MainActivity.this, (TextView) dialog.findViewById(android.R.id.message));
-    }
-
-    @Subscribe
-    public void onEvent(OpenIntroductionFragment event) {
-        IntroductionFragment fragment = IntroductionFragment.getInstance();
-        getSupportFragmentManager()
-                .beginTransaction()
-                .add(R.id.fragment_holder, fragment, Consts.FRG_INTRO)
-                .addToBackStack(null)
-                .commit();
-    }
-
-    @Subscribe
-    public void onEvent(CloseIntroductionFragment event) {
-        popFragment(Consts.FRG_INTRO);
     }
 
     private void popFragment(String tag) {
@@ -454,6 +410,48 @@ public class MainActivity extends FragmentActivity implements MainActivityAction
         getSupportFragmentManager()
                 .beginTransaction()
                 .add(R.id.fragment_holder, fragment, Consts.FRG_MISSION_OPTIONS)
+                .addToBackStack(null)
+                .commit();
+    }
+
+    @Subscribe
+    public void onEvent(OpenIntroductionFragment event) {
+        IntroductionFragment fragment = IntroductionFragment.getInstance();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.fragment_holder, fragment, Consts.FRG_INTRO)
+                .addToBackStack(null)
+                .commit();
+    }
+
+    @Subscribe
+    public void onEvent(CloseIntroductionFragment event) {
+        popFragment(Consts.FRG_INTRO);
+    }
+
+    @Subscribe
+    public void onEvent(StartRealPurchase event) {
+        if (mHelper != null) {
+            startRealPurchase(event.getItem());
+        } else {
+            Utility.makeToast(this, getString(R.string.toast_cant_start_real_purchase), Toast.LENGTH_SHORT);
+        }
+    }
+
+    @Subscribe
+    public void onEvent(ShowTabEvent event) {
+        viewPager.setCurrentItem(event.getTabIndex());
+    }
+
+    @Subscribe
+    public void onEvent(OpenTowerWallFragment event) {
+        TowerWallFragment fragment = TowerWallFragment.getInstance();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("tower", event.getTower());
+        fragment.setArguments(bundle);
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.fragment_holder, fragment, Consts.FRG_WALL)
                 .addToBackStack(null)
                 .commit();
     }

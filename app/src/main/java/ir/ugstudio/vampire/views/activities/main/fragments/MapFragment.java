@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -124,6 +125,8 @@ public class MapFragment extends BaseFragment
     private TextView score;
     private TextView rank;
 
+    private ImageView arrow;
+
     private FloatingActionButton cancelButton;
     private FloatingActionButton showNextTower;
     //    private FloatingActionButton addTower;
@@ -203,6 +206,8 @@ public class MapFragment extends BaseFragment
         rankIcon = (TextView) view.findViewById(R.id.rank_icon);
 
         showIntro = (IconButton) view.findViewById(R.id.show_intro);
+
+        arrow = (ImageView) view.findViewById(R.id.arrow);
     }
 
     private void updateView(User user) {
@@ -1034,7 +1039,7 @@ public class MapFragment extends BaseFragment
         getActivity().getSupportFragmentManager().popBackStack();
         getActivity().getSupportFragmentManager().popBackStack();
 
-        GetNearest.run(event.getTargetType());
+        GetNearest.run(getActivity(), event.getTargetType());
     }
 
     @Subscribe
@@ -1044,6 +1049,12 @@ public class MapFragment extends BaseFragment
             Log.d("TAG", "NearestResponseEvent " + event.getNearestObject().getTarget().getType());
             String msg = "" + event.getNearestObject().getDistance() + " " + event.getNearestObject().getDirection();
             Utility.makeToast(getActivity(), msg, Toast.LENGTH_LONG);
+
+            float degrees = event.getNearestObject().getDirection().floatValue() * (float) (180 / Math.PI);
+            degrees *= -1;
+            arrow.setVisibility(View.VISIBLE);
+            arrow.setRotation(degrees);
+
         } else {
             Utility.makeToast(getActivity(), "Not Found", Toast.LENGTH_LONG);
         }
