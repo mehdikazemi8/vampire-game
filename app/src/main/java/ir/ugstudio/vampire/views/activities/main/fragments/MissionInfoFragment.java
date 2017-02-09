@@ -15,9 +15,11 @@ import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 import ir.ugstudio.vampire.R;
 import ir.ugstudio.vampire.events.DirectionResponseEvent;
+import ir.ugstudio.vampire.events.FinishNearestMissionEvent;
 import ir.ugstudio.vampire.managers.AvatarManager;
 import ir.ugstudio.vampire.managers.SharedPrefHandler;
 import ir.ugstudio.vampire.models.nearest.NearestObject;
@@ -100,5 +102,10 @@ public class MissionInfoFragment extends BaseFragment {
         } else {
             Picasso.with(getActivity()).load(R.drawable.tower).into(avatar);
         }
+    }
+
+    @OnClick(R.id.cancel_mission)
+    public void cancelMission() {
+        EventBus.getDefault().post(new FinishNearestMissionEvent());
     }
 }

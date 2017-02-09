@@ -53,6 +53,7 @@ import ir.ugstudio.vampire.async.GetNearest;
 import ir.ugstudio.vampire.async.GetPlaces;
 import ir.ugstudio.vampire.async.GetProfile;
 import ir.ugstudio.vampire.events.FinishHealMode;
+import ir.ugstudio.vampire.events.FinishNearestMissionEvent;
 import ir.ugstudio.vampire.events.GetProfileEvent;
 import ir.ugstudio.vampire.events.NearestResponseEvent;
 import ir.ugstudio.vampire.events.OpenIntroductionFragment;
@@ -846,7 +847,19 @@ public class MapFragment extends BaseFragment
 
     private void startMissionMode() {
         missionMode = true;
+        actionsButton.setVisibility(View.INVISIBLE);
         openMissionInfoFragment();
+    }
+
+    private void finishMissionMode() {
+        MissionInfoFragment fragment = (MissionInfoFragment) getActivity().getSupportFragmentManager().findFragmentByTag(MissionInfoFragment.class.getCanonicalName());
+        if (fragment != null) {
+            getActivity().getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+        }
+
+        missionMode = false;
+        arrow.setVisibility(View.INVISIBLE);
+        actionsButton.setVisibility(View.VISIBLE);
     }
 
     private void openMissionInfoFragment() {
@@ -854,10 +867,6 @@ public class MapFragment extends BaseFragment
         getActivity().getSupportFragmentManager().beginTransaction()
                 .add(R.id.mission_fragment_holder, fragment, fragment.getClass().getCanonicalName())
                 .commit();
-    }
-
-    private void finishMissionMode() {
-        missionMode = false;
     }
 
     private void startWatchMyTowersMode() {
@@ -1249,18 +1258,22 @@ public class MapFragment extends BaseFragment
     }
 
     @Subscribe
+    public void onEvent(FinishNearestMissionEvent event) {
+        finishMissionMode();
+    }
+
+    @Subscribe
     public void onEvent(NearestResponseEvent event) {
         Log.d("TAG", "NearestResponseEvent " + event.getFoundNearest());
         if (event.getFoundNearest()) {
             Log.d("TAG", "NearestResponseEvent " + event.getNearestObject().getTarget().getType());
-            String msg = "" + event.getNearestObject().getDistance() + " " + event.getNearestObject().getDirection();
-            Utility.makeToast(getActivity(), msg, Toast.LENGTH_LONG);
+//            String msg = "" + event.getNearestObject().getDistance() + " " + event.getNearestObject().getDirection();
+//            Utility.makeToast(getActivity(), msg, Toast.LENGTH_LONG);
 
             float degrees = event.getNearestObject().getDirection().floatValue() * (float) (180 / Math.PI);
             degrees *= -1;
             arrow.setVisibility(View.VISIBLE);
             arrow.setRotation(degrees);
-
             startMissionMode();
 
         } else {
@@ -1287,4 +1300,6 @@ public class MapFragment extends BaseFragment
     public void onEvent(FinishHealMode event) {
         finishHealMode();
     }
+
+
 }

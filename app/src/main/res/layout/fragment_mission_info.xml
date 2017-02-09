@@ -51,4 +51,16 @@
         android:layout_width="@dimen/avatar.size.medium"
         android:layout_height="@dimen/avatar.size.medium" />
 
+    <LinearLayout
+        android:id="@+id/cancel_mission"
+        android:layout_width="@dimen/avatar.size.half.super.small"
+        android:layout_height="match_parent"
+        android:clickable="true">
+
+        <ImageView
+            android:layout_width="@dimen/avatar.size.half.super.small"
+            android:layout_height="@dimen/avatar.size.half.super.small"
+            android:src="@drawable/cancel_button" />
+    </LinearLayout>
+
 </LinearLayout>
