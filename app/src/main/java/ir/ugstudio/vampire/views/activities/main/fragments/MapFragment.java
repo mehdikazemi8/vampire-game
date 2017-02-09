@@ -129,9 +129,11 @@ public class MapFragment extends BaseFragment
 
     private FloatingActionButton cancelButton;
     private FloatingActionButton showNextTower;
-    //    private FloatingActionButton addTower;
+
+//    private FloatingActionButton addTower;
 //    private FloatingActionButton watchMyTowers;
 //    private FloatingActionButton collectCoinFromMyTowers;
+
     private FloatingActionButton actionsButton;
     private IconButton showIntro;
 
@@ -189,6 +191,183 @@ public class MapFragment extends BaseFragment
 //        onBringToFront();
     }
 
+    @Override
+    public void onMapReady(GoogleMap myMap) {
+        Log.d("TAG", "onMapReady");
+
+        googleMap = myMap;
+        googleMap.setOnMarkerClickListener(this);
+        googleMap.setOnCameraMoveListener(this);
+
+        try {
+            boolean success = googleMap.setMapStyle(
+                    MapStyleOptions.loadRawResourceStyle(
+                            getActivity(), R.raw.style_json));
+            if (!success) {
+                Log.e("MapsActivityRaw", "Style parsing failed.");
+            }
+        } catch (Resources.NotFoundException e) {
+            Log.e("MapsActivityRaw", "Can't find style.", e);
+        }
+
+//        googleMap.getUiSettings().setZoomGesturesEnabled(false);
+        googleMap.getUiSettings().setRotateGesturesEnabled(false);
+        googleMap.getUiSettings().setMapToolbarEnabled(false);
+
+        googleMap.setMaxZoomPreference(MAX_ZOOM);
+        googleMap.setMinZoomPreference(MIN_ZOOM);
+
+        LatLng myPlace = new LatLng(35.702945, 51.405907);
+        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(myPlace, MAX_ZOOM));
+//        googleMap.addMarker(new MarkerOptions().position(new LatLng(35.702456, 51.406055)).title("مرکز فرماندهی"));
+
+        if (CacheHandler.getUser().getLifestat().equals(Consts.LIFESTAT_DEAD)) {
+            GetPlaces.run(getActivity());
+        }
+    }
+
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+        if (marker.getTitle().equals(CacheHandler.getUser().getUsername())) {
+            return true;
+        }
+
+        if (marker.getTitle().equals("SampleTower")) {
+            addTowerNow(marker.getPosition());
+            return true;
+        }
+
+        if (marker.getTag() instanceof User) {
+            if (watchMyTowersMode) {
+                AttackDialog dialog = new AttackDialog(getActivity(), (User) marker.getTag(), nowOnThisTower);
+                dialog.show();
+            } else {
+                AttackDialog dialog = new AttackDialog(getActivity(), (User) (marker.getTag()));
+                dialog.show();
+            }
+
+        } else if (marker.getTag() instanceof Place) {
+            handleHealNow((Place) marker.getTag());
+        } else if (marker.getTag() instanceof Tower) {
+            Tower tower = (Tower) marker.getTag();
+            if (collectCoinsMode) {
+                collectCoinsOfThisTower(tower);
+            } else if (watchMyTowersMode) {
+                TowerDialog dialog = new TowerDialog(getActivity(), (Tower) marker.getTag());
+                dialog.show();
+            } else {
+                TowerDialog dialog = new TowerDialog(getActivity(), (Tower) marker.getTag());
+                dialog.show();
+            }
+        }
+
+        return true;
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+        Log.d("TAG", "onConnected");
+
+        if (ContextCompat.checkSelfPermission(getActivity(),
+                android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+
+            LocationRequest mLocationRequest = LocationRequest.create();
+            mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+            mLocationRequest.setInterval(4000);
+
+            LocationServices.FusedLocationApi.requestLocationUpdates(
+                    mGoogleApiClient, mLocationRequest, this);
+        }
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        Log.d("TAG", "changed onLocationChanged " + location.getLatitude() + " " + location.getLongitude());
+        CacheHandler.setLastLocation(location);
+        requestForMap(location.getLatitude(), location.getLongitude(), false);
+    }
+
+    @Override
+    public void onStart() {
+        mGoogleApiClient.connect();
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        mGoogleApiClient.disconnect();
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.d("TAG", "MapFragment onResume");
+        mapView.onResume();
+
+        onBringToFront();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mapView.onPause();
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+//            case R.id.collect_coin_from_my_towers:
+//                startCollectCoinsMode();
+//                break;
+//
+//            case R.id.watch_my_towers:
+//                startWatchMyTowersMode();
+//                break;
+//
+//            case R.id.add_tower:
+//                handleAddTower();
+//                break;
+
+            case R.id.show_next_tower:
+                showNextTowerToWatch();
+                break;
+
+            case R.id.cancel_button:
+                actionCanceled();
+                break;
+
+            case R.id.show_intro:
+                EventBus.getDefault().post(new OpenIntroductionFragment());
+                break;
+
+            case R.id.actions_button:
+                ((MainActivity) (getActivity())).openActionsFragment();
+                break;
+        }
+    }
+
+    @Override
+    public void onCameraMove() {
+        Log.d("TAG", "onCameraMove");
+        showTargetOfCamera();
+    }
+
+    @Override
+    public void onBringToFront() {
+        super.onBringToFront();
+        if (!VampireLocationManager.isGPSEnabled(getActivity())) {
+            turnOnGPS();
+        }
+    }
+
     private void find(View view) {
         coin = (TextView) view.findViewById(R.id.coin);
         score = (TextView) view.findViewById(R.id.score);
@@ -234,41 +413,6 @@ public class MapFragment extends BaseFragment
         actionsButton.setOnClickListener(this);
     }
 
-    @Override
-    public void onMapReady(GoogleMap myMap) {
-        Log.d("TAG", "onMapReady");
-
-        googleMap = myMap;
-        googleMap.setOnMarkerClickListener(this);
-        googleMap.setOnCameraMoveListener(this);
-
-        try {
-            boolean success = googleMap.setMapStyle(
-                    MapStyleOptions.loadRawResourceStyle(
-                            getActivity(), R.raw.style_json));
-            if (!success) {
-                Log.e("MapsActivityRaw", "Style parsing failed.");
-            }
-        } catch (Resources.NotFoundException e) {
-            Log.e("MapsActivityRaw", "Can't find style.", e);
-        }
-
-//        googleMap.getUiSettings().setZoomGesturesEnabled(false);
-        googleMap.getUiSettings().setRotateGesturesEnabled(false);
-        googleMap.getUiSettings().setMapToolbarEnabled(false);
-
-        googleMap.setMaxZoomPreference(MAX_ZOOM);
-        googleMap.setMinZoomPreference(MIN_ZOOM);
-
-        LatLng myPlace = new LatLng(35.702945, 51.405907);
-        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(myPlace, MAX_ZOOM));
-//        googleMap.addMarker(new MarkerOptions().position(new LatLng(35.702456, 51.406055)).title("مرکز فرماندهی"));
-
-        if (CacheHandler.getUser().getLifestat().equals(Consts.LIFESTAT_DEAD)) {
-            GetPlaces.run(getActivity());
-        }
-    }
-
     private void collectCoinsOfThisTower(final Tower tower) {
         Call<ResponseBody> call = VampireApp.createMapApi().collectTowerCoins(CacheHandler.getUser().getToken(), tower.get_id());
         call.enqueue(new Callback<ResponseBody>() {
@@ -290,82 +434,9 @@ public class MapFragment extends BaseFragment
         });
     }
 
-    @Override
-    public boolean onMarkerClick(Marker marker) {
-        Log.d("TAG", "onMarkerClick " + marker.getId() + " " + marker.getTitle() + " " + watchMyTowersMode);
-
-        if (marker.getTitle().equals(CacheHandler.getUser().getUsername())) {
-            return true;
-        }
-
-        if (marker.getTitle().equals("SampleTower")) {
-            addTowerNow(marker.getPosition());
-            return true;
-        }
-
-        if (marker.getTag() instanceof User) {
-            Log.d("TAG", "onMarkerClick USER");
-            if (watchMyTowersMode) {
-                AttackDialog dialog = new AttackDialog(getActivity(), (User) marker.getTag(), nowOnThisTower);
-                dialog.show();
-            } else {
-                AttackDialog dialog = new AttackDialog(getActivity(), (User) (marker.getTag()));
-                dialog.show();
-            }
-
-        } else if (marker.getTag() instanceof Place) {
-            Log.d("TAG", "onMarkerClick Place");
-            handleHealNow((Place) marker.getTag());
-        } else if (marker.getTag() instanceof Tower) {
-            Tower tower = (Tower) marker.getTag();
-            Log.d("TAG", "onMarkerClick TOWER " + tower.getRole() + " " + CacheHandler.getUser().getRole());
-
-            if (collectCoinsMode) {
-                collectCoinsOfThisTower(tower);
-            } else if (watchMyTowersMode) {
-//                helpMeWatchThisTower(tower);
-                TowerDialog dialog = new TowerDialog(getActivity(), (Tower) marker.getTag());
-                dialog.show();
-            } else {
-                TowerDialog dialog = new TowerDialog(getActivity(), (Tower) marker.getTag());
-                dialog.show();
-            }
-        }
-
-        return true;
-    }
-
     private void helpMeWatchThisTower(Tower tower) {
 
         //showNextTowerToWatch();
-    }
-
-    @Override
-    public void onConnectionSuspended(int i) {
-
-    }
-
-    @Override
-    public void onConnected(@Nullable Bundle bundle) {
-        Log.d("TAG", "onConnected");
-
-        if (ContextCompat.checkSelfPermission(getActivity(),
-                android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-
-            LocationRequest mLocationRequest = LocationRequest.create();
-            mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-            mLocationRequest.setInterval(4000);
-
-            LocationServices.FusedLocationApi.requestLocationUpdates(
-                    mGoogleApiClient, mLocationRequest, this);
-        }
-    }
-
-    @Override
-    public void onLocationChanged(Location location) {
-        Log.d("TAG", "changed onLocationChanged " + location.getLatitude() + " " + location.getLongitude());
-        CacheHandler.setLastLocation(location);
-        requestForMap(location.getLatitude(), location.getLongitude(), false);
     }
 
     private void handleMeWhenHealMode(double lat, double lng) {
@@ -615,7 +686,7 @@ public class MapFragment extends BaseFragment
         }
     }
 
-    User getUser(String username) {
+    private User getUser(String username) {
         if (lastResponse == null) {
             return null;
         }
@@ -628,55 +699,6 @@ public class MapFragment extends BaseFragment
                 return user;
         }
         return null;
-    }
-
-    @Override
-    public void onStart() {
-        mGoogleApiClient.connect();
-        super.onStart();
-        EventBus.getDefault().register(this);
-    }
-
-    @Override
-    public void onStop() {
-        mGoogleApiClient.disconnect();
-        super.onStop();
-        EventBus.getDefault().unregister(this);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        Log.d("TAG", "MapFragment onResume");
-        mapView.onResume();
-
-        onBringToFront();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        mapView.onPause();
-    }
-
-    @Subscribe
-    public void onEvent(GetProfileEvent event) {
-        Log.d("TAG", "onEvent GetProfileEvent " + event.isSuccessfull());
-        if (event.isSuccessfull()) {
-            updateView(event.getUser());
-        }
-    }
-
-    @Subscribe
-    public void onEvent(RefreshAroundTowerEvent event) {
-        if (nowOnThisTower != null) {
-            showMapAroundTheTower(nowOnThisTower);
-        }
-    }
-
-    @Subscribe
-    public void onEvent(FinishHealMode event) {
-        finishHealMode();
     }
 
     private void revertButtonsState(boolean buttonsVisible, boolean isAddTowerMode) {
@@ -815,39 +837,6 @@ public class MapFragment extends BaseFragment
         revertButtonsState(true, false);
         clearGoogleMap();
         requestForMap(CacheHandler.getLastLocation().getLatitude(), CacheHandler.getLastLocation().getLongitude(), true);
-    }
-
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-//            case R.id.collect_coin_from_my_towers:
-//                startCollectCoinsMode();
-//                break;
-//
-//            case R.id.watch_my_towers:
-//                startWatchMyTowersMode();
-//                break;
-//
-//            case R.id.add_tower:
-//                handleAddTower();
-//                break;
-
-            case R.id.show_next_tower:
-                showNextTowerToWatch();
-                break;
-
-            case R.id.cancel_button:
-                actionCanceled();
-                break;
-
-            case R.id.show_intro:
-                EventBus.getDefault().post(new OpenIntroductionFragment());
-                break;
-
-            case R.id.actions_button:
-                ((MainActivity) (getActivity())).openActionsFragment();
-                break;
-        }
     }
 
     private void startWatchMyTowersMode() {
@@ -1019,44 +1008,6 @@ public class MapFragment extends BaseFragment
             } else {
                 sampleTowerMarker.setPosition(googleMap.getCameraPosition().target);
             }
-        }
-    }
-
-    @Override
-    public void onCameraMove() {
-        Log.d("TAG", "onCameraMove");
-        showTargetOfCamera();
-    }
-
-    @Subscribe
-    public void onEvent(PlacesResponse response) {
-        Log.d("TAG", "onEvent PlacesResponse " + response.getPlaces().size());
-        startHealMode(response.getPlaces());
-    }
-
-    @Subscribe
-    public void onEvent(StartNearestMissionEvent event) {
-        getActivity().getSupportFragmentManager().popBackStack();
-        getActivity().getSupportFragmentManager().popBackStack();
-
-        GetNearest.run(getActivity(), event.getTargetType());
-    }
-
-    @Subscribe
-    public void onEvent(NearestResponseEvent event) {
-        Log.d("TAG", "NearestResponseEvent " + event.getFoundNearest());
-        if (event.getFoundNearest()) {
-            Log.d("TAG", "NearestResponseEvent " + event.getNearestObject().getTarget().getType());
-            String msg = "" + event.getNearestObject().getDistance() + " " + event.getNearestObject().getDirection();
-            Utility.makeToast(getActivity(), msg, Toast.LENGTH_LONG);
-
-            float degrees = event.getNearestObject().getDirection().floatValue() * (float) (180 / Math.PI);
-            degrees *= -1;
-            arrow.setVisibility(View.VISIBLE);
-            arrow.setRotation(degrees);
-
-        } else {
-            Utility.makeToast(getActivity(), "Not Found", Toast.LENGTH_LONG);
         }
     }
 
@@ -1244,14 +1195,6 @@ public class MapFragment extends BaseFragment
         FontHelper.setKoodakFor(getActivity(), (TextView) dialog.findViewById(android.R.id.message));
     }
 
-    @Override
-    public void onBringToFront() {
-        super.onBringToFront();
-        if (!VampireLocationManager.isGPSEnabled(getActivity())) {
-            turnOnGPS();
-        }
-    }
-
     @Subscribe
     public void onEvent(TowerAddEvent event) {
         handleAddTower();
@@ -1270,4 +1213,55 @@ public class MapFragment extends BaseFragment
         AnalyticsManager.logEvent(AnalyticsManager.FAB_TAPPED, "collect_coin");
     }
 
+    @Subscribe
+    public void onEvent(PlacesResponse response) {
+        Log.d("TAG", "onEvent PlacesResponse " + response.getPlaces().size());
+        startHealMode(response.getPlaces());
+    }
+
+    @Subscribe
+    public void onEvent(StartNearestMissionEvent event) {
+        getActivity().getSupportFragmentManager().popBackStack();
+        getActivity().getSupportFragmentManager().popBackStack();
+
+        GetNearest.run(getActivity(), event.getTargetType());
+    }
+
+    @Subscribe
+    public void onEvent(NearestResponseEvent event) {
+        Log.d("TAG", "NearestResponseEvent " + event.getFoundNearest());
+        if (event.getFoundNearest()) {
+            Log.d("TAG", "NearestResponseEvent " + event.getNearestObject().getTarget().getType());
+            String msg = "" + event.getNearestObject().getDistance() + " " + event.getNearestObject().getDirection();
+            Utility.makeToast(getActivity(), msg, Toast.LENGTH_LONG);
+
+            float degrees = event.getNearestObject().getDirection().floatValue() * (float) (180 / Math.PI);
+            degrees *= -1;
+            arrow.setVisibility(View.VISIBLE);
+            arrow.setRotation(degrees);
+
+        } else {
+            Utility.makeToast(getActivity(), "Not Found", Toast.LENGTH_LONG);
+        }
+    }
+
+    @Subscribe
+    public void onEvent(GetProfileEvent event) {
+        Log.d("TAG", "onEvent GetProfileEvent " + event.isSuccessfull());
+        if (event.isSuccessfull()) {
+            updateView(event.getUser());
+        }
+    }
+
+    @Subscribe
+    public void onEvent(RefreshAroundTowerEvent event) {
+        if (nowOnThisTower != null) {
+            showMapAroundTheTower(nowOnThisTower);
+        }
+    }
+
+    @Subscribe
+    public void onEvent(FinishHealMode event) {
+        finishHealMode();
+    }
 }
