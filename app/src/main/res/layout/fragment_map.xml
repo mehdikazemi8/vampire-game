@@ -197,13 +197,23 @@
             android:visibility="invisible"
             app:backgroundTint="@android:color/black" />
 
-        <ImageView
+        <LinearLayout
             android:id="@+id/arrow"
-            android:layout_width="100dp"
-            android:layout_height="3dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:background="@color/white"
-            android:visibility="invisible" />
+            android:orientation="horizontal"
+            android:visibility="invisible">
+
+            <View
+                android:layout_width="75dp"
+                android:layout_height="3dp" />
+
+            <ImageView
+                android:layout_width="75dp"
+                android:layout_height="3dp"
+                android:background="@color/white" />
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"

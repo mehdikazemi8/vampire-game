@@ -17,7 +17,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -127,7 +127,7 @@ public class MapFragment extends BaseFragment
     private TextView score;
     private TextView rank;
 
-    private ImageView arrow;
+    private LinearLayout arrow;
 
     private FloatingActionButton cancelButton;
     private FloatingActionButton showNextTower;
@@ -388,7 +388,7 @@ public class MapFragment extends BaseFragment
 
         showIntro = (IconButton) view.findViewById(R.id.show_intro);
 
-        arrow = (ImageView) view.findViewById(R.id.arrow);
+        arrow = (LinearLayout) view.findViewById(R.id.arrow);
     }
 
     private void updateView(User user) {
@@ -1081,7 +1081,7 @@ public class MapFragment extends BaseFragment
         markerOptions.position(newPlace).title(CacheHandler.getUser().getUsername());
 
         if (putDot) {
-            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.dot));
+            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.navigator));
         }
 
         if (myMarker == null) {
@@ -1274,6 +1274,7 @@ public class MapFragment extends BaseFragment
             degrees *= -1;
             arrow.setVisibility(View.VISIBLE);
             arrow.setRotation(degrees);
+
             startMissionMode();
 
         } else {
