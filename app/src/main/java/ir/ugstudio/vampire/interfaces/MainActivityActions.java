@@ -6,4 +6,6 @@ public interface MainActivityActions {
     public void openTowerOptionsFragment();
 
     public void openMissionOptionsFragment();
+
+    public void openHintFragment();
 }

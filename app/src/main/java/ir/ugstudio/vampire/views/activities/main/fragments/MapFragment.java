@@ -810,6 +810,8 @@ public class MapFragment extends BaseFragment
         Log.d("TAG", "startCollectCoinsMode " + user.getTowersList());
         Log.d("TAG", "startCollectCoinsMode " + user.getTowersList().size());
 
+        ((MainActivity) getActivity()).openHintFragment();
+
         for (Tower tower : user.getTowersList()) {
             if (tower.getCoin() != 0) {
                 towersToCollectCoin.add(tower);

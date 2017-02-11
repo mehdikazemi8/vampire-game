@@ -37,7 +37,6 @@ import ir.ugstudio.vampire.events.OpenTowerWallFragment;
 import ir.ugstudio.vampire.events.ShowTabEvent;
 import ir.ugstudio.vampire.events.StartRealPurchase;
 import ir.ugstudio.vampire.interfaces.MainActivityActions;
-import ir.ugstudio.vampire.managers.SharedPrefHandler;
 import ir.ugstudio.vampire.managers.UserHandler;
 import ir.ugstudio.vampire.models.StoreItemReal;
 import ir.ugstudio.vampire.utils.Consts;
@@ -46,6 +45,7 @@ import ir.ugstudio.vampire.utils.Utility;
 import ir.ugstudio.vampire.views.BaseFragment;
 import ir.ugstudio.vampire.views.activities.main.adapters.MainFragmentsPagerAdapter;
 import ir.ugstudio.vampire.views.activities.main.fragments.ActionsFragment;
+import ir.ugstudio.vampire.views.activities.main.fragments.HintFragment;
 import ir.ugstudio.vampire.views.activities.main.fragments.MapFragment;
 import ir.ugstudio.vampire.views.activities.main.fragments.MissionOptionsFragment;
 import ir.ugstudio.vampire.views.activities.main.fragments.NotificationsFragment;
@@ -400,6 +400,17 @@ public class MainActivity extends FragmentActivity implements MainActivityAction
         getSupportFragmentManager()
                 .beginTransaction()
                 .add(R.id.fragment_holder_whole_page, fragment, Consts.FRG_TOWER_OPTIONS)
+                .addToBackStack(null)
+                .commit();
+    }
+
+    @Override
+    public void openHintFragment() {
+        HintFragment fragment = HintFragment.getInstance();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .setCustomAnimations(R.anim.slide_up_from_bottom, R.anim.slide_down_to_bottom, R.anim.slide_up_from_bottom, R.anim.slide_down_to_bottom)
+                .add(R.id.hint_fragment_holder, fragment, fragment.getClass().getCanonicalName())
                 .addToBackStack(null)
                 .commit();
     }
