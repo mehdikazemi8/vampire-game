@@ -341,7 +341,11 @@ public class MapFragment extends BaseFragment
 //                break;
 
             case R.id.show_next_tower:
-                showNextTowerToWatch();
+                if (watchMyTowersMode) {
+                    showNextTowerToWatch();
+                } else if (collectCoinsMode) {
+                    showNextTowerToCollect();
+                }
                 break;
 
             case R.id.cancel_button:
@@ -709,23 +713,26 @@ public class MapFragment extends BaseFragment
         return null;
     }
 
-    private void revertButtonsState(boolean buttonsVisible, boolean isAddTowerMode) {
-        Log.d("TAG", "revertButtonsState " + buttonsVisible);
-        if (!buttonsVisible) {
-            actionsButton.setVisibility(View.INVISIBLE);
-//            collectCoinFromMyTowers.setVisibility(View.INVISIBLE);
-//            watchMyTowers.setVisibility(View.INVISIBLE);
-
-            cancelButton.setVisibility(View.VISIBLE);
-            if (!isAddTowerMode)
-                showNextTower.setVisibility(View.VISIBLE);
-        } else {
+    private void revertButtonsState(boolean visibleActionsButton, boolean hideNextTowerButton) {
+        Log.d("TAG", "revertButtonsState " + visibleActionsButton);
+        if (visibleActionsButton) {
             actionsButton.setVisibility(View.VISIBLE);
 //            collectCoinFromMyTowers.setVisibility(View.VISIBLE);
 //            watchMyTowers.setVisibility(View.VISIBLE);
 
             cancelButton.setVisibility(View.INVISIBLE);
             showNextTower.setVisibility(View.INVISIBLE);
+        } else {
+            actionsButton.setVisibility(View.INVISIBLE);
+//            collectCoinFromMyTowers.setVisibility(View.INVISIBLE);
+//            watchMyTowers.setVisibility(View.INVISIBLE);
+
+            cancelButton.setVisibility(View.VISIBLE);
+            if (hideNextTowerButton) {
+                showNextTower.setVisibility(View.INVISIBLE);
+            } else {
+                showNextTower.setVisibility(View.VISIBLE);
+            }
         }
     }
 
@@ -810,7 +817,7 @@ public class MapFragment extends BaseFragment
         }
 
         if (towersToCollectCoin.size() > 0) {
-            revertButtonsState(false, false);
+            revertButtonsState(false, true);
             collectCoinsMode = true;
             clearGoogleMap();
             showNextTowerToCollect();
