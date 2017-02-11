@@ -11,13 +11,11 @@ import android.location.Location;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -33,6 +31,7 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
@@ -95,8 +94,8 @@ public class MapFragment extends BaseFragment
         GoogleMap.OnCameraMoveListener {
 
     private static long lastRequestTime = 0;
-    private final int MIN_ZOOM = 15;
-    private final int MAX_ZOOM = 16;
+    private final int MIN_ZOOM = 17;
+    private final int MAX_ZOOM = 18;
     private final int MIN_ZOOM_HEAL_MODE = 15;
     private final int MAX_ZOOM_HEAL_MODE = 16;
     private final float SHOW_IRAN_ZOOM_LEVEL = 4.75f;
@@ -222,7 +221,7 @@ public class MapFragment extends BaseFragment
         googleMap.setMinZoomPreference(MIN_ZOOM);
 
         LatLng myPlace = new LatLng(35.702945, 51.405907);
-        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(myPlace, MAX_ZOOM));
+        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(myPlace, MIN_ZOOM));
 //        googleMap.addMarker(new MarkerOptions().position(new LatLng(35.702456, 51.406055)).title("مرکز فرماندهی"));
 
         if (CacheHandler.getUser().getLifestat().equals(Consts.LIFESTAT_DEAD)) {
@@ -502,7 +501,7 @@ public class MapFragment extends BaseFragment
         if (addingTowerMode) {
             addMeToMap(lat, lng, MIN_ZOOM, true);
         } else {
-            addMeToMap(lat, lng, MAX_ZOOM, true);
+            addMeToMap(lat, lng, MIN_ZOOM, true);
         }
 
         LatLng newPlace = new LatLng(lat, lng);
