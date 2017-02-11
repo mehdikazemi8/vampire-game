@@ -118,15 +118,16 @@
             android:text="@string/icon.info"
             android:textSize="@dimen/text.size.large" />
 
-        <android.support.design.widget.FloatingActionButton
+        <ImageView
             android:id="@+id/actions_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/avatar.size.small"
+            android:layout_height="@dimen/avatar.size.small"
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_margin="@dimen/space.medium"
-            android:clickable="true" />
+            android:clickable="true"
+            android:src="@drawable/actions_button" />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/add_tower"
@@ -143,10 +144,10 @@
             android:visibility="invisible"
             app:backgroundTint="@android:color/black" />
 
-        <android.support.design.widget.FloatingActionButton
+        <ImageView
             android:id="@+id/show_next_tower"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/avatar.size.small"
+            android:layout_height="@dimen/avatar.size.small"
             android:layout_above="@id/add_tower"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
@@ -182,10 +183,10 @@
             android:visibility="invisible"
             app:backgroundTint="@android:color/black" />
 
-        <android.support.design.widget.FloatingActionButton
+        <ImageView
             android:id="@+id/cancel_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/avatar.size.small"
+            android:layout_height="@dimen/avatar.size.small"
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"

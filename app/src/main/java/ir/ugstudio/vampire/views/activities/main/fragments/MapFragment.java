@@ -17,6 +17,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -129,14 +131,14 @@ public class MapFragment extends BaseFragment
 
     private LinearLayout arrow;
 
-    private FloatingActionButton cancelButton;
-    private FloatingActionButton showNextTower;
+    private ImageView cancelButton;
+    private ImageView showNextTower;
 
 //    private FloatingActionButton addTower;
 //    private FloatingActionButton watchMyTowers;
 //    private FloatingActionButton collectCoinFromMyTowers;
 
-    private FloatingActionButton actionsButton;
+    private ImageView actionsButton;
     private IconButton showIntro;
 
     private TextView coinIcon;
@@ -375,12 +377,12 @@ public class MapFragment extends BaseFragment
         score = (TextView) view.findViewById(R.id.score);
         rank = (TextView) view.findViewById(R.id.rank);
 
-        cancelButton = (FloatingActionButton) view.findViewById(R.id.cancel_button);
-        showNextTower = (FloatingActionButton) view.findViewById(R.id.show_next_tower);
+        cancelButton = (ImageView) view.findViewById(R.id.cancel_button);
+        showNextTower = (ImageView) view.findViewById(R.id.show_next_tower);
 //        addTower = (FloatingActionButton) view.findViewById(R.id.add_tower);
 //        collectCoinFromMyTowers = (FloatingActionButton) view.findViewById(R.id.collect_coin_from_my_towers);
 //        watchMyTowers = (FloatingActionButton) view.findViewById(R.id.watch_my_towers);
-        actionsButton = (FloatingActionButton) view.findViewById(R.id.actions_button);
+        actionsButton = (ImageView) view.findViewById(R.id.actions_button);
 
         coinIcon = (TextView) view.findViewById(R.id.coin_icon);
         scoreIcon = (TextView) view.findViewById(R.id.score_icon);
