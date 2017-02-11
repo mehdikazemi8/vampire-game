@@ -25,6 +25,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -221,7 +222,7 @@ public class MapFragment extends BaseFragment
         googleMap.setMinZoomPreference(MIN_ZOOM);
 
         LatLng myPlace = new LatLng(35.702945, 51.405907);
-        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(myPlace, MIN_ZOOM));
+        googleMap.animateCamera(getCameraUpdate(myPlace, MIN_ZOOM));
 //        googleMap.addMarker(new MarkerOptions().position(new LatLng(35.702456, 51.406055)).title("مرکز فرماندهی"));
 
         if (CacheHandler.getUser().getLifestat().equals(Consts.LIFESTAT_DEAD)) {
@@ -746,17 +747,24 @@ public class MapFragment extends BaseFragment
         FontHelper.setKoodakFor(getActivity(), (TextView) dialog.findViewById(android.R.id.message));
     }
 
+    private CameraUpdate getCameraUpdate(LatLng latLng, float zoomLevel) {
+        CameraPosition cameraPosition = new CameraPosition.Builder().
+                target(latLng).
+                tilt(70.0f).
+                zoom(zoomLevel).
+                build();
+        return CameraUpdateFactory.newCameraPosition(cameraPosition);
+    }
+
     private void handleAddTower() {
         revertButtonsState(false, true);
 
         Log.d("TAG", "handleAddTower " + googleMap.getCameraPosition().target);
 
         if (VampireLocationManager.isGPSEnabled(getActivity())) {
-            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
-                    new LatLng(CacheHandler.getLastLocation().getLatitude(), CacheHandler.getLastLocation().getLongitude()), MIN_ZOOM));
+            googleMap.animateCamera(getCameraUpdate(new LatLng(CacheHandler.getLastLocation().getLatitude(), CacheHandler.getLastLocation().getLongitude()), MIN_ZOOM));
         } else {
-            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
-                    new LatLng(CENTER_OF_IRAN.latitude, CENTER_OF_IRAN.longitude), SHOW_IRAN_ZOOM_LEVEL));
+            googleMap.animateCamera(getCameraUpdate(new LatLng(CENTER_OF_IRAN.latitude, CENTER_OF_IRAN.longitude), SHOW_IRAN_ZOOM_LEVEL));
         }
 
         addingTowerMode = true;
@@ -829,7 +837,7 @@ public class MapFragment extends BaseFragment
 
         marker.showInfoWindow();
 
-        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(towerPlace, MIN_ZOOM));
+        googleMap.animateCamera(getCameraUpdate(towerPlace, MIN_ZOOM));
     }
 
     private void finishCollectCoinsMode() {
@@ -941,7 +949,7 @@ public class MapFragment extends BaseFragment
             outerCircleTower.setCenter(towerPlace);
         }
 
-        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(towerPlace, MIN_ZOOM));
+        googleMap.animateCamera(getCameraUpdate(towerPlace, MIN_ZOOM));
 
         showMapAroundTheTower(nextTower);
     }
@@ -1092,7 +1100,7 @@ public class MapFragment extends BaseFragment
         }
         myMarker.setTag(CacheHandler.getUser());
 
-        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(newPlace, zoomLevel), new GoogleMap.CancelableCallback() {
+        googleMap.animateCamera(getCameraUpdate(newPlace, zoomLevel), new GoogleMap.CancelableCallback() {
             @Override
             public void onFinish() {
                 if (!putDot) {
@@ -1218,7 +1226,7 @@ public class MapFragment extends BaseFragment
                     public void onClick(DialogInterface dialogInterface, int i) {
                         if (googleMap != null) {
                             googleMap.setMinZoomPreference(SHOW_IRAN_ZOOM_LEVEL);
-                            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(CENTER_OF_IRAN, SHOW_IRAN_ZOOM_LEVEL));
+                            googleMap.animateCamera(getCameraUpdate(CENTER_OF_IRAN, SHOW_IRAN_ZOOM_LEVEL));
                         }
                     }
                 }).show();
