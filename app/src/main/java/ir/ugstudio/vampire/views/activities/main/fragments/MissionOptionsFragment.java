@@ -5,6 +5,8 @@ import android.content.DialogInterface;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +15,9 @@ import android.widget.TextView;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.util.List;
+
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
@@ -25,13 +30,18 @@ import ir.ugstudio.vampire.models.nearest.MostWantedList;
 import ir.ugstudio.vampire.models.nearest.Target;
 import ir.ugstudio.vampire.utils.FontHelper;
 import ir.ugstudio.vampire.views.BaseFragment;
+import ir.ugstudio.vampire.views.activities.main.adapters.MostWantedViewAdapter;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MissionOptionsFragment extends BaseFragment {
 
+    @BindView(R.id.most_wanted_list)
+    RecyclerView mostWantedList;
+
     private Unbinder unbinder;
+    private MostWantedViewAdapter mostWantedViewAdapter;
 
     public static MissionOptionsFragment getInstance() {
         return new MissionOptionsFragment();
@@ -68,8 +78,9 @@ public class MissionOptionsFragment extends BaseFragment {
             @Override
             public void onResponse(Call<MostWantedList> call, Response<MostWantedList> response) {
                 Log.d("TAG", "MostWantedList " + response.message());
-                for (Target target : response.body().getMostWantedList()) {
-                    Log.d("TAG", "MostWantedList " + target.toString());
+
+                if (response.isSuccessful()) {
+                    bindListData(response.body().getMostWantedList());
                 }
             }
 
@@ -78,6 +89,14 @@ public class MissionOptionsFragment extends BaseFragment {
 
             }
         });
+    }
+
+    private void bindListData(List<Target> mostWantedItems) {
+        LinearLayoutManager layoutManager
+                = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        mostWantedList.setLayoutManager(layoutManager);
+        mostWantedViewAdapter = new MostWantedViewAdapter(mostWantedItems);
+        mostWantedList.setAdapter(mostWantedViewAdapter);
     }
 
     @Override
