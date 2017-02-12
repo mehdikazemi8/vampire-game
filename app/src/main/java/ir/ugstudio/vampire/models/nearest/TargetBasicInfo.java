@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 import ir.ugstudio.vampire.models.BaseModel;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class NearestTarget extends BaseModel {
+public class TargetBasicInfo extends BaseModel {
     private String type;
     private String username;
     private Integer avatar;
@@ -15,7 +15,7 @@ public class NearestTarget extends BaseModel {
     @SerializedName("_id")
     private String id;
 
-    public NearestTarget() {
+    public TargetBasicInfo() {
     }
 
     public String getType() {

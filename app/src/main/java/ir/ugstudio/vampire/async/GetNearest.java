@@ -10,7 +10,7 @@ import ir.ugstudio.vampire.VampireApp;
 import ir.ugstudio.vampire.events.NearestResponseEvent;
 import ir.ugstudio.vampire.managers.CacheHandler;
 import ir.ugstudio.vampire.managers.SharedPrefHandler;
-import ir.ugstudio.vampire.models.nearest.NearestObject;
+import ir.ugstudio.vampire.models.nearest.Target;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -22,16 +22,16 @@ public class GetNearest {
             return;
         }
 
-        Call<NearestObject> call = VampireApp.createMapApi().getNearestObject(
+        Call<Target> call = VampireApp.createMapApi().getNearestObject(
                 CacheHandler.getUser().getToken(),
                 targetType,
                 lastLocation.getLatitude(),
                 lastLocation.getLongitude()
         );
 
-        call.enqueue(new Callback<NearestObject>() {
+        call.enqueue(new Callback<Target>() {
             @Override
-            public void onResponse(Call<NearestObject> call, Response<NearestObject> response) {
+            public void onResponse(Call<Target> call, Response<Target> response) {
                 Log.d("TAG", "onResponse " + response.message());
                 if (response.isSuccessful()) {
                     Log.d("TAG", "onResponse " + response.body().getDistance());
@@ -50,7 +50,7 @@ public class GetNearest {
             }
 
             @Override
-            public void onFailure(Call<NearestObject> call, Throwable t) {
+            public void onFailure(Call<Target> call, Throwable t) {
                 Log.d("TAG", "onResponse onFailure " + t.getMessage());
             }
         });

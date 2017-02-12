@@ -4,7 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import ir.ugstudio.vampire.models.StoreItems;
-import ir.ugstudio.vampire.models.nearest.NearestObject;
+import ir.ugstudio.vampire.models.nearest.Target;
 import ir.ugstudio.vampire.utils.Consts;
 
 public class SharedPrefHandler {
@@ -27,12 +27,12 @@ public class SharedPrefHandler {
         Log.d("TAG", "storeItems not empty and saved now");
     }
 
-    public static void writeMissionObject(Context context, NearestObject object) {
+    public static void writeMissionObject(Context context, Target object) {
         SharedPrefManager.writeString(context, Consts.SP_MISSION_OBJECT, object.serialize());
         Log.d("TAG", "writeMissionObject not empty and saved now");
     }
 
-    public static NearestObject readMissionObject(Context context) {
+    public static Target readMissionObject(Context context) {
         String nearestObjectJson = SharedPrefManager.readString(context, Consts.SP_MISSION_OBJECT, null);
         if (nearestObjectJson == null || nearestObjectJson.isEmpty()) {
             Log.d("TAG", "error storeItems is empty");
@@ -40,7 +40,7 @@ public class SharedPrefHandler {
         }
 
         try {
-            return ((NearestObject) StoreItems.deserialize(nearestObjectJson, NearestObject.class));
+            return ((Target) StoreItems.deserialize(nearestObjectJson, Target.class));
         } catch (NullPointerException e) {
             return null;
         }

@@ -5,12 +5,12 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import ir.ugstudio.vampire.models.BaseModel;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class NearestObject extends BaseModel {
+public class Target extends BaseModel {
     private Double distance;
     private Double direction;
-    private NearestTarget target;
+    private TargetBasicInfo target;
 
-    public NearestObject() {
+    public Target() {
     }
 
     public Double getDistance() {
@@ -29,11 +29,11 @@ public class NearestObject extends BaseModel {
         this.direction = direction;
     }
 
-    public NearestTarget getTarget() {
+    public TargetBasicInfo getTarget() {
         return target;
     }
 
-    public void setTarget(NearestTarget target) {
+    public void setTarget(TargetBasicInfo target) {
         this.target = target;
     }
 }

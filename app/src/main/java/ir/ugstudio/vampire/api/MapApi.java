@@ -4,7 +4,7 @@ import ir.ugstudio.vampire.models.MapResponse;
 import ir.ugstudio.vampire.models.PlacesResponse;
 import ir.ugstudio.vampire.models.QuotesResponse;
 import ir.ugstudio.vampire.models.Tower;
-import ir.ugstudio.vampire.models.nearest.NearestObject;
+import ir.ugstudio.vampire.models.nearest.Target;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -106,7 +106,7 @@ public interface MapApi {
 
     @FormUrlEncoded
     @POST("getnearest")
-    Call<NearestObject> getNearestObject(
+    Call<Target> getNearestObject(
             @Field("token") String token,
             @Field("targetType") String targetType,
             @Field("lat") Double lat,
@@ -115,7 +115,7 @@ public interface MapApi {
 
     @FormUrlEncoded
     @POST("getdirection")
-    Call<NearestObject> getDirection(
+    Call<Target> getDirection(
             @Field("token") String token,
             @Field("targetType") String targetType,
             @Field("targetId") String targetId,

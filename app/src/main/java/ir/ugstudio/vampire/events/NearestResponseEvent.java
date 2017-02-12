@@ -1,22 +1,22 @@
 package ir.ugstudio.vampire.events;
 
-import ir.ugstudio.vampire.models.nearest.NearestObject;
+import ir.ugstudio.vampire.models.nearest.Target;
 
 public class NearestResponseEvent {
-    private NearestObject nearestObject;
+    private Target target;
     private Boolean foundNearest;
 
-    public NearestResponseEvent(NearestObject nearestObject, Boolean foundNearest) {
-        this.nearestObject = nearestObject;
+    public NearestResponseEvent(Target target, Boolean foundNearest) {
+        this.target = target;
         this.foundNearest = foundNearest;
     }
 
-    public NearestObject getNearestObject() {
-        return nearestObject;
+    public Target getTarget() {
+        return target;
     }
 
-    public void setNearestObject(NearestObject nearestObject) {
-        this.nearestObject = nearestObject;
+    public void setTarget(Target target) {
+        this.target = target;
     }
 
     public Boolean getFoundNearest() {

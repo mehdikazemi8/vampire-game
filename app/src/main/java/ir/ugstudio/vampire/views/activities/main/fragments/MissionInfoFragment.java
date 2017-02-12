@@ -22,7 +22,7 @@ import ir.ugstudio.vampire.events.DirectionResponseEvent;
 import ir.ugstudio.vampire.events.FinishNearestMissionEvent;
 import ir.ugstudio.vampire.managers.AvatarManager;
 import ir.ugstudio.vampire.managers.SharedPrefHandler;
-import ir.ugstudio.vampire.models.nearest.NearestObject;
+import ir.ugstudio.vampire.models.nearest.Target;
 import ir.ugstudio.vampire.utils.Consts;
 import ir.ugstudio.vampire.views.BaseFragment;
 import ir.ugstudio.vampire.views.custom.CustomTextView;
@@ -83,21 +83,21 @@ public class MissionInfoFragment extends BaseFragment {
     }
 
     private void updateViewsData() {
-        NearestObject nearestObject = SharedPrefHandler.readMissionObject(getActivity());
-        Log.d("TAG", "updateViewsData " + nearestObject.serialize());
+        Target target = SharedPrefHandler.readMissionObject(getActivity());
+        Log.d("TAG", "updateViewsData " + target.serialize());
 
-        if (nearestObject == null) {
+        if (target == null) {
             return;
         }
 
         // todo, optimize this
-        coin.setText(String.valueOf(nearestObject.getTarget().getCoin()));
-        distance.setText(String.format(getString(R.string.template_nearest_distance), nearestObject.getDistance().intValue()));
+        coin.setText(String.valueOf(target.getTarget().getCoin()));
+        distance.setText(String.format(getString(R.string.template_nearest_distance), target.getDistance().intValue()));
 
-        if (nearestObject.getTarget().getType().equals(Consts.TARGET_TYPE_PLAYER)) {
-            username.setText(nearestObject.getTarget().getUsername());
-            Picasso.with(getActivity()).load(AvatarManager.getResourceId(getActivity(), nearestObject.getTarget().getAvatar())).into(avatar);
-        } else if (nearestObject.getTarget().getType().equals(Consts.TARGET_TYPE_SHEEP)) {
+        if (target.getTarget().getType().equals(Consts.TARGET_TYPE_PLAYER)) {
+            username.setText(target.getTarget().getUsername());
+            Picasso.with(getActivity()).load(AvatarManager.getResourceId(getActivity(), target.getTarget().getAvatar())).into(avatar);
+        } else if (target.getTarget().getType().equals(Consts.TARGET_TYPE_SHEEP)) {
             Picasso.with(getActivity()).load(R.drawable.sheep_large).into(avatar);
         } else {
             Picasso.with(getActivity()).load(R.drawable.tower).into(avatar);

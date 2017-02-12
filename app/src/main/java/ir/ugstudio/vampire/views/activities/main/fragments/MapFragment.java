@@ -1284,11 +1284,11 @@ public class MapFragment extends BaseFragment
     public void onEvent(NearestResponseEvent event) {
         Log.d("TAG", "NearestResponseEvent " + event.getFoundNearest());
         if (event.getFoundNearest()) {
-            Log.d("TAG", "NearestResponseEvent " + event.getNearestObject().getTarget().getType());
-//            String msg = "" + event.getNearestObject().getDistance() + " " + event.getNearestObject().getDirection();
+            Log.d("TAG", "NearestResponseEvent " + event.getTarget().getTarget().getType());
+//            String msg = "" + event.getTarget().getDistance() + " " + event.getTarget().getDirection();
 //            Utility.makeToast(getActivity(), msg, Toast.LENGTH_LONG);
 
-            float degrees = event.getNearestObject().getDirection().floatValue() * (float) (180 / Math.PI);
+            float degrees = event.getTarget().getDirection().floatValue() * (float) (180 / Math.PI);
             degrees *= -1;
             arrow.setVisibility(View.VISIBLE);
             arrow.setRotation(degrees);
