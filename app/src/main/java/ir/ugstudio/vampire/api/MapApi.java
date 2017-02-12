@@ -4,6 +4,7 @@ import ir.ugstudio.vampire.models.MapResponse;
 import ir.ugstudio.vampire.models.PlacesResponse;
 import ir.ugstudio.vampire.models.QuotesResponse;
 import ir.ugstudio.vampire.models.Tower;
+import ir.ugstudio.vampire.models.nearest.MostWantedList;
 import ir.ugstudio.vampire.models.nearest.Target;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -119,6 +120,14 @@ public interface MapApi {
             @Field("token") String token,
             @Field("targetType") String targetType,
             @Field("targetId") String targetId,
+            @Field("lat") double lat,
+            @Field("lng") double lng
+    );
+
+    @FormUrlEncoded
+    @POST("getmostwanted")
+    Call<MostWantedList> getMostWantedList(
+            @Field("token") String token,
             @Field("lat") double lat,
             @Field("lng") double lng
     );

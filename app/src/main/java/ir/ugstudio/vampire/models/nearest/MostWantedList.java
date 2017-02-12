@@ -1,20 +1,23 @@
 package ir.ugstudio.vampire.models.nearest;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 import ir.ugstudio.vampire.models.BaseModel;
 
 public class MostWantedList extends BaseModel {
-    private List<Target> mostWanted;
+    @SerializedName("mostWanted")
+    private List<Target> mostWantedList;
 
     public MostWantedList() {
     }
 
-    public List<Target> getMostWanted() {
-        return mostWanted;
+    public List<Target> getMostWantedList() {
+        return mostWantedList;
     }
 
-    public void setMostWanted(List<Target> mostWanted) {
-        this.mostWanted = mostWanted;
+    public void setMostWantedList(List<Target> mostWantedList) {
+        this.mostWantedList = mostWantedList;
     }
 }

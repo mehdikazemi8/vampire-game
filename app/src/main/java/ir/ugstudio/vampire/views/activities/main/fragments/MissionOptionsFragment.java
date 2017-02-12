@@ -2,6 +2,7 @@ package ir.ugstudio.vampire.views.activities.main.fragments;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -16,9 +17,17 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import ir.ugstudio.vampire.R;
+import ir.ugstudio.vampire.VampireApp;
 import ir.ugstudio.vampire.events.StartNearestMissionEvent;
+import ir.ugstudio.vampire.managers.CacheHandler;
+import ir.ugstudio.vampire.managers.UserHandler;
+import ir.ugstudio.vampire.models.nearest.MostWantedList;
+import ir.ugstudio.vampire.models.nearest.Target;
 import ir.ugstudio.vampire.utils.FontHelper;
 import ir.ugstudio.vampire.views.BaseFragment;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MissionOptionsFragment extends BaseFragment {
 
@@ -39,6 +48,36 @@ public class MissionOptionsFragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        getMostWantedList();
+    }
+
+    private void getMostWantedList() {
+        Location lastLocation = CacheHandler.getLastLocation();
+        if (lastLocation == null) {
+            return;
+        }
+
+        Call<MostWantedList> call = VampireApp.createMapApi().getMostWantedList(
+                UserHandler.readToken(getActivity()),
+                lastLocation.getLatitude(),
+                lastLocation.getLongitude()
+        );
+
+        call.enqueue(new Callback<MostWantedList>() {
+            @Override
+            public void onResponse(Call<MostWantedList> call, Response<MostWantedList> response) {
+                Log.d("TAG", "MostWantedList " + response.message());
+                for (Target target : response.body().getMostWantedList()) {
+                    Log.d("TAG", "MostWantedList " + target.toString());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<MostWantedList> call, Throwable t) {
+
+            }
+        });
     }
 
     @Override

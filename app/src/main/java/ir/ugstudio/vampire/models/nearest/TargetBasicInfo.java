@@ -57,4 +57,15 @@ public class TargetBasicInfo extends BaseModel {
     public void setCoin(Integer coin) {
         this.coin = coin;
     }
+
+    @Override
+    public String toString() {
+        return "TargetBasicInfo{" +
+                "type='" + type + '\'' +
+                ", username='" + username + '\'' +
+                ", avatar=" + avatar +
+                ", coin=" + coin +
+                ", id='" + id + '\'' +
+                "} ";
+    }
 }

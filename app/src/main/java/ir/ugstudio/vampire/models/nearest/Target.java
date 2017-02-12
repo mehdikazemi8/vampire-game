@@ -36,4 +36,13 @@ public class Target extends BaseModel {
     public void setTarget(TargetBasicInfo target) {
         this.target = target;
     }
+
+    @Override
+    public String toString() {
+        return "Target{" +
+                "distance=" + distance +
+                ", direction=" + direction +
+                ", target=" + target.toString() +
+                "}";
+    }
 }
