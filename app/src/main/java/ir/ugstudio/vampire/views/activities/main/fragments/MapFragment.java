@@ -61,6 +61,7 @@ import ir.ugstudio.vampire.events.NearestResponseEvent;
 import ir.ugstudio.vampire.events.OpenIntroductionFragment;
 import ir.ugstudio.vampire.events.RefreshAroundTowerEvent;
 import ir.ugstudio.vampire.events.ShowTabEvent;
+import ir.ugstudio.vampire.events.StartMostWantedMission;
 import ir.ugstudio.vampire.events.StartNearestMissionEvent;
 import ir.ugstudio.vampire.events.TowerAddEvent;
 import ir.ugstudio.vampire.events.TowerCollectCoinsEvent;
@@ -74,6 +75,7 @@ import ir.ugstudio.vampire.models.Place;
 import ir.ugstudio.vampire.models.PlacesResponse;
 import ir.ugstudio.vampire.models.Tower;
 import ir.ugstudio.vampire.models.User;
+import ir.ugstudio.vampire.models.nearest.Target;
 import ir.ugstudio.vampire.utils.Consts;
 import ir.ugstudio.vampire.utils.FontHelper;
 import ir.ugstudio.vampire.utils.Utility;
@@ -863,7 +865,12 @@ public class MapFragment extends BaseFragment
         requestForMap(CacheHandler.getLastLocation().getLatitude(), CacheHandler.getLastLocation().getLongitude(), true);
     }
 
-    private void startMissionMode() {
+    private void startMissionMode(Target target) {
+        float degrees = target.getDirection().floatValue() * (float) (180 / Math.PI);
+        degrees *= -1;
+        arrow.setVisibility(View.VISIBLE);
+        arrow.setRotation(degrees);
+
         missionMode = true;
         actionsButton.setVisibility(View.INVISIBLE);
         openMissionInfoFragment();
@@ -1284,17 +1291,7 @@ public class MapFragment extends BaseFragment
     public void onEvent(NearestResponseEvent event) {
         Log.d("TAG", "NearestResponseEvent " + event.getFoundNearest());
         if (event.getFoundNearest()) {
-            Log.d("TAG", "NearestResponseEvent " + event.getTarget().getTarget().getType());
-//            String msg = "" + event.getTarget().getDistance() + " " + event.getTarget().getDirection();
-//            Utility.makeToast(getActivity(), msg, Toast.LENGTH_LONG);
-
-            float degrees = event.getTarget().getDirection().floatValue() * (float) (180 / Math.PI);
-            degrees *= -1;
-            arrow.setVisibility(View.VISIBLE);
-            arrow.setRotation(degrees);
-
-            startMissionMode();
-
+            startMissionMode(event.getTarget());
         } else {
             Utility.makeToast(getActivity(), "Not Found", Toast.LENGTH_LONG);
         }
@@ -1320,5 +1317,11 @@ public class MapFragment extends BaseFragment
         finishHealMode();
     }
 
+    @Subscribe
+    public void onEvent(StartMostWantedMission event) {
+        getActivity().getSupportFragmentManager().popBackStack();
+        getActivity().getSupportFragmentManager().popBackStack();
 
+        startMissionMode(event.getTarget());
+    }
 }
