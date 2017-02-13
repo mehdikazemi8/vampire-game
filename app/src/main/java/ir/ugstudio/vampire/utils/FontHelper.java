@@ -5,7 +5,8 @@ import android.graphics.Typeface;
 import android.widget.TextView;
 
 public class FontHelper {
-    private static final String FONT_APP_NAME = "roya_bold.ttf";
+    //    private static final String FONT_APP_NAME = "roya_bold.ttf";
+    private static final String FONT_APP_NAME = "iran_sans_light.ttf";
     //    private static final String FONT_AVATAR_NAME = "avatars.ttf";
     private static final String FONT_MENU_NAME = "icons.ttf";
 

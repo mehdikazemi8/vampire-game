@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:padding="@dimen/space.medium"
-        android:textSize="@dimen/text.size.3medium" />
+        android:textSize="@dimen/text.size.medium" />
 
     <LinearLayout
         android:layout_width="match_parent"
