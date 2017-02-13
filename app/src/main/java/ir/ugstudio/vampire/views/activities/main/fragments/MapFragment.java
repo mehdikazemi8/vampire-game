@@ -759,7 +759,7 @@ public class MapFragment extends BaseFragment
     private CameraUpdate getCameraUpdate(LatLng latLng, float zoomLevel) {
         CameraPosition cameraPosition = new CameraPosition.Builder().
                 target(latLng).
-                tilt(70.0f).
+//                tilt(70.0f).
                 zoom(zoomLevel).
                 build();
         return CameraUpdateFactory.newCameraPosition(cameraPosition);

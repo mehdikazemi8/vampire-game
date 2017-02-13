@@ -3,6 +3,9 @@
 
     <string name="purchase">خرید</string>
 
+    <string name="continue_purchase">ادامه خرید</string>
+    <string name="refuse_purchase">انصراف</string>
+
     <string name="btn_logout">خروج از حساب کاربری</string>
     <string name="btn_rate">نظر دادن</string>
     <string name="btn_share">اشتراک گذاری با دوستان</string>
@@ -19,6 +22,11 @@
     <string name="toast_add_tower_not_in_range">فقط می تونی نزدیک خودت برج رو بسازی</string>
     <string name="toast_add_tower_not_in_range_gps_disabled">لطفا GPS رو روشن کن و برج رو نزدیک خودت بساز</string>
     <string name="toast_add_tower_range_conflict">با یه برج دیگه تداخل داره</string>
+
+    <string name="virtual_desc_heal">این آیتم کمک میکنه بعد از اینکه ترور شدی خودت رو درمان کنی و دوباره به زندگی ادامه بدی.</string>
+    <string name="virtual_desc_attack_range">به صورت نرمال آدم‌هایی که توی ۲۰۰ متریت هستن رو می تونی ترور کنی، با خرید این آیتم می تونی افراد رو تا ۳۰۰ متری ترور کنی.</string>
+    <string name="virtual_desc_sight_range">به صورت نرمال می تونی افرادی که توی فاصله‌ي ۴۰۰ متریت هستن رو ببینی، این آیتم کمک می کنه تا بازه‌ی ۸۰۰ متری اطرافت رو ببینی.</string>
+    <string name="virtual_desc_invisible">به صورت نرمال وقتی آدم‌ها از کنارت رد میشن تو رو توی نقشه‌ی خودشون میبینن و می تونن ترورت کنن، خرید این آیتم کمک می کنه نامرئی بشی.</string>
 
     <string name="toast_please_try_again_later">مشکلی پیش اومده، لطفا چند لحظه دیگه دوباره امتحان کن</string>
     <string name="toast_collect_coin_ok">%d سکه از برج به خزانه اضافه شد.</string>

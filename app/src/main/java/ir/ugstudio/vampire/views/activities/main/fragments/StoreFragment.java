@@ -19,6 +19,7 @@ import ir.ugstudio.vampire.VampireApp;
 import ir.ugstudio.vampire.async.GetProfile;
 import ir.ugstudio.vampire.events.FinishHealMode;
 import ir.ugstudio.vampire.events.StartRealPurchase;
+import ir.ugstudio.vampire.listeners.OnCompleteListener;
 import ir.ugstudio.vampire.managers.SharedPrefHandler;
 import ir.ugstudio.vampire.managers.UserHandler;
 import ir.ugstudio.vampire.models.StoreItemReal;
@@ -31,6 +32,7 @@ import ir.ugstudio.vampire.views.activities.main.adapters.OnRealStoreItemClickLi
 import ir.ugstudio.vampire.views.activities.main.adapters.OnVirtualStoreItemClickListener;
 import ir.ugstudio.vampire.views.activities.main.adapters.StoreItemAdapterReal;
 import ir.ugstudio.vampire.views.activities.main.adapters.StoreItemAdapterVirtual;
+import ir.ugstudio.vampire.views.dialogs.IntroduceVirtualItemDialog;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -89,10 +91,29 @@ public class StoreFragment extends BaseFragment implements View.OnClickListener 
             virtualItemsAdapter = new StoreItemAdapterVirtual(virtualItemsList, new OnVirtualStoreItemClickListener() {
                 @Override
                 public void onItemClick(StoreItemVirtual item) {
-                    startVirtualPurchase(item);
+                    showIntroduceVirtualItemDialog(item);
                 }
             });
             virtualItems.setAdapter(virtualItemsAdapter);
+        }
+    }
+
+    private void showIntroduceVirtualItemDialog(final StoreItemVirtual item) {
+
+        IntroduceVirtualItemDialog dialog = new IntroduceVirtualItemDialog(getActivity(), item, new OnCompleteListener() {
+            @Override
+            public void onComplete(Integer state) {
+                if (state.equals(1)) {
+                    startVirtualPurchase(item);
+                }
+            }
+        });
+        dialog.show();
+
+        try {
+            dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        } catch (NullPointerException e) {
+            e.printStackTrace();
         }
     }
 

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="@dimen/space.medium">
+
+    <ImageView
+        android:id="@+id/virtual_picture"
+        android:layout_width="@dimen/avatar.size.large"
+        android:layout_height="@dimen/avatar.size.large"
+        android:layout_gravity="center_horizontal" />
+
+    <ir.ugstudio.vampire.views.custom.CustomTextView
+        android:id="@+id/virtual_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="@dimen/space.medium"
+        android:textSize="@dimen/text.size.3medium" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ir.ugstudio.vampire.views.custom.CustomButton
+            android:id="@+id/refuse_purchase"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/refuse_purchase" />
+
+        <ir.ugstudio.vampire.views.custom.CustomButton
+            android:id="@+id/continue_purchase"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/continue_purchase" />
+
+    </LinearLayout>
+
+</LinearLayout>
