@@ -26,7 +26,7 @@ public class CustomButton extends Button {
 
     private void fixFont() {
         setTypeface(FontHelper.getDefaultTypeface(getContext()));
-        setTextColor(ContextCompat.getColor(getContext(), R.color.zereshki));
+//        setTextColor(ContextCompat.getColor(getContext(), R.color.zereshki));
         setPadding(20, 0, 20, 0);
     }
 }

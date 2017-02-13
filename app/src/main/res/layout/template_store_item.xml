@@ -41,9 +41,9 @@
         android:layout_marginLeft="@dimen/space.large"
         android:layout_marginRight="@dimen/space.large"
         android:layout_marginTop="@dimen/space.medium"
-        android:background="@drawable/special_button"
+        android:background="@drawable/special_button_zereshki"
         android:text="@string/purchase"
-        android:textSize="@dimen/text.size.3medium"
-        android:textStyle="bold" />
+        android:textColor="@color/white"
+        android:textSize="@dimen/text.size.3medium" />
 
 </LinearLayout>
