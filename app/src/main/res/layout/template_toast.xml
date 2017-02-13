@@ -5,5 +5,5 @@
     android:layout_height="wrap_content"
     android:background="@drawable/toast_background"
     android:orientation="vertical"
-    android:padding="@dimen/space.small"
+    android:padding="@dimen/space.large"
     android:textColor="@color/black" />

@@ -28,6 +28,8 @@
     <string name="toast_heal_not_in_range">یکم باید به بیمارستان نزدیک تر بشی</string>
     <string name="toast_heal_not_needed">الان حالت خوبه، نیازی نیست :)</string>
 
+    <string name="toast_general_not_needed">در حال حاضر این قابلیت رو داری، نیازی نیست دوباره بخریش.</string>
+
     <string name="toast_virtual_purchase_ok">مبارکا باشه، با موفقیت انجام شد.</string>
     <string name="toast_virtual_purchase_not_enough_money">متاسفانه سکه‌ی کافی برای خرید این آیتم نداری :(</string>
 

@@ -107,6 +107,8 @@ public class StoreFragment extends BaseFragment implements View.OnClickListener 
                 if (response.isSuccessful()) {
                     String result = Utility.extractResult(response.body());
 
+                    Log.d("TAG", "ddbb " + result + " " + item.getItemId());
+
                     switch (result) {
                         case Consts.RESULT_OK:
                             if (item.getItemId().equals(Consts.VIRTUAL_STORE_HEAL)) {
@@ -118,6 +120,14 @@ public class StoreFragment extends BaseFragment implements View.OnClickListener 
 
                         case Consts.RESULT_NOT_ENOUGH_MONEY:
                             Utility.makeToast(getActivity(), getString(R.string.toast_virtual_purchase_not_enough_money), Toast.LENGTH_LONG);
+                            break;
+
+                        case Consts.RESULT_NOT_NEEDED:
+                            if (item.getItemId().equals("heal")) {
+                                Utility.makeToast(getActivity(), getString(R.string.toast_heal_not_needed), Toast.LENGTH_LONG);
+                            } else {
+                                Utility.makeToast(getActivity(), getString(R.string.toast_general_not_needed), Toast.LENGTH_LONG);
+                            }
                             break;
                     }
                 } else {
