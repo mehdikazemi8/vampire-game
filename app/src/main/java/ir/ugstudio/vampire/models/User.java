@@ -9,6 +9,7 @@ public class User extends BaseModel {
     private String username;
     private String lifestat;
     private String role;
+    private String city;
     private Integer rank;
     private Integer score;
     private List<Double> geo;
@@ -22,6 +23,14 @@ public class User extends BaseModel {
     private UpdateVersion updateVersion;
 
     public User() {
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
     }
 
     public UpdateVersion getUpdateVersion() {

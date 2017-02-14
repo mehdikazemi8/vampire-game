@@ -12,6 +12,7 @@ public class RankViewHolder extends RecyclerView.ViewHolder {
 
     public LinearLayout container;
     public CustomTextView username;
+    public CustomTextView city;
     public CustomTextView rank;
     public CustomTextView score;
     public ImageView avatar;
@@ -23,6 +24,7 @@ public class RankViewHolder extends RecyclerView.ViewHolder {
         username = (CustomTextView) view.findViewById(R.id.username);
         rank = (CustomTextView) view.findViewById(R.id.rank);
         score = (CustomTextView) view.findViewById(R.id.score);
+        city = (CustomTextView) view.findViewById(R.id.city);
         avatar = (ImageView) view.findViewById(R.id.avatar);
     }
 }

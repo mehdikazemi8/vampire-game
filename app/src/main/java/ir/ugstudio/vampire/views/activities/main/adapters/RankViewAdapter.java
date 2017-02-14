@@ -2,6 +2,7 @@ package ir.ugstudio.vampire.views.activities.main.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,6 +43,9 @@ public class RankViewAdapter extends RecyclerView.Adapter<RankViewHolder> {
         Picasso.with(context).load(
                 AvatarManager.getResourceId(context, items.get(position).getAvatar())
         ).into(holder.avatar);
+
+        holder.city.setText(items.get(position).getCity());
+        Log.d("TAG", "onBindViewHolderzz " + items.get(position).getCity());
     }
 
     @Override

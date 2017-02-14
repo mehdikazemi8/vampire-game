@@ -16,19 +16,34 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:gravity="center_horizontal|bottom"
+            android:gravity="center_vertical"
             android:textColor="@color/zereshki"
             android:textSize="@dimen/text.size.3medium" />
 
-        <ir.ugstudio.vampire.views.custom.CustomTextView
-            android:id="@+id/username"
+        <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:layout_weight="1"
-            android:gravity="center_horizontal|bottom"
-            android:textColor="@color/zereshki"
-            android:textSize="@dimen/text.size.3medium"
-            android:textStyle="bold" />
+            android:orientation="vertical">
+
+            <ir.ugstudio.vampire.views.custom.CustomTextView
+                android:id="@+id/username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal|bottom"
+                android:textColor="@color/zereshki"
+                android:textSize="@dimen/text.size.3medium" />
+
+            <ir.ugstudio.vampire.views.custom.CustomTextView
+                android:id="@+id/city"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal|bottom"
+                android:textColor="@color/zereshki"
+                android:textSize="@dimen/text.size.3medium" />
+
+        </LinearLayout>
 
         <ImageView
             android:id="@+id/avatar"
@@ -40,7 +55,7 @@
             android:id="@+id/rank"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:gravity="center_horizontal|bottom"
+            android:gravity="center_vertical"
             android:paddingLeft="@dimen/space.medium"
             android:paddingRight="@dimen/space.medium"
             android:textColor="@color/zereshki"
