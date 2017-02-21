@@ -78,6 +78,7 @@ public class MissionOptionsFragment extends BaseFragment {
             @Override
             public void onResponse(Call<MostWantedList> call, Response<MostWantedList> response) {
                 Log.d("TAG", "MostWantedList " + response.message());
+                Log.d("TAG", "MostWantedList " + response.body().getMostWantedList().size());
 
                 if (response.isSuccessful()) {
                     bindListData(response.body().getMostWantedList());
@@ -86,7 +87,7 @@ public class MissionOptionsFragment extends BaseFragment {
 
             @Override
             public void onFailure(Call<MostWantedList> call, Throwable t) {
-
+                Log.d("TAG", "MostWantedList fail " + t.getMessage());
             }
         });
     }

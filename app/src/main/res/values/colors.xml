@@ -5,9 +5,11 @@
     <color name="colorAccent">#FF4081</color>
 
     <color name="old_brick">#96281B</color>
+    <color name="old_brick_trans">#8896281B</color>
     <color name="salem">#1E824C</color>
     <color name="white_smoke">#ececec</color>
     <color name="black">#000</color>
+    <color name="black_red_trans">#88220000</color>
     <color name="gallery">#EEEEEE</color>
     <color name="white">#FFFFFF</color>
     <color name="white_trans1">#DDFFFFFF</color>
@@ -25,5 +27,6 @@
 
     <color name="zereshki">#4f0001</color>
     <color name="zereshki_trans1">#554f0001</color>
+    <color name="zereshki_trans2">#884f0001</color>
 
 </resources>
