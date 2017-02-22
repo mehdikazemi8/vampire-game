@@ -16,59 +16,77 @@
             android:background="@color/gray"
             android:orientation="horizontal">
 
-            <LinearLayout
+            <FrameLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="bottom"
-                android:orientation="vertical">
+                android:layout_weight="1">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:adjustViewBounds="true"
+                    android:padding="@dimen/space.small"
+                    android:src="@drawable/virtual_3" />
 
                 <ImageView
                     android:id="@+id/mission_sheep"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom"
+                    android:layout_width="@dimen/avatar.size.small"
+                    android:layout_height="@dimen/avatar.size.small"
+                    android:layout_gravity="center_vertical"
                     android:adjustViewBounds="true"
                     android:padding="@dimen/space.small"
                     android:src="@drawable/sheep_large" />
 
-            </LinearLayout>
+            </FrameLayout>
 
-            <LinearLayout
+            <FrameLayout
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="bottom"
-                android:orientation="vertical">
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:adjustViewBounds="true"
+                    android:padding="@dimen/space.small"
+                    android:src="@drawable/virtual_3" />
 
                 <ImageView
                     android:id="@+id/mission_tower"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom"
+                    android:layout_width="@dimen/avatar.size.small"
+                    android:layout_height="@dimen/avatar.size.small"
+                    android:layout_gravity="center_vertical"
                     android:adjustViewBounds="true"
                     android:padding="@dimen/space.small"
                     android:src="@drawable/tower" />
 
-            </LinearLayout>
+            </FrameLayout>
 
-            <LinearLayout
+            <FrameLayout
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="bottom"
-                android:orientation="vertical">
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:adjustViewBounds="true"
+                    android:padding="@dimen/space.small"
+                    android:src="@drawable/virtual_3" />
 
                 <ImageView
                     android:id="@+id/mission_player"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom"
+                    android:layout_width="@dimen/avatar.size.small"
+                    android:layout_height="@dimen/avatar.size.small"
+                    android:layout_gravity="center_vertical"
                     android:adjustViewBounds="true"
                     android:padding="@dimen/space.small"
                     android:src="@drawable/vamp1001" />
 
-            </LinearLayout>
+            </FrameLayout>
 
         </LinearLayout>
     </android.support.v7.widget.CardView>
