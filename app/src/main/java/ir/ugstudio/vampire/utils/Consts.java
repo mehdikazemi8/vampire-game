@@ -11,6 +11,10 @@ public class Consts {
     public static final String RESULT_NOT_NEEDED = "not_needed";
     public static final String RESULT_SAME_ROLE = "same_role";
 
+    public static final String NEAREST_SHEEP = "sheep";
+    public static final String NEAREST_TOWER = "tower";
+    public static final String NEAREST_PLAYER = "player";
+
     public static final String USER_JSON = "USER_JSON";
 
     public static final String PLACE_HOSPITAL = "hospital";

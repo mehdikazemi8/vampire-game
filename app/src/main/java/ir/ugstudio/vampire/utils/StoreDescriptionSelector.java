@@ -18,6 +18,15 @@ public class StoreDescriptionSelector {
 
             case "invisible":
                 return context.getString(R.string.virtual_desc_invisible);
+
+            case Consts.NEAREST_SHEEP:
+                return String.format(context.getString(R.string.desc_nearest_sheep), 50);
+
+            case Consts.NEAREST_TOWER:
+                return String.format(context.getString(R.string.desc_nearest_tower), 100);
+
+            case Consts.NEAREST_PLAYER:
+                return String.format(context.getString(R.string.desc_nearest_player), 150);
         }
         return "";
     }

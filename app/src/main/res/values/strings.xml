@@ -3,7 +3,7 @@
 
     <string name="purchase">خرید</string>
 
-    <string name="continue_purchase">ادامه خرید</string>
+    <string name="continue_purchase">ادامه</string>
     <string name="refuse_purchase">انصراف</string>
 
     <string name="btn_logout">خروج از حساب کاربری</string>
@@ -128,6 +128,10 @@
 
     <string name="desc.avatar">avatar</string>
 
+    <string name="desc_nearest_sheep" formatted="true">الان یکی از گوسفند‌هایی که بهت نزدیک هست رو بهت معرفی می کنیم که بری ترورش کنی و در ازا %d سکه ازت کم میشه.</string>
+    <string name="desc_nearest_tower" formatted="true">الان یکی از دشمنات که بهت نزدیک هست رو بهت معرفی می کنیم که بری ترورش کنی و در ازا %d سکه ازت کم میشه.</string>
+    <string name="desc_nearest_player" formatted="true">الان یکی از برج‌هایی که بهت نزدیک هست رو بهت معرفی می کنیم که بری غارتش کنی و در ازا %d سکه ازت کم میشه.</string>
+
     <string name="template_notification_message" formatted="false">&#160; ازت %d سکه دزدید و گفت: &#160;</string>
     <string name="template_nearest_distance" formatted="false">فاصله: %d متر</string>
 
@@ -216,6 +220,10 @@
         <item>@drawable/virtual_hunter_2</item>
         <item>@drawable/virtual_3</item>
         <item>@drawable/virtual_hunter_4</item>
+
+        <item>@drawable/sheep_large</item>
+        <item>@drawable/tower</item>
+        <item>@drawable/vamp1001</item>
     </integer-array>
 
     <integer-array name="virtual_vampire_store_icons">
@@ -223,6 +231,10 @@
         <item>@drawable/virtual_vampire_2</item>
         <item>@drawable/virtual_3</item>
         <item>@drawable/virtual_vampire_4</item>
+
+        <item>@drawable/sheep_large</item>
+        <item>@drawable/tower</item>
+        <item>@drawable/hunt2004</item>
     </integer-array>
 
     <integer-array name="tab_icons">

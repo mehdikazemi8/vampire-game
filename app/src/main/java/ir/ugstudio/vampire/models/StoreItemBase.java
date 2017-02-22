@@ -1,8 +1,8 @@
 package ir.ugstudio.vampire.models;
 
 public class StoreItemBase extends BaseModel {
+    protected Integer imageType;
     private Integer price;
-    private Integer imageType;
     private String title;
 
     public StoreItemBase() {

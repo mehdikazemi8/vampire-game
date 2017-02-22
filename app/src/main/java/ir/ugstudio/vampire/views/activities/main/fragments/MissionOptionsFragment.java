@@ -1,7 +1,5 @@
 package ir.ugstudio.vampire.views.activities.main.fragments;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,7 +10,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.ImageView;
+
+import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -25,13 +25,16 @@ import butterknife.Unbinder;
 import ir.ugstudio.vampire.R;
 import ir.ugstudio.vampire.VampireApp;
 import ir.ugstudio.vampire.events.StartNearestMissionEvent;
+import ir.ugstudio.vampire.listeners.OnCompleteListener;
 import ir.ugstudio.vampire.managers.CacheHandler;
 import ir.ugstudio.vampire.managers.UserHandler;
+import ir.ugstudio.vampire.models.StoreItemVirtual;
 import ir.ugstudio.vampire.models.nearest.MostWantedList;
 import ir.ugstudio.vampire.models.nearest.Target;
-import ir.ugstudio.vampire.utils.FontHelper;
+import ir.ugstudio.vampire.utils.Consts;
 import ir.ugstudio.vampire.views.BaseFragment;
 import ir.ugstudio.vampire.views.activities.main.adapters.MostWantedViewAdapter;
+import ir.ugstudio.vampire.views.dialogs.IntroduceVirtualItemDialog;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -40,6 +43,9 @@ public class MissionOptionsFragment extends BaseFragment {
 
     @BindView(R.id.most_wanted_list)
     RecyclerView mostWantedList;
+
+    @BindView(R.id.mission_player)
+    ImageView missionPlayer;
 
     private Unbinder unbinder;
     private MostWantedViewAdapter mostWantedViewAdapter;
@@ -60,6 +66,9 @@ public class MissionOptionsFragment extends BaseFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        if (CacheHandler.getUser().getRole().equals("hunter")) {
+            Picasso.with(getActivity()).load(R.drawable.vamp1001).into(missionPlayer);
+        }
         getMostWantedList();
     }
 
@@ -108,48 +117,52 @@ public class MissionOptionsFragment extends BaseFragment {
         unbinder.unbind();
     }
 
-    @OnClick({R.id.mission_sheep, R.id.mission_tower, R.id.mission_player})
+    private void showIntroduceDialog(final String itemId, Integer imageType) {
+        IntroduceVirtualItemDialog dialog = new IntroduceVirtualItemDialog(
+                getActivity(),
+                new StoreItemVirtual(itemId, imageType),
+                new OnCompleteListener() {
+                    @Override
+                    public void onComplete(Integer state) {
+                        if (state.equals(1)) {
+                            EventBus.getDefault().post(new StartNearestMissionEvent(itemId));
+                        }
+                    }
+                }
+        );
+        dialog.show();
+
+        try {
+            dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @OnClick({
+            R.id.mission_sheep, R.id.mission_tower, R.id.mission_player,
+            R.id.mission_sheep_back, R.id.mission_tower_back, R.id.mission_player_back
+    })
     public void startMission(View view) {
         Log.d("TAG", "aaa" + (R.id.mission_sheep == view.getId()));
         Log.d("TAG", "aaa" + (R.id.mission_tower == view.getId()));
         Log.d("TAG", "aaa" + (R.id.mission_player == view.getId()));
 
-        String targetType = null;
-
-        String message = "";
         switch (view.getId()) {
             case R.id.mission_sheep:
-                message = "برای پیدا کردن یک گوسفند که تو نزدیکیات هست باید ۵۰ سکه بپردازی";
-                targetType = "sheep";
+            case R.id.mission_sheep_back:
+                showIntroduceDialog(Consts.NEAREST_SHEEP, 5);
                 break;
 
             case R.id.mission_tower:
-                message = "برای پیدا کردن یک برج باید ۲۰۰ سکه بپردازی";
-                targetType = "tower";
+            case R.id.mission_tower_back:
+                showIntroduceDialog(Consts.NEAREST_TOWER, 6);
                 break;
 
             case R.id.mission_player:
-                message = "برای پیدا کردن یک خون آشام باید ۱۰۰ سکه بپردازی";
-                targetType = "player";
+            case R.id.mission_player_back:
+                showIntroduceDialog(Consts.NEAREST_PLAYER, 7);
                 break;
         }
-
-        final String finalTargetType = targetType;
-        AlertDialog dialog = new AlertDialog.Builder(getActivity())
-                .setMessage(message)
-                .setPositiveButton("حله بریم", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        EventBus.getDefault().post(new StartNearestMissionEvent(finalTargetType));
-                    }
-                })
-                .setNegativeButton("فعلا نه", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-
-                    }
-                }).show();
-        dialog.setCancelable(true);
-        FontHelper.setKoodakFor(getActivity(), (TextView) dialog.findViewById(android.R.id.message));
     }
 }

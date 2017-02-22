@@ -22,6 +22,7 @@
                 android:layout_weight="1">
 
                 <ImageView
+                    android:id="@+id/mission_sheep_back"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -46,6 +47,7 @@
                 android:layout_weight="1">
 
                 <ImageView
+                    android:id="@+id/mission_tower_back"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -70,12 +72,14 @@
                 android:layout_weight="1">
 
                 <ImageView
+                    android:id="@+id/mission_player_back"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:adjustViewBounds="true"
                     android:padding="@dimen/space.small"
                     android:src="@drawable/virtual_3" />
+
 
                 <ImageView
                     android:id="@+id/mission_player"
@@ -84,7 +88,7 @@
                     android:layout_gravity="center_vertical"
                     android:adjustViewBounds="true"
                     android:padding="@dimen/space.small"
-                    android:src="@drawable/vamp1001" />
+                    android:src="@drawable/hunt2004" />
 
             </FrameLayout>
 
