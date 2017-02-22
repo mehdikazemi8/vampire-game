@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
@@ -52,6 +53,7 @@ public class AttackDialog extends Dialog implements View.OnClickListener {
     private CustomTextView username;
     private CustomTextView coin;
     private CustomTextView score;
+    private RadioGroup radioGroup;
 
     private Button attackButton;
     private boolean doIAttackFromTower = false;
@@ -82,7 +84,12 @@ public class AttackDialog extends Dialog implements View.OnClickListener {
 
         getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         DisplayMetrics metrics = getContext().getResources().getDisplayMetrics();
-        getWindow().setLayout(Math.min(1000, (int) (metrics.widthPixels * 0.98)), (int) (metrics.heightPixels * 0.95));
+
+        if(isSheep) {
+            getWindow().setLayout(Math.min(1000, (int) (metrics.widthPixels * 0.98)), (int) (metrics.heightPixels * 0.60));
+        } else {
+            getWindow().setLayout(Math.min(1000, (int) (metrics.widthPixels * 0.98)), (int) (metrics.heightPixels * 0.80));
+        }
 
         findControls();
         configure();
@@ -103,6 +110,8 @@ public class AttackDialog extends Dialog implements View.OnClickListener {
         quotesRadio[0] = (RadioButton) findViewById(R.id.quote_0);
         quotesRadio[1] = (RadioButton) findViewById(R.id.quote_1);
         quotesRadio[2] = (RadioButton) findViewById(R.id.quote_2);
+
+        radioGroup = (RadioGroup) findViewById(R.id.radio_group);
     }
 
     private void configure() {
@@ -110,6 +119,7 @@ public class AttackDialog extends Dialog implements View.OnClickListener {
 
         if (isSheep) {
             Picasso.with(getContext()).load(R.drawable.sheep_large).into(avatar);
+            radioGroup.setVisibility(View.GONE);
         } else {
             Picasso.with(getContext()).load(AvatarManager.getResourceId(getContext(), user.getAvatar())).into(avatar);
         }
