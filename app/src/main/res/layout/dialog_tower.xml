@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/salem"
+    android:background="@color/zereshki_trans2"
     android:orientation="vertical">
 
     <ir.ugstudio.vampire.views.custom.CustomTextView
@@ -56,7 +56,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/space.medium"
+            android:background="@drawable/special_button"
             android:text="@string/btn_show_tower_wall"
+            android:textColor="@color/zereshki"
             android:visibility="gone" />
 
         <ir.ugstudio.vampire.views.custom.CustomButton
@@ -64,7 +66,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/space.medium"
+            android:background="@drawable/special_button"
             android:text="@string/btn_steal_coins"
+            android:textColor="@color/zereshki"
             android:visibility="gone" />
 
         <ir.ugstudio.vampire.views.custom.CustomButton
