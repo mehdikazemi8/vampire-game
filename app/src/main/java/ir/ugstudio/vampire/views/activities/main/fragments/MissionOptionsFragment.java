@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -78,7 +79,6 @@ public class MissionOptionsFragment extends BaseFragment {
             @Override
             public void onResponse(Call<MostWantedList> call, Response<MostWantedList> response) {
                 Log.d("TAG", "MostWantedList " + response.message());
-                Log.d("TAG", "MostWantedList " + response.body().getMostWantedList().size());
 
                 if (response.isSuccessful()) {
                     bindListData(response.body().getMostWantedList());
@@ -93,8 +93,9 @@ public class MissionOptionsFragment extends BaseFragment {
     }
 
     private void bindListData(List<Target> mostWantedItems) {
-        LinearLayoutManager layoutManager
-                = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+
+        GridLayoutManager layoutManager
+                = new GridLayoutManager(getContext(), 2, LinearLayoutManager.VERTICAL, false);
         mostWantedList.setLayoutManager(layoutManager);
         mostWantedViewAdapter = new MostWantedViewAdapter(mostWantedItems);
         mostWantedList.setAdapter(mostWantedViewAdapter);
