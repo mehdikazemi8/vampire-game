@@ -25,6 +25,13 @@
                 android:layout_gravity="center"
                 android:src="@drawable/tower_collect" />
 
+            <ir.ugstudio.vampire.views.custom.CustomTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/tower_action_collect"
+                android:textColor="@color/zereshki" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -39,6 +46,13 @@
                 android:layout_height="@dimen/avatar.size.small"
                 android:layout_gravity="center"
                 android:src="@drawable/tower_watch" />
+
+            <ir.ugstudio.vampire.views.custom.CustomTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/tower_action_watch"
+                android:textColor="@color/zereshki" />
 
         </LinearLayout>
 
@@ -55,9 +69,21 @@
                 android:layout_gravity="center"
                 android:src="@drawable/tower_create" />
 
+            <ir.ugstudio.vampire.views.custom.CustomTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/tower_action_create"
+                android:textColor="@color/zereshki" />
+
         </LinearLayout>
 
     </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/zereshki_trans1" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/user_towers"

@@ -67,10 +67,10 @@
         android:visibility="gone" />
 
     <RadioGroup
+        android:id="@+id/radio_group"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/space.medium"
-        android:id="@+id/radio_group"
         android:layout_marginRight="@dimen/space.medium"
         android:background="@color/black_red_trans"
         android:layoutDirection="rtl">
@@ -88,14 +88,27 @@
             style="@style/radio_buttons_attack_dialog" />
     </RadioGroup>
 
-    <Button
+
+    <FrameLayout
         android:id="@+id/attack_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="@dimen/space.medium"
-        android:background="@drawable/actions_button"
-        android:text="@string/btn_attack"
-        android:textColor="@color/white" />
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/space.xlarge">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/actions_button" />
+
+        <ir.ugstudio.vampire.views.custom.CustomTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/space.medium"
+            android:text="@string/btn_attack"
+            android:textColor="@color/white" />
+
+    </FrameLayout>
 
 </LinearLayout>

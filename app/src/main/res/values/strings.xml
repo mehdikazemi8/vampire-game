@@ -3,6 +3,10 @@
 
     <string name="purchase">خرید</string>
 
+    <string name="tower_action_create">ساخت</string>
+    <string name="tower_action_watch">دیدبانی</string>
+    <string name="tower_action_collect">سکه</string>
+
     <string name="continue_purchase">ادامه</string>
     <string name="refuse_purchase">انصراف</string>
 

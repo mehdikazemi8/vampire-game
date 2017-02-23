@@ -8,8 +8,8 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.Window;
-import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -55,7 +55,7 @@ public class AttackDialog extends Dialog implements View.OnClickListener {
     private CustomTextView score;
     private RadioGroup radioGroup;
 
-    private Button attackButton;
+    private FrameLayout attackButton;
     private boolean doIAttackFromTower = false;
     private Tower tower;
 
@@ -85,7 +85,7 @@ public class AttackDialog extends Dialog implements View.OnClickListener {
         getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         DisplayMetrics metrics = getContext().getResources().getDisplayMetrics();
 
-        if(isSheep) {
+        if (isSheep) {
             getWindow().setLayout(Math.min(1000, (int) (metrics.widthPixels * 0.98)), (int) (metrics.heightPixels * 0.60));
         } else {
             getWindow().setLayout(Math.min(1000, (int) (metrics.widthPixels * 0.98)), (int) (metrics.heightPixels * 0.80));
@@ -98,7 +98,7 @@ public class AttackDialog extends Dialog implements View.OnClickListener {
     }
 
     private void findControls() {
-        attackButton = (Button) findViewById(R.id.attack_button);
+        attackButton = (FrameLayout) findViewById(R.id.attack_button);
 
         username = (CustomTextView) findViewById(R.id.username);
         coin = (CustomTextView) findViewById(R.id.coin);
@@ -115,7 +115,7 @@ public class AttackDialog extends Dialog implements View.OnClickListener {
     }
 
     private void configure() {
-        FontHelper.setKoodakFor(getContext(), quotesRadio[0], quotesRadio[1], quotesRadio[2], attackButton);
+        FontHelper.setKoodakFor(getContext(), quotesRadio[0], quotesRadio[1], quotesRadio[2]);
 
         if (isSheep) {
             Picasso.with(getContext()).load(R.drawable.sheep_large).into(avatar);
