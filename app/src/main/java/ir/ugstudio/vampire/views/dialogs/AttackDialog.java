@@ -86,9 +86,9 @@ public class AttackDialog extends Dialog implements View.OnClickListener {
         DisplayMetrics metrics = getContext().getResources().getDisplayMetrics();
 
         if (isSheep) {
-            getWindow().setLayout(Math.min(1000, (int) (metrics.widthPixels * 0.98)), (int) (metrics.heightPixels * 0.60));
+            getWindow().setLayout(Math.min(1000, (int) (metrics.widthPixels * 0.98)), (int) (metrics.heightPixels * 0.90));
         } else {
-            getWindow().setLayout(Math.min(1000, (int) (metrics.widthPixels * 0.98)), (int) (metrics.heightPixels * 0.80));
+            getWindow().setLayout(Math.min(1000, (int) (metrics.widthPixels * 0.98)), (int) (metrics.heightPixels * 0.90));
         }
 
         findControls();

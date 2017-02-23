@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/gray"
     android:gravity="center"
     android:orientation="vertical"
     android:padding="10dp">
@@ -17,28 +18,39 @@
         android:id="@+id/button_confirm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/btn_confirm" />
+        android:layout_margin="@dimen/space.small"
+        android:background="@drawable/special_button"
+        android:text="@string/btn_confirm"
+        android:textColor="@color/zereshki" />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
         <Button
             android:id="@+id/button_go_to_hospital"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/space.small"
+            android:background="@drawable/special_button"
+            android:paddingLeft="@dimen/space.small"
+            android:paddingRight="@dimen/space.small"
             android:text="@string/btn_go_to_hospital"
+            android:textColor="@color/zereshki"
             android:visibility="gone" />
 
         <Button
             android:id="@+id/button_buy_healer"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/space.small"
+            android:background="@drawable/special_button"
+            android:paddingLeft="@dimen/space.small"
+            android:paddingRight="@dimen/space.small"
             android:text="@string/btn_buy_healer"
+            android:textColor="@color/zereshki"
             android:visibility="gone" />
     </LinearLayout>
 
