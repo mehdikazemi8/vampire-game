@@ -112,6 +112,9 @@
     <string name="action_mission">ماموریت</string>
     <string name="action_tower">برج</string>
 
+    <string name="caption_player_type_vampire">خون‌آشام</string>
+    <string name="caption_player_type_hunter">شکارچی</string>
+
     <string name="caption_vampires_tower">برج خون‌آشام‌ها</string>
     <string name="caption_hunters_tower">برج‌ شکارچی‌ها</string>
 

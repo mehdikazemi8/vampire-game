@@ -12,9 +12,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.Toast;
 
-import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.viewpagerindicator.CirclePageIndicator;
 
 import org.greenrobot.eventbus.EventBus;
@@ -28,10 +28,10 @@ import ir.ugstudio.vampire.managers.AvatarManager;
 import ir.ugstudio.vampire.managers.CacheHandler;
 import ir.ugstudio.vampire.managers.UserHandler;
 import ir.ugstudio.vampire.models.User;
-import ir.ugstudio.vampire.utils.FontHelper;
 import ir.ugstudio.vampire.utils.Utility;
 import ir.ugstudio.vampire.views.activities.main.MainActivity;
 import ir.ugstudio.vampire.views.custom.CustomButton;
+import ir.ugstudio.vampire.views.custom.CustomTextView;
 import ir.ugstudio.vampire.views.custom.avatar.CustomPagerAdapter;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -47,9 +47,13 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
     private CustomButton register;
     private EditText username;
     private EditText password;
-    private MaterialSpinner playerType;
     private int avatarInt = -1;
     private String playerTypeStr = null;
+
+    private CustomTextView hunterText;
+    private CustomTextView vampireText;
+    private RadioButton hunterRadio;
+    private RadioButton vampireRadio;
 
     public static RegisterFragment getInstance() {
         return new RegisterFragment();
@@ -104,25 +108,32 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
         register = (CustomButton) view.findViewById(R.id.register);
         username = (EditText) view.findViewById(R.id.username);
         password = (EditText) view.findViewById(R.id.password);
-        playerType = (MaterialSpinner) view.findViewById(R.id.player_type);
+//        playerType = (MaterialSpinner) view.findViewById(R.id.player_type);
 
         viewPager = (ViewPager) view.findViewById(R.id.viewpager_avatars);
         indicator = (CirclePageIndicator) view.findViewById(R.id.indicator_avatars);
+
+        hunterRadio = (RadioButton) view.findViewById(R.id.hunter_radio);
+        vampireRadio = (RadioButton) view.findViewById(R.id.vampire_radio);
+        hunterText = (CustomTextView) view.findViewById(R.id.hunter_text);
+        vampireText = (CustomTextView) view.findViewById(R.id.vampire_text);
     }
 
     private void configure() {
         register.setOnClickListener(this);
 
-        FontHelper.setKoodakFor(getActivity(), playerType);
+        hunterRadio.setOnClickListener(this);
+        vampireRadio.setOnClickListener(this);
+        hunterText.setOnClickListener(this);
+        vampireText.setOnClickListener(this);
 
-        playerType.setItems(getActivity().getResources().getStringArray(R.array.player_type_keys));
-        playerType.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener<String>() {
-            @Override
-            public void onItemSelected(MaterialSpinner view, int position, long id, String item) {
-                playerTypeStr = getActivity().getResources().getStringArray(R.array.player_type_values)[position];
-                configureViewPager(position);
-            }
-        });
+//        playerType.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener<String>() {
+//            @Override
+//            public void onItemSelected(MaterialSpinner view, int position, long id, String item) {
+//                playerTypeStr = getActivity().getResources().getStringArray(R.array.player_type_values)[position];
+//                configureViewPager(position);
+//            }
+//        });
     }
 
     private boolean validUsername(String str) {
@@ -187,6 +198,22 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
         switch (view.getId()) {
             case R.id.register:
                 doRegister();
+                break;
+
+            case R.id.vampire_radio:
+            case R.id.vampire_text:
+                vampireRadio.setChecked(true);
+                hunterRadio.setChecked(false);
+                playerTypeStr = "vampire";
+                configureViewPager(1);
+                break;
+
+            case R.id.hunter_radio:
+            case R.id.hunter_text:
+                vampireRadio.setChecked(false);
+                hunterRadio.setChecked(true);
+                playerTypeStr = "hunter";
+                configureViewPager(2);
                 break;
         }
     }

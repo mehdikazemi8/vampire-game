@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
+    android:background="@color/gray"
     android:fillViewport="true">
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -34,7 +35,10 @@
                     android:id="@+id/indicator_avatars"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="bottom" />
+                    android:layout_gravity="bottom"
+                    android:padding="@dimen/space.small"
+                    app:fillColor="@color/zereshki"
+                    app:strokeColor="@color/zereshki" />
             </LinearLayout>
 
         </LinearLayout>
@@ -43,18 +47,59 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/avatar_section"
-            android:layout_centerInParent="true"
             android:gravity="center"
             android:orientation="vertical">
 
-            <com.jaredrummler.materialspinner.MaterialSpinner
-                android:id="@+id/player_type"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/edit_text_border"
-                android:entries="@array/player_type_keys"
-                android:padding="@dimen/space.medium"
-                android:scrollbars="none" />
+                android:layout_marginLeft="@dimen/space.medium"
+                android:layout_marginRight="@dimen/space.medium"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingBottom="@dimen/space.small"
+                    android:paddingTop="@dimen/space.small">
+
+                    <ir.ugstudio.vampire.views.custom.CustomTextView
+                        android:id="@+id/vampire_text"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:text="@string/caption_player_type_vampire" />
+
+                    <RadioButton
+                        android:id="@+id/vampire_radio"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingBottom="@dimen/space.small"
+                    android:paddingTop="@dimen/space.small">
+
+                    <ir.ugstudio.vampire.views.custom.CustomTextView
+                        android:id="@+id/hunter_text"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:text="@string/caption_player_type_hunter" />
+
+                    <RadioButton
+                        android:id="@+id/hunter_radio"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
+            </LinearLayout>
 
             <ir.ugstudio.vampire.views.custom.CustomEditText
                 android:id="@+id/username"
@@ -71,7 +116,10 @@
                 android:id="@+id/register"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/btn_register" />
+                android:layout_margin="@dimen/space.small"
+                android:background="@drawable/special_button_zereshki"
+                android:text="@string/btn_register"
+                android:textColor="@color/white" />
 
         </LinearLayout>
 

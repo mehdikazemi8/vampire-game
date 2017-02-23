@@ -32,7 +32,6 @@ import ir.ugstudio.vampire.cafeutil.IabResult;
 import ir.ugstudio.vampire.cafeutil.Inventory;
 import ir.ugstudio.vampire.cafeutil.Purchase;
 import ir.ugstudio.vampire.events.CloseIntroductionFragment;
-import ir.ugstudio.vampire.events.OpenIntroductionFragment;
 import ir.ugstudio.vampire.events.OpenTowerWallFragment;
 import ir.ugstudio.vampire.events.ShowTabEvent;
 import ir.ugstudio.vampire.events.StartRealPurchase;
@@ -54,7 +53,6 @@ import ir.ugstudio.vampire.views.activities.main.fragments.SettingsFragment;
 import ir.ugstudio.vampire.views.activities.main.fragments.StoreFragment;
 import ir.ugstudio.vampire.views.activities.main.fragments.TowerOptionsFragment;
 import ir.ugstudio.vampire.views.activities.main.fragments.TowerWallFragment;
-import ir.ugstudio.vampire.views.intro.IntroductionFragment;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -425,15 +423,15 @@ public class MainActivity extends FragmentActivity implements MainActivityAction
                 .commit();
     }
 
-    @Subscribe
-    public void onEvent(OpenIntroductionFragment event) {
-        IntroductionFragment fragment = IntroductionFragment.getInstance();
-        getSupportFragmentManager()
-                .beginTransaction()
-                .add(R.id.fragment_holder, fragment, Consts.FRG_INTRO)
-                .addToBackStack(null)
-                .commit();
-    }
+//    @Subscribe
+//    public void onEvent(OpenIntroductionFragment event) {
+//        IntroductionFragment fragment = IntroductionFragment.getInstance();
+//        getSupportFragmentManager()
+//                .beginTransaction()
+//                .add(R.id.fragment_holder, fragment, Consts.FRG_INTRO)
+//                .addToBackStack(null)
+//                .commit();
+//    }
 
     @Subscribe
     public void onEvent(CloseIntroductionFragment event) {

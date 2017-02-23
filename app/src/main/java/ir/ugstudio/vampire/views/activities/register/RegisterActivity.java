@@ -10,12 +10,10 @@ import org.greenrobot.eventbus.Subscribe;
 
 import ir.ugstudio.vampire.R;
 import ir.ugstudio.vampire.events.CloseIntroductionFragment;
-import ir.ugstudio.vampire.events.OpenIntroductionFragment;
 import ir.ugstudio.vampire.utils.Consts;
 import ir.ugstudio.vampire.views.activities.register.fragments.LoginFragment;
 import ir.ugstudio.vampire.views.activities.register.fragments.RegisterFragment;
 import ir.ugstudio.vampire.views.custom.CustomButton;
-import ir.ugstudio.vampire.views.intro.IntroductionFragment;
 
 public class RegisterActivity extends FragmentActivity implements View.OnClickListener {
 
@@ -83,15 +81,15 @@ public class RegisterActivity extends FragmentActivity implements View.OnClickLi
         EventBus.getDefault().unregister(this);
     }
 
-    @Subscribe
-    public void onEvent(OpenIntroductionFragment event) {
-        IntroductionFragment fragment = IntroductionFragment.getInstance();
-        getSupportFragmentManager()
-                .beginTransaction()
-                .add(R.id.fragment_holder, fragment, Consts.FRG_INTRO)
-                .addToBackStack(null)
-                .commit();
-    }
+//    @Subscribe
+//    public void onEvent(OpenIntroductionFragment event) {
+//        IntroductionFragment fragment = IntroductionFragment.getInstance();
+//        getSupportFragmentManager()
+//                .beginTransaction()
+//                .add(R.id.fragment_holder, fragment, Consts.FRG_INTRO)
+//                .addToBackStack(null)
+//                .commit();
+//    }
 
     @Subscribe
     public void onEvent(CloseIntroductionFragment event) {

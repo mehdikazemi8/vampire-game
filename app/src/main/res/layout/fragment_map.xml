@@ -116,7 +116,8 @@
             android:minWidth="0dp"
             android:padding="@dimen/space.medium"
             android:text="@string/icon.info"
-            android:textSize="@dimen/text.size.large" />
+            android:textSize="@dimen/text.size.large"
+            android:visibility="gone" />
 
         <ImageView
             android:id="@+id/actions_button"
