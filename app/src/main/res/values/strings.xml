@@ -109,6 +109,9 @@
     <string name="caption_coin">سکه:</string>
     <string name="caption_score">امتیاز:</string>
 
+    <string name="action_mission">ماموریت</string>
+    <string name="action_tower">برج</string>
+
     <string name="caption_vampires_tower">برج خون‌آشام‌ها</string>
     <string name="caption_hunters_tower">برج‌ شکارچی‌ها</string>
 
@@ -129,8 +132,8 @@
     <string name="desc.avatar">avatar</string>
 
     <string name="desc_nearest_sheep" formatted="true">الان یکی از گوسفند‌هایی که بهت نزدیک هست رو بهت معرفی می کنیم که بری ترورش کنی و در ازا %d سکه ازت کم میشه.</string>
-    <string name="desc_nearest_tower" formatted="true">الان یکی از دشمنات که بهت نزدیک هست رو بهت معرفی می کنیم که بری ترورش کنی و در ازا %d سکه ازت کم میشه.</string>
-    <string name="desc_nearest_player" formatted="true">الان یکی از برج‌هایی که بهت نزدیک هست رو بهت معرفی می کنیم که بری غارتش کنی و در ازا %d سکه ازت کم میشه.</string>
+    <string name="desc_nearest_player" formatted="true">الان یکی از دشمنات که بهت نزدیک هست رو بهت معرفی می کنیم که بری ترورش کنی و در ازا %d سکه ازت کم میشه.</string>
+    <string name="desc_nearest_tower" formatted="true">الان یکی از برج‌هایی که بهت نزدیک هست رو بهت معرفی می کنیم که بری غارتش کنی و در ازا %d سکه ازت کم میشه.</string>
 
     <string name="template_notification_message" formatted="false">&#160; ازت %d سکه دزدید و گفت: &#160;</string>
     <string name="template_nearest_distance" formatted="false">فاصله: %d متر</string>

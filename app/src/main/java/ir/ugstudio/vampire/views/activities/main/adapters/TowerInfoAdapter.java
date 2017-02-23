@@ -33,6 +33,9 @@ public class TowerInfoAdapter extends RecyclerView.Adapter<TowerInfoViewHolder> 
     @Override
     public void onBindViewHolder(TowerInfoViewHolder holder, final int position) {
         holder.towerOwnersCount.setText(String.valueOf(items.get(position).getOwners().size()));
+        holder.coin.setText(String.valueOf(items.get(position).getCoin()));
+        holder.coin.setText(String.valueOf(items.get(position).getCoin()));
+        holder.unreadMessageCount.setText(String.valueOf(items.get(position).getWall().size()));
 
         holder.rootView.setOnClickListener(new View.OnClickListener() {
             @Override

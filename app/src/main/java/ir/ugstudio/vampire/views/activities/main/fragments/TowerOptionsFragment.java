@@ -2,6 +2,7 @@ package ir.ugstudio.vampire.views.activities.main.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -46,8 +47,8 @@ public class TowerOptionsFragment extends BaseFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        LinearLayoutManager layoutManager
-                = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        GridLayoutManager layoutManager
+                = new GridLayoutManager(getContext(), 2, LinearLayoutManager.VERTICAL, false);
         userTowers.setLayoutManager(layoutManager);
         adapter = new TowerInfoAdapter(CacheHandler.getUser().getTowersList());
         userTowers.setAdapter(adapter);

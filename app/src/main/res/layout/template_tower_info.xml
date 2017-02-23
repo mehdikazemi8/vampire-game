@@ -1,21 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/template_tower_info_root_view"
-    android:layout_width="wrap_content"
-    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal"
     android:orientation="vertical"
     android:padding="@dimen/space.medium">
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:src="@drawable/tower" />
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/action_tower" />
 
-    <ir.ugstudio.vampire.views.custom.CustomTextView
-        android:id="@+id/tower_owners_count"
+    <GridLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center" />
+        android:columnCount="2"
+        android:rowCount="3">
+
+        <ImageView
+            android:id="@+id/tower_info_owner_type"
+            android:layout_width="@dimen/avatar.size.half.super.small"
+            android:layout_height="@dimen/avatar.size.half.super.small"
+            android:layout_marginLeft="@dimen/space.small"
+            android:layout_marginRight="@dimen/space.small"
+            android:src="@drawable/hunter_face" />
+
+        <ir.ugstudio.vampire.views.custom.CustomTextView
+            android:id="@+id/tower_owners_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="14" />
+
+        <ImageView
+            android:layout_width="@dimen/avatar.size.half.super.small"
+            android:layout_height="@dimen/avatar.size.half.super.small"
+            android:layout_marginLeft="@dimen/space.small"
+            android:layout_marginRight="@dimen/space.small"
+            android:src="@drawable/coin_icon" />
+
+        <ir.ugstudio.vampire.views.custom.CustomTextView
+            android:id="@+id/tower_info_coin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="2900" />
+
+        <ImageView
+            android:layout_width="@dimen/avatar.size.half.super.small"
+            android:layout_height="@dimen/avatar.size.half.super.small"
+            android:layout_marginLeft="@dimen/space.small"
+            android:layout_marginRight="@dimen/space.small"
+            android:src="@drawable/message_icon" />
+
+        <ir.ugstudio.vampire.views.custom.CustomTextView
+            android:id="@+id/tower_info_unread_message_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="32" />
+
+    </GridLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:orientation="horizontal">
+
+
+    </LinearLayout>
 
 </LinearLayout>
