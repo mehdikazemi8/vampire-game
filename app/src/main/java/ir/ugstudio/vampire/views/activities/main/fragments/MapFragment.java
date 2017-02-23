@@ -760,8 +760,8 @@ public class MapFragment extends BaseFragment
         CameraPosition cameraPosition = new CameraPosition.Builder().
                 target(latLng).
 //                tilt(70.0f).
-                zoom(zoomLevel).
-                build();
+        zoom(zoomLevel).
+                        build();
         return CameraUpdateFactory.newCameraPosition(cameraPosition);
     }
 
@@ -870,6 +870,11 @@ public class MapFragment extends BaseFragment
         degrees *= -1;
         arrow.setVisibility(View.VISIBLE);
         arrow.setRotation(degrees);
+
+        // todo test this
+        if (myMarker != null) {
+            myMarker.setVisible(false);
+        }
 
         missionMode = true;
         actionsButton.setVisibility(View.INVISIBLE);
@@ -1058,7 +1063,7 @@ public class MapFragment extends BaseFragment
             if (sampleTowerMarker == null) {
                 sampleTower.position(googleMap.getCameraPosition().target);
                 sampleTower.title("SampleTower");
-                sampleTower.icon(BitmapDescriptorFactory.fromResource(R.drawable.tower_add));
+                sampleTower.icon(BitmapDescriptorFactory.fromResource(R.drawable.tower_create2));
                 sampleTowerMarker = googleMap.addMarker(sampleTower);
             } else {
                 sampleTowerMarker.setPosition(googleMap.getCameraPosition().target);

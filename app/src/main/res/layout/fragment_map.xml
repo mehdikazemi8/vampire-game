@@ -140,7 +140,6 @@
             android:layout_marginRight="@dimen/space.small"
             android:layout_marginTop="@dimen/space.small"
             android:clickable="true"
-            android:src="@drawable/tower_add"
             android:visibility="invisible"
             app:backgroundTint="@android:color/black" />
 
@@ -166,7 +165,6 @@
             android:layout_alignParentRight="true"
             android:layout_margin="@dimen/space.small"
             android:clickable="true"
-            android:src="@drawable/tower_eye"
             android:visibility="invisible"
             app:backgroundTint="@android:color/black" />
 
@@ -179,7 +177,6 @@
             android:layout_alignParentRight="true"
             android:layout_margin="@dimen/space.small"
             android:clickable="true"
-            android:src="@drawable/tower_coin"
             android:visibility="invisible"
             app:backgroundTint="@android:color/black" />
 
@@ -206,14 +203,10 @@
             android:orientation="horizontal"
             android:visibility="invisible">
 
-            <View
-                android:layout_width="75dp"
-                android:layout_height="3dp" />
-
             <ImageView
-                android:layout_width="75dp"
-                android:layout_height="3dp"
-                android:background="@color/white" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/navigator_mission" />
         </LinearLayout>
 
         <LinearLayout
