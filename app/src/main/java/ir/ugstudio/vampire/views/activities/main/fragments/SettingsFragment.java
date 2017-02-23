@@ -179,13 +179,18 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
     }
 
     private void openTelegram() {
-        Intent sendIntent = new Intent();
-        sendIntent.setAction(Intent.ACTION_SEND);
-        String str = "https://telegram.me/Frshd_Jfri";
-        sendIntent.putExtra(Intent.EXTRA_TEXT, str);
-        sendIntent.setPackage("org.telegram.messenger");
-        sendIntent.setType("text/plain");
-        startActivity(sendIntent);
+
+//        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("tg://resolve?domain=terror_game_admin"));
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("tg://resolve?domain=terror_game_admin"));
+        startActivity(intent);
+
+//        Intent sendIntent = new Intent();
+//        sendIntent.setAction(Intent.ACTION_SEND);
+//        String str = "https://telegram.me/Frshd_Jfri";
+//        sendIntent.putExtra(Intent.EXTRA_TEXT, str);
+//        sendIntent.setPackage("org.telegram.messenger");
+//        sendIntent.setType("text/plain");
+//        startActivity(sendIntent);
     }
 
     @Override
