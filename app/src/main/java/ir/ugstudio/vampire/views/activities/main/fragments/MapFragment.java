@@ -809,10 +809,7 @@ public class MapFragment extends BaseFragment
             return;
         }
 
-        Log.d("TAG", "startCollectCoinsMode " + user.getTowersList());
-        Log.d("TAG", "startCollectCoinsMode " + user.getTowersList().size());
-
-        ((MainActivity) getActivity()).openHintFragment();
+//        ((MainActivity) getActivity()).openHintFragment();
 
         for (Tower tower : user.getTowersList()) {
             if (tower.getCoin() != 0) {
