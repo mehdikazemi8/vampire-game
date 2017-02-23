@@ -1,61 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/template_most_wonted_root_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:background="@color/gray"
+    android:gravity="center"
+    android:orientation="vertical">
 
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    style="@style/card_view_style"
-    app:cardCornerRadius="2dp">
+    <FrameLayout
+        android:layout_width="@dimen/avatar.size.medium"
+        android:layout_height="@dimen/avatar.size.medium">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/template_most_wonted_root_view"
+        <ImageView
+            android:id="@+id/avatar"
+            android:layout_width="@dimen/avatar.size.medium"
+            android:layout_height="@dimen/avatar.size.medium" />
+
+        <ImageView
+            android:layout_width="@dimen/avatar.size.medium"
+            android:layout_height="@dimen/avatar.size.medium"
+            android:src="@drawable/wanted" />
+    </FrameLayout>
+
+    <ir.ugstudio.vampire.views.custom.CustomTextView
+        android:id="@+id/username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:background="@color/gray"
+        android:ellipsize="end"
         android:gravity="center"
-        android:orientation="vertical">
+        android:lines="1" />
 
-        <FrameLayout
-            android:layout_width="@dimen/avatar.size.medium"
-            android:layout_height="@dimen/avatar.size.medium">
-
-            <ImageView
-                android:id="@+id/avatar"
-                android:layout_width="@dimen/avatar.size.medium"
-                android:layout_height="@dimen/avatar.size.medium" />
-
-            <ImageView
-                android:layout_width="@dimen/avatar.size.medium"
-                android:layout_height="@dimen/avatar.size.medium"
-                android:src="@drawable/wanted" />
-        </FrameLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:orientation="horizontal">
 
         <ir.ugstudio.vampire.views.custom.CustomTextView
-            android:id="@+id/username"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:gravity="center"
-            android:lines="1" />
-
-        <LinearLayout
+            android:id="@+id/coin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:orientation="horizontal">
+            android:layout_gravity="center_vertical" />
 
-            <ir.ugstudio.vampire.views.custom.CustomTextView
-                android:id="@+id/coin"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical" />
-
-            <ir.ugstudio.vampire.views.custom.IconTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:padding="@dimen/space.small"
-                android:text="@string/icon.coin" />
-        </LinearLayout>
-
+        <ir.ugstudio.vampire.views.custom.IconTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:padding="@dimen/space.small"
+            android:text="@string/icon.coin" />
     </LinearLayout>
-</android.support.v7.widget.CardView>
+
+</LinearLayout>
