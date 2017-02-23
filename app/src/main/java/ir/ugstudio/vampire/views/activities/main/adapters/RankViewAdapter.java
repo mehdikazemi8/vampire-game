@@ -1,6 +1,7 @@
 package ir.ugstudio.vampire.views.activities.main.adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,16 +14,20 @@ import java.util.List;
 
 import ir.ugstudio.vampire.R;
 import ir.ugstudio.vampire.managers.AvatarManager;
+import ir.ugstudio.vampire.managers.CacheHandler;
 import ir.ugstudio.vampire.models.User;
 
 public class RankViewAdapter extends RecyclerView.Adapter<RankViewHolder> {
 
     private Context context;
     private List<User> items;
+    private String myUsername = null;
 
     public RankViewAdapter(Context context, List<User> items) {
         this.context = context;
         this.items = items;
+
+        myUsername = CacheHandler.getUser().getUsername();
     }
 
     @Override
@@ -45,6 +50,12 @@ public class RankViewAdapter extends RecyclerView.Adapter<RankViewHolder> {
         ).into(holder.avatar);
 
         holder.city.setText(items.get(position).getCity());
+
+        if (items.get(position).getUsername().equals(myUsername)) {
+            holder.container.setBackgroundColor(Color.parseColor(context.getString(R.string.color_zereshki_trans1)));
+        } else {
+            holder.container.setBackgroundColor(Color.parseColor(context.getString(R.string.color_gray)));
+        }
         Log.d("TAG", "onBindViewHolderzz " + items.get(position).getCity());
     }
 

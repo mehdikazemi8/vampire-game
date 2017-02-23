@@ -10,6 +10,7 @@
     <string name="continue_purchase">ادامه</string>
     <string name="refuse_purchase">انصراف</string>
 
+    <string name="btn_telegram_contact">تلگرامِ ما</string>
     <string name="btn_logout">خروج از حساب کاربری</string>
     <string name="btn_rate">نظر دادن</string>
     <string name="btn_share">اشتراک گذاری با دوستان</string>
@@ -137,6 +138,10 @@
     <string name="login">ورود</string>
 
     <string name="desc.avatar">avatar</string>
+
+    <string name="color_zereshki">#4f0001</string>
+    <string name="color_zereshki_trans1">#334f0001</string>
+    <string name="color_gray">#EBE8E8</string>
 
     <string name="desc_nearest_sheep" formatted="true">الان یکی از گوسفند‌هایی که بهت نزدیک هست رو بهت معرفی می کنیم که بری ترورش کنی و در ازا %d سکه ازت کم میشه.</string>
     <string name="desc_nearest_player" formatted="true">الان یکی از دشمنات که بهت نزدیک هست رو بهت معرفی می کنیم که بری ترورش کنی و در ازا %d سکه ازت کم میشه.</string>

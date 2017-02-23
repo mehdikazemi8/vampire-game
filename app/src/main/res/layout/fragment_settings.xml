@@ -102,6 +102,17 @@
                 android:layout_width="match_parent"
                 android:text="@string/btn_logout" />
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/zereshki_trans1" />
+
+            <ir.ugstudio.vampire.views.custom.CustomButton
+                android:id="@+id/telegram_contact"
+                style="@style/settings_action"
+                android:layout_width="match_parent"
+                android:text="@string/btn_telegram_contact" />
+
         </LinearLayout>
 
     </LinearLayout>

@@ -121,12 +121,11 @@
 
         <ImageView
             android:id="@+id/actions_button"
-            android:layout_width="@dimen/avatar.size.small"
-            android:layout_height="@dimen/avatar.size.small"
+            android:layout_width="@dimen/avatar.size.medium"
+            android:layout_height="@dimen/avatar.size.medium"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_margin="@dimen/space.medium"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="@dimen/space.large"
             android:clickable="true"
             android:src="@drawable/icon" />
 

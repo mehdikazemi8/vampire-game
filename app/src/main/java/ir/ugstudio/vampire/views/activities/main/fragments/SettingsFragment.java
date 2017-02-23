@@ -44,6 +44,7 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
     private CustomButton rate;
     private CustomButton share;
     private CustomButton changeAvatarBtn;
+    private CustomButton telegramContact;
 
     public static SettingsFragment getInstance() {
         return new SettingsFragment();
@@ -69,11 +70,14 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
         share = (CustomButton) view.findViewById(R.id.share);
         rate = (CustomButton) view.findViewById(R.id.rate);
         changeAvatarBtn = (CustomButton) view.findViewById(R.id.change_avatar);
+        telegramContact = (CustomButton) view.findViewById(R.id.telegram_contact);
+
         username = (CustomTextView) view.findViewById(R.id.username);
         roleAvatar = (ImageView) view.findViewById(R.id.role_avatar);
 
         viewPager = (ViewPager) view.findViewById(R.id.viewpager_avatars);
         indicator = (CirclePageIndicator) view.findViewById(R.id.indicator_avatars);
+
     }
 
     private void configure() {
@@ -81,6 +85,7 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
         share.setOnClickListener(this);
         rate.setOnClickListener(this);
         changeAvatarBtn.setOnClickListener(this);
+        telegramContact.setOnClickListener(this);
 
         username.setText(CacheHandler.getUser().getUsername());
         if (CacheHandler.getUser().getRole().equals("hunter")) {
@@ -171,12 +176,25 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
                 progressDialog.dismiss();
             }
         });
+    }
 
+    private void openTelegram() {
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        String str = "https://telegram.me/Frshd_Jfri";
+        sendIntent.putExtra(Intent.EXTRA_TEXT, str);
+        sendIntent.setPackage("org.telegram.messenger");
+        sendIntent.setType("text/plain");
+        startActivity(sendIntent);
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.telegram_contact:
+                openTelegram();
+                break;
+
             case R.id.logout:
                 logout();
                 break;
