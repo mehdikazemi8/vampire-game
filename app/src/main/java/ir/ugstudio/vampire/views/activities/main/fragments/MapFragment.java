@@ -458,15 +458,15 @@ public class MapFragment extends BaseFragment
             outerCircle = googleMap.addCircle(new CircleOptions()
                     .center(newPlace)
                     .radius(CacheHandler.getUser().getSightRange())
-                    .fillColor(Color.parseColor("#33AAAAAA"))
-                    .strokeColor(Color.parseColor("#00FFFFFF"))
+                    .fillColor(Color.parseColor(getString(R.string.color_outer_circle_fill)))
+                    .strokeColor(Color.parseColor(getString(R.string.color_circle_stroke)))
             );
 
             innerCircle = googleMap.addCircle(new CircleOptions()
                     .center(newPlace)
                     .radius(CacheHandler.getUser().getAttackRange())
-                    .fillColor(Color.parseColor("#44AAAAAA"))
-                    .strokeColor(Color.parseColor("#00FFFFFF"))
+                    .fillColor(Color.parseColor(getString(R.string.color_inner_circle_fill)))
+                    .strokeColor(Color.parseColor(getString(R.string.color_circle_stroke)))
             );
         } else {
             innerCircle.setCenter(newPlace);
@@ -516,15 +516,15 @@ public class MapFragment extends BaseFragment
             outerCircle = googleMap.addCircle(new CircleOptions()
                     .center(newPlace)
                     .radius(CacheHandler.getUser().getSightRange())
-                    .fillColor(Color.parseColor("#33AAAAAA"))
-                    .strokeColor(Color.parseColor("#00FFFFFF"))
+                    .fillColor(Color.parseColor(getString(R.string.color_outer_circle_fill)))
+                    .strokeColor(Color.parseColor(getString(R.string.color_circle_stroke)))
             );
 
             innerCircle = googleMap.addCircle(new CircleOptions()
                     .center(newPlace)
                     .radius(CacheHandler.getUser().getAttackRange())
-                    .fillColor(Color.parseColor("#44AAAAAA"))
-                    .strokeColor(Color.parseColor("#00FFFFFF"))
+                    .fillColor(Color.parseColor(getString(R.string.color_inner_circle_fill)))
+                    .strokeColor(Color.parseColor(getString(R.string.color_circle_stroke)))
             );
         } else {
             innerCircle.setCenter(newPlace);
@@ -782,8 +782,8 @@ public class MapFragment extends BaseFragment
                 googleMap.addCircle(new CircleOptions()
                         .center(new LatLng(marker.getPosition().latitude, marker.getPosition().longitude))
                         .radius(CacheHandler.getUser().getAttackRange())
-                        .fillColor(Color.parseColor("#33AA5555"))
-                        .strokeColor(Color.parseColor("#00FFFFFF"))
+                        .fillColor(Color.parseColor(getString(R.string.color_outer_circle_fill)))
+                        .strokeColor(Color.parseColor(getString(R.string.color_circle_stroke)))
                 );
             } else {
                 marker.remove();
@@ -955,15 +955,15 @@ public class MapFragment extends BaseFragment
             innerCircleTower = googleMap.addCircle(new CircleOptions()
                     .center(towerPlace)
                     .radius(200)
-                    .fillColor(Color.parseColor("#33AAAAAA"))
-                    .strokeColor(Color.parseColor("#00FFFFFF"))
+                    .fillColor(Color.parseColor(getString(R.string.color_inner_circle_fill)))
+                    .strokeColor(Color.parseColor(getString(R.string.color_circle_stroke)))
             );
 
             outerCircleTower = googleMap.addCircle(new CircleOptions()
                     .center(towerPlace)
                     .radius(400)
-                    .fillColor(Color.parseColor("#44AAAAAA"))
-                    .strokeColor(Color.parseColor("#00FFFFFF"))
+                    .fillColor(Color.parseColor(getString(R.string.color_outer_circle_fill)))
+                    .strokeColor(Color.parseColor(getString(R.string.color_circle_stroke)))
             );
         } else {
             innerCircleTower.setCenter(towerPlace);

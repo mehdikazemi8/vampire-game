@@ -143,6 +143,10 @@
     <string name="color_zereshki_trans1">#334f0001</string>
     <string name="color_gray">#EBE8E8</string>
 
+    <string name="color_inner_circle_fill">#17FFFFFF</string>
+    <string name="color_outer_circle_fill">#12FFFFFF</string>
+    <string name="color_circle_stroke">#00FFFFFF</string>
+
     <string name="desc_nearest_sheep" formatted="true">الان یکی از گوسفند‌هایی که بهت نزدیک هست رو بهت معرفی می کنیم که بری ترورش کنی و در ازا %d سکه ازت کم میشه.</string>
     <string name="desc_nearest_player" formatted="true">الان یکی از دشمنات که بهت نزدیک هست رو بهت معرفی می کنیم که بری ترورش کنی و در ازا %d سکه ازت کم میشه.</string>
     <string name="desc_nearest_tower" formatted="true">الان یکی از برج‌هایی که بهت نزدیک هست رو بهت معرفی می کنیم که بری غارتش کنی و در ازا %d سکه ازت کم میشه.</string>
