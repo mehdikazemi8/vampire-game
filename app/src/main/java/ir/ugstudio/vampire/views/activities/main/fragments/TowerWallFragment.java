@@ -23,7 +23,9 @@ import ir.ugstudio.vampire.managers.UserHandler;
 import ir.ugstudio.vampire.models.Tower;
 import ir.ugstudio.vampire.models.TowerMessage;
 import ir.ugstudio.vampire.utils.Utility;
+import ir.ugstudio.vampire.utils.introduction.TowerWall;
 import ir.ugstudio.vampire.views.BaseFragment;
+import ir.ugstudio.vampire.views.activities.main.MainActivity;
 import ir.ugstudio.vampire.views.activities.main.adapters.MessageViewAdapter;
 import ir.ugstudio.vampire.views.custom.CustomButton;
 import ir.ugstudio.vampire.views.custom.CustomEditText;
@@ -68,6 +70,8 @@ public class TowerWallFragment extends BaseFragment implements View.OnClickListe
         getTower(tower.get_id());
 
         AnalyticsManager.logEvent(AnalyticsManager.VIEW_SCREEN, "TowerWallFragment");
+
+        ((MainActivity) getActivity()).openHintFragment(new TowerWall());
     }
 
     private void find(View view) {

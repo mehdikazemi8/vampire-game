@@ -60,4 +60,42 @@
         <item>برو بزن ترورش کن</item>
     </string-array>
 
+    <string-array name="intro_tower_hunter">
+        <item>اگه اهل ساخت و ساز هستی خوب جایی اومدی.</item>
+        <item>یادته گفتم ما شبا چشممون نمی بینه؟</item>
+        <item>یکی از راه‌هایی که می‌شه شب از خودمون دفاع کنیم از طریق برجه.</item>
+        <item>یکی از راه‌های پول درآوردن هم هست.</item>
+        <item>یکی از راه‌های ارتباط با بقیه‌ی شکارچیا هم هست.</item>
+    </string-array>
+
+    <string-array name="intro_tower_vampire">
+        <item>اگه اهل ساخت و ساز هستی خوب جایی اومدی.</item>
+        <item>یادته گفتم ما روزا چشممون نمی بینه؟</item>
+        <item>یکی از راه‌هایی که می‌شه روز از خودمون دفاع کنیم از طریق برجه.</item>
+        <item>یکی از راه‌های پول درآوردن هم هست.</item>
+        <item>یکی از راه‌های ارتباط با بقیه‌ی خون‌آشاما هم هست.</item>
+    </string-array>
+
+    <string-array name="intro_create_tower">
+        <item>اگه محدوده‌ی دید برجت با برجای دیگه تداخل نداشته باشه می‌تونی همینجا بسازیش.</item>
+        <item>هر وقت جاشو انتخاب کردی بزن روی برج.</item>
+    </string-array>
+
+    <string-array name="intro_watch_tower">
+        <item>فرقی نداره روز یا شب،</item>
+        <item>دور یا نزدیک،</item>
+        <item>حتا اگه قطب شمال هم باشی، می‌تونی از طریق برجت بقیه رو ترور کنی</item>
+    </string-array>
+
+    <string-array name="intro_collect_coin">
+        <item>برجا به ازای هر عضو روزی ۱۰۰ تا سکه تولید می‌کنن.</item>
+        <item>ینی اگه دو نفر دیگه هم توی برج اضافه‌شن روزی ۳۰۰ تا سکه تولید می‌کنه.</item>
+        <item>حواست باشه به موقع جمعشون کنی، چون ممکنه بیان بدزدنش.</item>
+        <item>برای جمع کردن سکه‌های یک برج کافیه روی برج بزنی، همین.</item>
+    </string-array>
+
+    <string-array name="intro_tower_wall">
+        <item>اعضای برج اینجا با هم چت می‌کنن.</item>
+    </string-array>
+
 </resources>

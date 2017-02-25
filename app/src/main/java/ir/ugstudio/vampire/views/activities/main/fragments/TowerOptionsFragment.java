@@ -20,7 +20,13 @@ import ir.ugstudio.vampire.events.TowerAddEvent;
 import ir.ugstudio.vampire.events.TowerCollectCoinsEvent;
 import ir.ugstudio.vampire.events.TowerWatchEvent;
 import ir.ugstudio.vampire.managers.CacheHandler;
+import ir.ugstudio.vampire.utils.Consts;
+import ir.ugstudio.vampire.utils.introduction.MissionHunter;
+import ir.ugstudio.vampire.utils.introduction.MissionVampire;
+import ir.ugstudio.vampire.utils.introduction.TowerHunter;
+import ir.ugstudio.vampire.utils.introduction.TowerVampire;
 import ir.ugstudio.vampire.views.BaseFragment;
+import ir.ugstudio.vampire.views.activities.main.MainActivity;
 import ir.ugstudio.vampire.views.activities.main.adapters.TowerInfoAdapter;
 
 public class TowerOptionsFragment extends BaseFragment {
@@ -52,6 +58,12 @@ public class TowerOptionsFragment extends BaseFragment {
         userTowers.setLayoutManager(layoutManager);
         adapter = new TowerInfoAdapter(CacheHandler.getUser().getTowersList());
         userTowers.setAdapter(adapter);
+
+        if (CacheHandler.getUser().getRole().equals(Consts.ROLE_HUNTER)) {
+            ((MainActivity) getActivity()).openHintFragment(new TowerHunter());
+        } else {
+            ((MainActivity) getActivity()).openHintFragment(new TowerVampire());
+        }
     }
 
     @Override

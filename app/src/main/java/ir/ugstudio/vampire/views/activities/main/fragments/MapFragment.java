@@ -80,9 +80,12 @@ import ir.ugstudio.vampire.utils.Consts;
 import ir.ugstudio.vampire.utils.FontHelper;
 import ir.ugstudio.vampire.utils.Utility;
 import ir.ugstudio.vampire.utils.VampireLocationManager;
+import ir.ugstudio.vampire.utils.introduction.CollectCoin;
+import ir.ugstudio.vampire.utils.introduction.CreateTower;
 import ir.ugstudio.vampire.utils.introduction.MapHunter;
 import ir.ugstudio.vampire.utils.introduction.MapVampire;
 import ir.ugstudio.vampire.utils.introduction.MissionStart;
+import ir.ugstudio.vampire.utils.introduction.WatchTower;
 import ir.ugstudio.vampire.views.BaseFragment;
 import ir.ugstudio.vampire.views.activities.main.MainActivity;
 import ir.ugstudio.vampire.views.custom.IconButton;
@@ -818,7 +821,7 @@ public class MapFragment extends BaseFragment
             return;
         }
 
-//        ((MainActivity) getActivity()).openHintFragment();
+        ((MainActivity) getActivity()).openHintFragment(new CollectCoin());
 
         for (Tower tower : user.getTowersList()) {
             if (tower.getCoin() != 0) {
@@ -922,6 +925,8 @@ public class MapFragment extends BaseFragment
             FontHelper.setKoodakFor(getActivity(), (TextView) dialog.findViewById(android.R.id.message));
             return;
         }
+
+        ((MainActivity) getActivity()).openHintFragment(new WatchTower());
 
         revertButtonsState(false, false);
         for (Tower tower : user.getTowersList()) {
@@ -1265,6 +1270,8 @@ public class MapFragment extends BaseFragment
 
     @Subscribe
     public void onEvent(TowerAddEvent event) {
+        ((MainActivity) getActivity()).openHintFragment(new CreateTower());
+
         handleAddTower();
         AnalyticsManager.logEvent(AnalyticsManager.FAB_TAPPED, "add_tower");
     }
