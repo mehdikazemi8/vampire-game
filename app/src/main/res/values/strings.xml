@@ -15,6 +15,9 @@
     <string name="btn_rate">نظر دادن</string>
     <string name="btn_share">اشتراک گذاری با دوستان</string>
 
+    <string name="empty_most_wanted_message_hunter">توی روز بیا اینجا چند تا از خون‌آشام‌های خفن رو بهت معرفی می کنیم که ترورشون کنی.</string>
+    <string name="empty_most_wanted_message_vampire">شب بیا اینجا چند تا از شکارچی‌های خفن رو بهت معرفی می کنیم که ترورشون کنی. </string>
+
     <string name="title_activity_maps">ترور</string>
     <string name="title_activity_splash">ترور</string>
     <string name="title_activity_register">ترور</string>

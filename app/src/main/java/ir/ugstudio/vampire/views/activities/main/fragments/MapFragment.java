@@ -1020,8 +1020,28 @@ public class MapFragment extends BaseFragment
         innerCircle = outerCircle = null;
     }
 
-    public void addTowerNow(LatLng position) {
+    public void addTowerNow(final LatLng position) {
         Log.d("TAG", "abcd " + position.latitude + " " + position.longitude);
+
+        AlertDialog dialog = new AlertDialog.Builder(getActivity())
+                .setMessage("هزینه‌ی ساخت هر برج ۴۰۰۰ سکه هست")
+                .setPositiveButton("باشه", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        confirmedAddTowerNow(position);
+                    }
+                })
+                .setNegativeButton("بی‌خیال", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                }).show();
+        dialog.setCancelable(true);
+        FontHelper.setKoodakFor(getActivity(), (TextView) dialog.findViewById(android.R.id.message));
+    }
+
+    private void confirmedAddTowerNow(LatLng position) {
         if (addingTowerMode) {
             addingTowerMode = false;
 

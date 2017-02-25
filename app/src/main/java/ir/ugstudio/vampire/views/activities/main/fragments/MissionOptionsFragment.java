@@ -37,6 +37,7 @@ import ir.ugstudio.vampire.utils.introduction.MissionVampire;
 import ir.ugstudio.vampire.views.BaseFragment;
 import ir.ugstudio.vampire.views.activities.main.MainActivity;
 import ir.ugstudio.vampire.views.activities.main.adapters.MostWantedViewAdapter;
+import ir.ugstudio.vampire.views.custom.CustomTextView;
 import ir.ugstudio.vampire.views.dialogs.IntroduceVirtualItemDialog;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -49,6 +50,9 @@ public class MissionOptionsFragment extends BaseFragment {
 
     @BindView(R.id.mission_player)
     ImageView missionPlayer;
+
+    @BindView(R.id.empty_most_wanted_list_message)
+    CustomTextView emptyMostWantedListMessage;
 
     private Unbinder unbinder;
     private MostWantedViewAdapter mostWantedViewAdapter;
@@ -77,8 +81,10 @@ public class MissionOptionsFragment extends BaseFragment {
 
         if (CacheHandler.getUser().getRole().equals(Consts.ROLE_HUNTER)) {
             ((MainActivity) getActivity()).openHintFragment(new MissionHunter());
+            emptyMostWantedListMessage.setText(getString(R.string.empty_most_wanted_message_hunter));
         } else {
             ((MainActivity) getActivity()).openHintFragment(new MissionVampire());
+            emptyMostWantedListMessage.setText(getString(R.string.empty_most_wanted_message_vampire));
         }
     }
 
@@ -101,6 +107,8 @@ public class MissionOptionsFragment extends BaseFragment {
 
                 if (response.isSuccessful()) {
                     bindListData(response.body().getMostWantedList());
+                } else {
+                    emptyMostWantedListMessage.setVisibility(View.VISIBLE);
                 }
             }
 

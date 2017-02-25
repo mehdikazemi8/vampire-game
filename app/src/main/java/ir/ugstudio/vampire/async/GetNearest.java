@@ -3,6 +3,7 @@ package ir.ugstudio.vampire.async;
 import android.content.Context;
 import android.location.Location;
 import android.util.Log;
+import android.widget.Toast;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -11,6 +12,7 @@ import ir.ugstudio.vampire.events.NearestResponseEvent;
 import ir.ugstudio.vampire.managers.CacheHandler;
 import ir.ugstudio.vampire.managers.SharedPrefHandler;
 import ir.ugstudio.vampire.models.nearest.Target;
+import ir.ugstudio.vampire.utils.Utility;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -44,6 +46,8 @@ public class GetNearest {
                     response.body().getTarget().setType(targetType);
 
                     SharedPrefHandler.writeMissionObject(context, response.body());
+                } else {
+                    Utility.makeToast(context, "الان که چشمات نمیبینه که بخوای بزنیش", Toast.LENGTH_LONG);
                 }
 
                 EventBus.getDefault().post(new NearestResponseEvent(response.body(), response.isSuccessful()));
