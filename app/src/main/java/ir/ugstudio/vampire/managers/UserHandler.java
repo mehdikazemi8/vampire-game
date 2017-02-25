@@ -7,6 +7,7 @@ import ir.ugstudio.vampire.utils.Consts;
 
 public class UserHandler {
     public static String readToken(Context context) {
+        // todo, is null when logging out
         String userJson = SharedPrefManager.readString(context, Consts.USER_JSON, null);
         if(userJson == null || userJson.isEmpty()) {
             return null;

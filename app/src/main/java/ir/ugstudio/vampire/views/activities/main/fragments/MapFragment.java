@@ -80,6 +80,8 @@ import ir.ugstudio.vampire.utils.Consts;
 import ir.ugstudio.vampire.utils.FontHelper;
 import ir.ugstudio.vampire.utils.Utility;
 import ir.ugstudio.vampire.utils.VampireLocationManager;
+import ir.ugstudio.vampire.utils.introduction.MapHunter;
+import ir.ugstudio.vampire.utils.introduction.MapVampire;
 import ir.ugstudio.vampire.views.BaseFragment;
 import ir.ugstudio.vampire.views.activities.main.MainActivity;
 import ir.ugstudio.vampire.views.custom.IconButton;
@@ -375,6 +377,12 @@ public class MapFragment extends BaseFragment
         super.onBringToFront();
         if (!VampireLocationManager.isGPSEnabled(getActivity())) {
             turnOnGPS();
+        } else {
+            if (CacheHandler.getUser().getRole().equals("hunter")) {
+                ((MainActivity) getActivity()).openHintFragment(new MapHunter());
+            } else {
+                ((MainActivity) getActivity()).openHintFragment(new MapVampire());
+            }
         }
     }
 

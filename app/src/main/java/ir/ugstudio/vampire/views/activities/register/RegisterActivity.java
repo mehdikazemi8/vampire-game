@@ -10,12 +10,15 @@ import org.greenrobot.eventbus.Subscribe;
 
 import ir.ugstudio.vampire.R;
 import ir.ugstudio.vampire.events.CloseIntroductionFragment;
+import ir.ugstudio.vampire.interfaces.MainActivityActions;
 import ir.ugstudio.vampire.utils.Consts;
+import ir.ugstudio.vampire.utils.introduction.BaseIntroductionMessages;
+import ir.ugstudio.vampire.views.activities.main.fragments.HintFragment;
 import ir.ugstudio.vampire.views.activities.register.fragments.LoginFragment;
 import ir.ugstudio.vampire.views.activities.register.fragments.RegisterFragment;
 import ir.ugstudio.vampire.views.custom.CustomButton;
 
-public class RegisterActivity extends FragmentActivity implements View.OnClickListener {
+public class RegisterActivity extends FragmentActivity implements View.OnClickListener, MainActivityActions {
 
     private CustomButton login;
     private CustomButton register;
@@ -96,5 +99,35 @@ public class RegisterActivity extends FragmentActivity implements View.OnClickLi
         if (getSupportFragmentManager().findFragmentByTag(Consts.FRG_INTRO) != null) {
             getSupportFragmentManager().popBackStack();
         }
+    }
+
+
+    @Override
+    public void openActionsFragment() {
+
+    }
+
+    @Override
+    public void openTowerOptionsFragment() {
+
+    }
+
+    @Override
+    public void openMissionOptionsFragment() {
+
+    }
+
+    @Override
+    public void openHintFragment(BaseIntroductionMessages introductionType) {
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(Consts.BASE_INTRODUCTION_MESSAGES_OBJECT, introductionType);
+        HintFragment fragment = HintFragment.getInstance();
+        fragment.setArguments(bundle);
+        getSupportFragmentManager()
+                .beginTransaction()
+                .setCustomAnimations(R.anim.slide_up_from_bottom, R.anim.slide_down_to_bottom, R.anim.slide_up_from_bottom, R.anim.slide_down_to_bottom)
+                .add(R.id.hint_fragment_holder, fragment, fragment.getClass().getCanonicalName())
+                .addToBackStack(null)
+                .commit();
     }
 }

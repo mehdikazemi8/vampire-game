@@ -29,7 +29,10 @@ import ir.ugstudio.vampire.managers.CacheHandler;
 import ir.ugstudio.vampire.managers.UserHandler;
 import ir.ugstudio.vampire.models.User;
 import ir.ugstudio.vampire.utils.Utility;
+import ir.ugstudio.vampire.utils.introduction.RegisterHunter;
+import ir.ugstudio.vampire.utils.introduction.RegisterVampire;
 import ir.ugstudio.vampire.views.activities.main.MainActivity;
+import ir.ugstudio.vampire.views.activities.register.RegisterActivity;
 import ir.ugstudio.vampire.views.custom.CustomButton;
 import ir.ugstudio.vampire.views.custom.CustomTextView;
 import ir.ugstudio.vampire.views.custom.avatar.CustomPagerAdapter;
@@ -206,6 +209,8 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
                 hunterRadio.setChecked(false);
                 playerTypeStr = "vampire";
                 configureViewPager(1);
+
+                ((RegisterActivity) getActivity()).openHintFragment(new RegisterVampire());
                 break;
 
             case R.id.hunter_radio:
@@ -214,6 +219,8 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
                 hunterRadio.setChecked(true);
                 playerTypeStr = "hunter";
                 configureViewPager(2);
+
+                ((RegisterActivity) getActivity()).openHintFragment(new RegisterHunter());
                 break;
         }
     }
