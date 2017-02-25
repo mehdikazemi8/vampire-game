@@ -41,6 +41,7 @@ import ir.ugstudio.vampire.models.StoreItemReal;
 import ir.ugstudio.vampire.utils.Consts;
 import ir.ugstudio.vampire.utils.FontHelper;
 import ir.ugstudio.vampire.utils.Utility;
+import ir.ugstudio.vampire.utils.introduction.BaseIntroductionMessages;
 import ir.ugstudio.vampire.views.BaseFragment;
 import ir.ugstudio.vampire.views.activities.main.adapters.MainFragmentsPagerAdapter;
 import ir.ugstudio.vampire.views.activities.main.fragments.ActionsFragment;
@@ -403,8 +404,11 @@ public class MainActivity extends FragmentActivity implements MainActivityAction
     }
 
     @Override
-    public void openHintFragment() {
+    public void openHintFragment(BaseIntroductionMessages introductionType) {
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(Consts.BASE_INTRODUCTION_MESSAGES_OBJECT, introductionType);
         HintFragment fragment = HintFragment.getInstance();
+        fragment.setArguments(bundle);
         getSupportFragmentManager()
                 .beginTransaction()
                 .setCustomAnimations(R.anim.slide_up_from_bottom, R.anim.slide_down_to_bottom, R.anim.slide_up_from_bottom, R.anim.slide_down_to_bottom)

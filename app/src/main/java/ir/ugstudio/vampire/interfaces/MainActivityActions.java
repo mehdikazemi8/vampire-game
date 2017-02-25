@@ -1,5 +1,7 @@
 package ir.ugstudio.vampire.interfaces;
 
+import ir.ugstudio.vampire.utils.introduction.BaseIntroductionMessages;
+
 public interface MainActivityActions {
     public void openActionsFragment();
 
@@ -7,5 +9,5 @@ public interface MainActivityActions {
 
     public void openMissionOptionsFragment();
 
-    public void openHintFragment();
+    public void openHintFragment(BaseIntroductionMessages introductionType);
 }

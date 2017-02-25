@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:clickable="true"
     android:orientation="horizontal">
 
     <ImageView
@@ -10,11 +11,15 @@
         android:src="@drawable/hunt2000" />
 
     <ir.ugstudio.vampire.views.custom.CustomTextView
+        android:id="@+id/hint_message"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/space.small"
+        android:background="@drawable/hint_text_background"
         android:gravity="center"
-        android:padding="@dimen/avatar.size.small"
-        android:text="@string/toast_collect_coin_come_back_later" />
+        android:padding="@dimen/space.small"
+        android:text="@string/toast_collect_coin_come_back_later"
+        android:textColor="@color/zereshki"
+        android:textSize="@dimen/text.size.3medium" />
 
 </LinearLayout>

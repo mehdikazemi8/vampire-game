@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="intro_register_vampire">
+        <item>اینجا جنگله</item>
+        <item>بخور تا خورده نشی</item>
+    </string-array>
+
+    <string-array name="intro_register_hunter">
+        <item>اینجا باید شکار کنی</item>
+        <item>تا بتونی زنده بمونی</item>
+    </string-array>
+
+</resources>
