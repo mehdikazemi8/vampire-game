@@ -98,4 +98,20 @@
         <item>اعضای برج اینجا با هم چت می‌کنن.</item>
     </string-array>
 
+    <string-array name="intro_hunter_ranklist">
+        <item>۱۰ تا از خوبای شکارچیا رو معرفی می‌کنم خدمتتون.</item>
+        <item>۱۰ تای نزدیک خودت هم هستن.</item>
+        <item>ترور کردن خون‌آشاما ۱ امتیاز داره به علاوه ی ۲۰ درصد از سکه‌هاش</item>
+        <item>غارت کردن برجاشون ۳ امتیاز.</item>
+        <item>اون عدد سمت چپ امتیاز رفقاس.</item>
+    </string-array>
+
+    <string-array name="intro_vampire_ranklist">
+        <item>۱۰ تا از خوبای خون‌آشاما رو معرفی می‌کنم خدمتتون.</item>
+        <item>۱۰ تای نزدیک خودت هم هستن.</item>
+        <item>ترور کردن خون‌آشاما ۱ امتیاز داره به علاوه‌ی ۲۰ درصد از سکه‌هاشون</item>
+        <item>غارت کردن برجاشون ۳ امتیاز.</item>
+        <item>اون عدد سمت چپ امتیاز رفقاس.</item>
+    </string-array>
+
 </resources>

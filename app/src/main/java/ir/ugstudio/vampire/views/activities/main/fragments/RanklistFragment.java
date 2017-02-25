@@ -15,10 +15,15 @@ import java.util.List;
 
 import ir.ugstudio.vampire.R;
 import ir.ugstudio.vampire.VampireApp;
+import ir.ugstudio.vampire.managers.CacheHandler;
 import ir.ugstudio.vampire.managers.UserHandler;
 import ir.ugstudio.vampire.models.Ranklist;
 import ir.ugstudio.vampire.models.User;
+import ir.ugstudio.vampire.utils.Consts;
+import ir.ugstudio.vampire.utils.introduction.HunterRanklist;
+import ir.ugstudio.vampire.utils.introduction.VampireRanklist;
 import ir.ugstudio.vampire.views.BaseFragment;
+import ir.ugstudio.vampire.views.activities.main.MainActivity;
 import ir.ugstudio.vampire.views.activities.main.adapters.RankViewAdapter;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -72,6 +77,12 @@ public class RanklistFragment extends BaseFragment {
                     players = response.body().getTop();
                     players.addAll(response.body().getNear());
                     ((RankViewAdapter) ranklist.getAdapter()).update(players);
+
+                    if (CacheHandler.getUser().getRole().equals(Consts.ROLE_HUNTER)) {
+                        ((MainActivity) getActivity()).openHintFragment(new HunterRanklist());
+                    } else {
+                        ((MainActivity) getActivity()).openHintFragment(new VampireRanklist());
+                    }
                 }
             }
 

@@ -382,11 +382,13 @@ public class MapFragment extends BaseFragment
         if (!VampireLocationManager.isGPSEnabled(getActivity())) {
             turnOnGPS();
         } else {
+
             if (CacheHandler.getUser().getRole().equals("hunter")) {
                 ((MainActivity) getActivity()).openHintFragment(new MapHunter());
             } else {
                 ((MainActivity) getActivity()).openHintFragment(new MapVampire());
             }
+
         }
     }
 
