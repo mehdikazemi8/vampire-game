@@ -32,7 +32,10 @@ import ir.ugstudio.vampire.models.StoreItemVirtual;
 import ir.ugstudio.vampire.models.nearest.MostWantedList;
 import ir.ugstudio.vampire.models.nearest.Target;
 import ir.ugstudio.vampire.utils.Consts;
+import ir.ugstudio.vampire.utils.introduction.MissionHunter;
+import ir.ugstudio.vampire.utils.introduction.MissionVampire;
 import ir.ugstudio.vampire.views.BaseFragment;
+import ir.ugstudio.vampire.views.activities.main.MainActivity;
 import ir.ugstudio.vampire.views.activities.main.adapters.MostWantedViewAdapter;
 import ir.ugstudio.vampire.views.dialogs.IntroduceVirtualItemDialog;
 import retrofit2.Call;
@@ -70,6 +73,13 @@ public class MissionOptionsFragment extends BaseFragment {
             Picasso.with(getActivity()).load(R.drawable.vamp1001).into(missionPlayer);
         }
         getMostWantedList();
+
+
+        if (CacheHandler.getUser().getRole().equals(Consts.ROLE_HUNTER)) {
+            ((MainActivity) getActivity()).openHintFragment(new MissionHunter());
+        } else {
+            ((MainActivity) getActivity()).openHintFragment(new MissionVampire());
+        }
     }
 
     private void getMostWantedList() {

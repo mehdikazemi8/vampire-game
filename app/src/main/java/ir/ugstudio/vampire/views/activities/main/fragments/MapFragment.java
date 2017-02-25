@@ -82,6 +82,7 @@ import ir.ugstudio.vampire.utils.Utility;
 import ir.ugstudio.vampire.utils.VampireLocationManager;
 import ir.ugstudio.vampire.utils.introduction.MapHunter;
 import ir.ugstudio.vampire.utils.introduction.MapVampire;
+import ir.ugstudio.vampire.utils.introduction.MissionStart;
 import ir.ugstudio.vampire.views.BaseFragment;
 import ir.ugstudio.vampire.views.activities.main.MainActivity;
 import ir.ugstudio.vampire.views.custom.IconButton;
@@ -871,6 +872,8 @@ public class MapFragment extends BaseFragment
     }
 
     private void startMissionMode(Target target) {
+        ((MainActivity) getActivity()).openHintFragment(new MissionStart());
+
         float degrees = target.getDirection().floatValue() * (float) (180 / Math.PI);
         degrees *= -1;
         arrow.setVisibility(View.VISIBLE);
