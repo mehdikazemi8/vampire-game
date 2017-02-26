@@ -56,6 +56,7 @@ public class MissionOptionsFragment extends BaseFragment {
 
     private Unbinder unbinder;
     private MostWantedViewAdapter mostWantedViewAdapter;
+    private boolean isFragmentAvailable = false;
 
     public static MissionOptionsFragment getInstance() {
         return new MissionOptionsFragment();
@@ -76,8 +77,10 @@ public class MissionOptionsFragment extends BaseFragment {
         if (CacheHandler.getUser().getRole().equals("hunter")) {
             Picasso.with(getActivity()).load(R.drawable.vamp1001).into(missionPlayer);
         }
-        getMostWantedList();
 
+        isFragmentAvailable = true;
+
+        getMostWantedList();
 
         if (CacheHandler.getUser().getRole().equals(Consts.ROLE_HUNTER)) {
             ((MainActivity) getActivity()).openHintFragment(new MissionHunter(), true);
@@ -104,6 +107,9 @@ public class MissionOptionsFragment extends BaseFragment {
             @Override
             public void onResponse(Call<MostWantedList> call, Response<MostWantedList> response) {
                 Log.d("TAG", "MostWantedList " + response.message());
+
+                if (!isFragmentAvailable)
+                    return;
 
                 if (response.isSuccessful()) {
                     Log.d("TAG", "MostWantedList " + response.body().serialize());
@@ -183,5 +189,17 @@ public class MissionOptionsFragment extends BaseFragment {
                 showIntroduceDialog(Consts.NEAREST_PLAYER, 7);
                 break;
         }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        isFragmentAvailable = false;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        isFragmentAvailable = true;
     }
 }
