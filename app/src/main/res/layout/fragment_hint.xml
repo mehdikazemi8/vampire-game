@@ -17,9 +17,9 @@
         android:orientation="horizontal">
 
         <ImageView
+            android:id="@+id/introduction_avatar"
             android:layout_width="@dimen/avatar.size.medium"
-            android:layout_height="@dimen/avatar.size.medium"
-            android:src="@drawable/hunt2000" />
+            android:layout_height="@dimen/avatar.size.medium" />
 
         <ir.ugstudio.vampire.views.custom.CustomTextView
             android:id="@+id/hint_message"

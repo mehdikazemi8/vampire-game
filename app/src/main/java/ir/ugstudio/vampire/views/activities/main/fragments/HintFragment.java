@@ -6,6 +6,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.LinkedList;
 import java.util.Queue;
@@ -15,6 +18,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import ir.ugstudio.vampire.R;
+import ir.ugstudio.vampire.managers.CacheHandler;
 import ir.ugstudio.vampire.utils.Consts;
 import ir.ugstudio.vampire.utils.introduction.BaseIntroductionMessages;
 import ir.ugstudio.vampire.utils.introduction.IntroductionMessagesHandler;
@@ -25,6 +29,9 @@ public class HintFragment extends BaseFragment {
 
     @BindView(R.id.hint_message)
     CustomTextView hintMessage;
+
+    @BindView(R.id.introduction_avatar)
+    ImageView introductionAvatar;
 
     private Queue<String> messagesQueue = new LinkedList<>();
     private Unbinder unbinder;
@@ -56,6 +63,12 @@ public class HintFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
 
         showNextMessage();
+
+        if (CacheHandler.getUser().getRole().equals(Consts.ROLE_HUNTER)) {
+            Picasso.with(getActivity()).load(R.drawable.hunt2000).into(introductionAvatar);
+        } else {
+            Picasso.with(getActivity()).load(R.drawable.vamp1001).into(introductionAvatar);
+        }
     }
 
     private void showNextMessage() {
