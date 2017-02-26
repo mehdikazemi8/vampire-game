@@ -1,5 +1,6 @@
 package ir.ugstudio.vampire.views.activities.register.fragments;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -30,6 +31,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     private CustomButton login;
     private CustomEditText username;
     private CustomEditText password;
+    private ProgressDialog progressDialog;
 
     public static LoginFragment getInstance() {
         return new LoginFragment();
@@ -75,6 +77,9 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
             return;
         }
 
+        progressDialog = ProgressDialog.show(getActivity(), "", "در حال ارسال درخواست", true);
+        progressDialog.show();
+
         String usernameStr = username.getText().toString().trim();
         String passwordStr = password.getText().toString().trim();
 
@@ -82,15 +87,18 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         call.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
+
                 if (response.isSuccessful()) {
                     startMainActivity(response.body());
                 } else {
+                    progressDialog.dismiss();
                     Utility.makeToast(getActivity(), getString(R.string.toast_login_401), Toast.LENGTH_LONG);
                 }
             }
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
+                progressDialog.dismiss();
                 Utility.makeToast(getActivity(), getString(R.string.toast_please_try_again_later), Toast.LENGTH_SHORT);
             }
         });
