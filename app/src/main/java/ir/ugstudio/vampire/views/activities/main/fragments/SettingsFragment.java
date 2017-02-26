@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.squareup.picasso.Picasso;
 import com.viewpagerindicator.CirclePageIndicator;
 
 import ir.ugstudio.vampire.R;
@@ -87,12 +86,13 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
         changeAvatarBtn.setOnClickListener(this);
         telegramContact.setOnClickListener(this);
 
-        username.setText(CacheHandler.getUser().getUsername());
-        if (CacheHandler.getUser().getRole().equals("hunter")) {
-            Picasso.with(getActivity()).load(R.drawable.role_hunter).into(roleAvatar);
-        } else {
-            Picasso.with(getActivity()).load(R.drawable.role_vampire).into(roleAvatar);
-        }
+//        Log.d("TAG", "user role " + CacheHandler.getUser().serialize());
+//        username.setText(CacheHandler.getUser().getUsername());
+//        if (CacheHandler.getUser().getRole().equals("hunter")) {
+//            Picasso.with(getActivity()).load(R.drawable.role_hunter).into(roleAvatar);
+//        } else {
+//            Picasso.with(getActivity()).load(R.drawable.role_vampire).into(roleAvatar);
+//        }
     }
 
     private void configureViewPager(int type) {
