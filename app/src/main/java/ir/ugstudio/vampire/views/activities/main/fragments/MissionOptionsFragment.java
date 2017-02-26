@@ -106,6 +106,7 @@ public class MissionOptionsFragment extends BaseFragment {
                 Log.d("TAG", "MostWantedList " + response.message());
 
                 if (response.isSuccessful()) {
+                    Log.d("TAG", "MostWantedList " + response.body().serialize());
                     bindListData(response.body().getMostWantedList());
                 } else {
                     emptyMostWantedListMessage.setVisibility(View.VISIBLE);

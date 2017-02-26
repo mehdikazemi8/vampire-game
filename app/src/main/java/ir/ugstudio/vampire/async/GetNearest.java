@@ -46,8 +46,10 @@ public class GetNearest {
                     response.body().getTarget().setType(targetType);
 
                     SharedPrefHandler.writeMissionObject(context, response.body());
-                } else {
+                } else if (response.code() == 403) {
                     Utility.makeToast(context, "الان که چشمات نمیبینه که بخوای بزنیش", Toast.LENGTH_LONG);
+                } else if(response.code() == 404) {
+                    Utility.makeToast(context, "چیزی پیدا نکردم بهت معرفی کنم", Toast.LENGTH_LONG);
                 }
 
                 EventBus.getDefault().post(new NearestResponseEvent(response.body(), response.isSuccessful()));
