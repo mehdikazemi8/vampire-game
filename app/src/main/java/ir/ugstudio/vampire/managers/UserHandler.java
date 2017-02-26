@@ -1,6 +1,7 @@
 package ir.ugstudio.vampire.managers;
 
 import android.content.Context;
+import android.util.Log;
 
 import ir.ugstudio.vampire.models.User;
 import ir.ugstudio.vampire.utils.Consts;
@@ -9,7 +10,8 @@ public class UserHandler {
     public static String readToken(Context context) {
         // todo, is null when logging out
         String userJson = SharedPrefManager.readString(context, Consts.USER_JSON, null);
-        if(userJson == null || userJson.isEmpty()) {
+        Log.d("TAG", "UserHandler " + userJson);
+        if (userJson == null || userJson.isEmpty()) {
             return null;
         }
 
