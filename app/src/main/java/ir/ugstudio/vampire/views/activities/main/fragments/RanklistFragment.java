@@ -79,9 +79,9 @@ public class RanklistFragment extends BaseFragment {
                     ((RankViewAdapter) ranklist.getAdapter()).update(players);
 
                     if (CacheHandler.getUser().getRole().equals(Consts.ROLE_HUNTER)) {
-                        ((MainActivity) getActivity()).openHintFragment(new HunterRanklist());
+                        ((MainActivity) getActivity()).openHintFragment(new HunterRanklist(), true);
                     } else {
-                        ((MainActivity) getActivity()).openHintFragment(new VampireRanklist());
+                        ((MainActivity) getActivity()).openHintFragment(new VampireRanklist(), true);
                     }
                 }
             }

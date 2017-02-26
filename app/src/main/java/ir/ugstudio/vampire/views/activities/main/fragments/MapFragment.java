@@ -384,9 +384,9 @@ public class MapFragment extends BaseFragment
         } else {
 
             if (CacheHandler.getUser().getRole().equals("hunter")) {
-                ((MainActivity) getActivity()).openHintFragment(new MapHunter());
+                ((MainActivity) getActivity()).openHintFragment(new MapHunter(), false);
             } else {
-                ((MainActivity) getActivity()).openHintFragment(new MapVampire());
+                ((MainActivity) getActivity()).openHintFragment(new MapVampire(), false);
             }
 
         }
@@ -823,7 +823,7 @@ public class MapFragment extends BaseFragment
             return;
         }
 
-        ((MainActivity) getActivity()).openHintFragment(new CollectCoin());
+        ((MainActivity) getActivity()).openHintFragment(new CollectCoin(), false);
 
         for (Tower tower : user.getTowersList()) {
             if (tower.getCoin() != 0) {
@@ -877,7 +877,7 @@ public class MapFragment extends BaseFragment
     }
 
     private void startMissionMode(Target target) {
-        ((MainActivity) getActivity()).openHintFragment(new MissionStart());
+        ((MainActivity) getActivity()).openHintFragment(new MissionStart(), false);
 
         float degrees = target.getDirection().floatValue() * (float) (180 / Math.PI);
         degrees *= -1;
@@ -928,7 +928,7 @@ public class MapFragment extends BaseFragment
             return;
         }
 
-        ((MainActivity) getActivity()).openHintFragment(new WatchTower());
+        ((MainActivity) getActivity()).openHintFragment(new WatchTower(), false);
 
         revertButtonsState(false, false);
         for (Tower tower : user.getTowersList()) {
@@ -1292,7 +1292,7 @@ public class MapFragment extends BaseFragment
 
     @Subscribe
     public void onEvent(TowerAddEvent event) {
-        ((MainActivity) getActivity()).openHintFragment(new CreateTower());
+        ((MainActivity) getActivity()).openHintFragment(new CreateTower(), false);
 
         handleAddTower();
         AnalyticsManager.logEvent(AnalyticsManager.FAB_TAPPED, "add_tower");

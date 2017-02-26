@@ -118,9 +118,10 @@ public class RegisterActivity extends FragmentActivity implements View.OnClickLi
     }
 
     @Override
-    public void openHintFragment(BaseIntroductionMessages introductionType) {
+    public void openHintFragment(BaseIntroductionMessages introductionType, boolean zereshkiBackground) {
         Bundle bundle = new Bundle();
         bundle.putSerializable(Consts.BASE_INTRODUCTION_MESSAGES_OBJECT, introductionType);
+        bundle.putBoolean(Consts.INTRODUCTION_MESSAGE_BACKGROUND_ZERESHKI, zereshkiBackground);
         HintFragment fragment = HintFragment.getInstance();
         fragment.setArguments(bundle);
         getSupportFragmentManager()

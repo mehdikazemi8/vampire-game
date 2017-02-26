@@ -80,10 +80,10 @@ public class MissionOptionsFragment extends BaseFragment {
 
 
         if (CacheHandler.getUser().getRole().equals(Consts.ROLE_HUNTER)) {
-            ((MainActivity) getActivity()).openHintFragment(new MissionHunter());
+            ((MainActivity) getActivity()).openHintFragment(new MissionHunter(), true);
             emptyMostWantedListMessage.setText(getString(R.string.empty_most_wanted_message_hunter));
         } else {
-            ((MainActivity) getActivity()).openHintFragment(new MissionVampire());
+            ((MainActivity) getActivity()).openHintFragment(new MissionVampire(), true);
             emptyMostWantedListMessage.setText(getString(R.string.empty_most_wanted_message_vampire));
         }
     }

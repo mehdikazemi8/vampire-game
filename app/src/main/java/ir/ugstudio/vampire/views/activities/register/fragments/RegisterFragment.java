@@ -210,7 +210,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
                 playerTypeStr = "vampire";
                 configureViewPager(1);
 
-                ((RegisterActivity) getActivity()).openHintFragment(new RegisterVampire());
+                ((RegisterActivity) getActivity()).openHintFragment(new RegisterVampire(), true);
                 break;
 
             case R.id.hunter_radio:
@@ -220,7 +220,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
                 playerTypeStr = "hunter";
                 configureViewPager(2);
 
-                ((RegisterActivity) getActivity()).openHintFragment(new RegisterHunter());
+                ((RegisterActivity) getActivity()).openHintFragment(new RegisterHunter(), true);
                 break;
         }
     }

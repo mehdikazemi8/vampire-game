@@ -60,9 +60,9 @@ public class TowerOptionsFragment extends BaseFragment {
         userTowers.setAdapter(adapter);
 
         if (CacheHandler.getUser().getRole().equals(Consts.ROLE_HUNTER)) {
-            ((MainActivity) getActivity()).openHintFragment(new TowerHunter());
+            ((MainActivity) getActivity()).openHintFragment(new TowerHunter(), true);
         } else {
-            ((MainActivity) getActivity()).openHintFragment(new TowerVampire());
+            ((MainActivity) getActivity()).openHintFragment(new TowerVampire(), true);
         }
     }
 

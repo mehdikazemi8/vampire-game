@@ -1,5 +1,6 @@
 package ir.ugstudio.vampire.views.activities.main.fragments;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -35,6 +36,7 @@ public class HintFragment extends BaseFragment {
 
     private Queue<String> messagesQueue = new LinkedList<>();
     private Unbinder unbinder;
+    private boolean zereshkiBackground = false;
 
     public static HintFragment getInstance() {
         return new HintFragment();
@@ -42,6 +44,7 @@ public class HintFragment extends BaseFragment {
 
     private void readArguments() {
         BaseIntroductionMessages introType = (BaseIntroductionMessages) getArguments().getSerializable(Consts.BASE_INTRODUCTION_MESSAGES_OBJECT);
+        zereshkiBackground = getArguments().getBoolean(Consts.INTRODUCTION_MESSAGE_BACKGROUND_ZERESHKI, false);
         for (String message : IntroductionMessagesHandler.getMessages(getActivity(), introType)) {
             Log.d("TAG", "BaseIntroductionMessages " + message);
             messagesQueue.add(message);
@@ -68,6 +71,13 @@ public class HintFragment extends BaseFragment {
             Picasso.with(getActivity()).load(R.drawable.hunt2000).into(introductionAvatar);
         } else {
             Picasso.with(getActivity()).load(R.drawable.vamp1001).into(introductionAvatar);
+        }
+
+        if (zereshkiBackground) {
+            hintMessage.setBackgroundColor(Color.parseColor(getString(R.string.color_zereshki)));
+            hintMessage.setTextColor(Color.parseColor(getString(R.string.color_gray)));
+        } else {
+
         }
     }
 

@@ -71,7 +71,7 @@ public class TowerWallFragment extends BaseFragment implements View.OnClickListe
 
         AnalyticsManager.logEvent(AnalyticsManager.VIEW_SCREEN, "TowerWallFragment");
 
-        ((MainActivity) getActivity()).openHintFragment(new TowerWall());
+        ((MainActivity) getActivity()).openHintFragment(new TowerWall(), true);
     }
 
     private void find(View view) {

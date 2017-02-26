@@ -2,6 +2,7 @@ package ir.ugstudio.vampire.utils;
 
 public class Consts {
     public static final String BASE_INTRODUCTION_MESSAGES_OBJECT = "BASE_INTRODUCTION_MESSAGES_OBJECT";
+    public static final String INTRODUCTION_MESSAGE_BACKGROUND_ZERESHKI = "INTRODUCTION_MESSAGE_BACKGROUND_ZERESHKI";
 
     public static final String RESULT_OK = "ok";
     public static final String RESULT_NOT_ENOUGH_MONEY = "not_enough_money";

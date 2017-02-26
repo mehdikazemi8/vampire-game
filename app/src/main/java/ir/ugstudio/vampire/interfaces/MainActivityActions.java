@@ -9,5 +9,5 @@ public interface MainActivityActions {
 
     public void openMissionOptionsFragment();
 
-    public void openHintFragment(BaseIntroductionMessages introductionType);
+    public void openHintFragment(BaseIntroductionMessages introductionType, boolean zereshkiBackground);
 }
