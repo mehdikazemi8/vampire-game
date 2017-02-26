@@ -67,10 +67,12 @@ public class HintFragment extends BaseFragment {
 
         showNextMessage();
 
-        if (CacheHandler.getUser().getRole().equals(Consts.ROLE_HUNTER)) {
-            Picasso.with(getActivity()).load(R.drawable.hunt2000).into(introductionAvatar);
-        } else {
-            Picasso.with(getActivity()).load(R.drawable.vamp1001).into(introductionAvatar);
+        if(CacheHandler.getUser() != null) {
+            if (CacheHandler.getUser().getRole().equals(Consts.ROLE_HUNTER)) {
+                Picasso.with(getActivity()).load(R.drawable.hunt2000).into(introductionAvatar);
+            } else {
+                Picasso.with(getActivity()).load(R.drawable.vamp1001).into(introductionAvatar);
+            }
         }
 
         if (zereshkiBackground) {
